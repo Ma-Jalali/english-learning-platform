@@ -57,6 +57,17 @@ export type LessonFormState = {
   fieldErrors: LessonFieldErrors;
 };
 
+type TextBlockFieldErrors = {
+  title?: string;
+  body?: string;
+};
+
+export type TextBlockFormState = {
+  status: "idle" | "error" | "success";
+  message: string;
+  fieldErrors: TextBlockFieldErrors;
+};
+
 const ORGANISATION_NAME_MAX_LENGTH = 120;
 const ORGANISATION_SLUG_MAX_LENGTH = 80;
 const COURSE_TITLE_MAX_LENGTH = 160;
@@ -68,6 +79,8 @@ const MODULE_DESCRIPTION_MAX_LENGTH = 2000;
 const LESSON_TITLE_MAX_LENGTH = 160;
 const LESSON_SLUG_MAX_LENGTH = 80;
 const LESSON_DESCRIPTION_MAX_LENGTH = 2000;
+const TEXT_BLOCK_TITLE_MAX_LENGTH = 160;
+const TEXT_BLOCK_BODY_MAX_LENGTH = 20000;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -75,6 +88,13 @@ const UUID_PATTERN =
 function readTextField(formData: FormData, fieldName: string) {
   const value = formData.get(fieldName);
   return typeof value === "string" ? value.trim() : "";
+}
+
+function readMultilineField(formData: FormData, fieldName: string) {
+  const value = formData.get(fieldName);
+  return typeof value === "string"
+    ? value.replace(/\r\n?/g, "\n").trim()
+    : "";
 }
 
 function validateOrganisation(name: string, slug: string) {
@@ -202,6 +222,22 @@ function validateLesson(fields: {
   if (fields.description.length > LESSON_DESCRIPTION_MAX_LENGTH) {
     fieldErrors.description =
       `Use ${LESSON_DESCRIPTION_MAX_LENGTH} characters or fewer.`;
+  }
+
+  return fieldErrors;
+}
+
+function validateTextBlock(fields: { title: string; body: string }) {
+  const fieldErrors: TextBlockFieldErrors = {};
+
+  if (fields.title.length > TEXT_BLOCK_TITLE_MAX_LENGTH) {
+    fieldErrors.title = `Use ${TEXT_BLOCK_TITLE_MAX_LENGTH} characters or fewer.`;
+  }
+
+  if (!fields.body) {
+    fieldErrors.body = "Enter the text block content.";
+  } else if (fields.body.length > TEXT_BLOCK_BODY_MAX_LENGTH) {
+    fieldErrors.body = `Use ${TEXT_BLOCK_BODY_MAX_LENGTH} characters or fewer.`;
   }
 
   return fieldErrors;
@@ -596,6 +632,138 @@ export async function createLockedLesson(
   return {
     status: "success",
     message: `${fields.title} was added to ${courseModule.title} as a locked lesson.`,
+    fieldErrors: {},
+  };
+}
+
+export async function createLockedTextBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  _previousState: TextBlockFormState,
+  formData: FormData,
+): Promise<TextBlockFormState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId)
+  ) {
+    return {
+      status: "error",
+      message: "This lesson link is invalid. Return to the module editor.",
+      fieldErrors: {},
+    };
+  }
+
+  const fields = {
+    title: readTextField(formData, "title"),
+    body: readMultilineField(formData, "body"),
+  };
+  const fieldErrors = validateTextBlock(fields);
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      status: "error",
+      message: "Check the highlighted fields and try again.",
+      fieldErrors,
+    };
+  }
+
+  // Validate every parent relationship using server-bound route identifiers.
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", courseId)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return {
+      status: "error",
+      message: "This module does not belong to the selected course.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id, title")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return {
+      status: "error",
+      message: "This lesson does not belong to the selected module.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: lastBlock, error: orderError } = await supabase
+    .from("lesson_blocks")
+    .select("sort_order")
+    .eq("lesson_id", lesson.id)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (orderError) {
+    return {
+      status: "error",
+      message: "The next block position could not be determined. Try again.",
+      fieldErrors: {},
+    };
+  }
+
+  const nextSortOrder = (lastBlock?.sort_order ?? -1) + 1;
+  const { error: insertError } = await supabase.from("lesson_blocks").insert({
+    lesson_id: lesson.id,
+    block_type: "text",
+    title: fields.title || null,
+    content: { body: fields.body },
+    sort_order: nextSortOrder,
+    is_locked: true,
+  });
+
+  if (insertError) {
+    if (insertError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to create lesson blocks.",
+        fieldErrors: {},
+      };
+    }
+
+    if (insertError.code === "23503") {
+      return {
+        status: "error",
+        message: "This lesson is no longer available. Return to the module editor.",
+        fieldErrors: {},
+      };
+    }
+
+    console.error("Unexpected locked text block insert failure", {
+      code: insertError.code,
+      message: insertError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The text block could not be created. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+
+  return {
+    status: "success",
+    message: `A locked text block was added to ${lesson.title}.`,
     fieldErrors: {},
   };
 }

@@ -559,7 +559,8 @@ textarea:focus-visible {
   font-size: 0.92rem;
   line-height: 1.55;
 }
-.module-manage-link {
+.module-manage-link,
+.lesson-manage-link {
   width: fit-content;
   min-height: 42px;
   margin-top: 3px;
@@ -636,6 +637,67 @@ textarea:focus-visible {
   font-size: 0.92rem;
   line-height: 1.55;
 }
+.admin-block-section { margin-top: 72px; }
+.admin-block-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 20px;
+}
+.text-block-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.text-block-list > li {
+  display: grid;
+  gap: 12px;
+  border: 1px solid #e1e2ea;
+  border-radius: 14px;
+  padding: 18px;
+  background: #fbfbfe;
+}
+.block-position {
+  color: var(--accent-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.text-block-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.text-block-heading h4 {
+  min-width: 0;
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+.locked-block-badge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  border: 1px solid #c8c4f4;
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--accent-dark);
+  background: var(--mist);
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.text-block-body {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.94rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
 .admin-empty-state {
   margin: 0;
   border-radius: 12px;
@@ -672,16 +734,19 @@ textarea:focus-visible {
   .admin-course-grid,
   .admin-module-grid,
   .admin-lesson-grid,
+  .admin-block-grid,
   .admin-form-row,
   .course-details,
   .course-editor-summary { grid-template-columns: 1fr; }
   .course-list-heading { flex-direction: column; }
   .lesson-list-heading { flex-direction: column; }
+  .text-block-heading { flex-direction: column; }
   .admin-overview-card { min-height: 120px; }
   .admin-organisation-section,
   .admin-course-section,
   .admin-module-section,
-  .admin-lesson-section { margin-top: 56px; }
+  .admin-lesson-section,
+  .admin-block-section { margin-top: 56px; }
   .course-editor-intro { margin: 56px 0 48px; }
 }
 
@@ -690,5 +755,6 @@ textarea:focus-visible {
   .admin-organisation-grid,
   .admin-course-grid,
   .admin-module-grid,
-  .admin-lesson-grid { grid-template-columns: 1fr; }
+  .admin-lesson-grid,
+  .admin-block-grid { grid-template-columns: 1fr; }
 }
