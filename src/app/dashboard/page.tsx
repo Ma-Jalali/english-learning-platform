@@ -63,6 +63,12 @@ export default async function DashboardPage() {
             Your account is signed in, but the profile role could not be loaded.
           </p>
         ) : null}
+
+        {role === "admin" ? (
+          <Link className="button-link admin-workspace-link" href="/admin">
+            Open admin workspace
+          </Link>
+        ) : null}
       </section>
     </main>
   );
