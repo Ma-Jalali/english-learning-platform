@@ -6,6 +6,7 @@ import { SignOutButton } from "@/app/dashboard/sign-out-button";
 import { createClient } from "@/lib/supabase/server";
 
 import { BlockForm } from "./block-form";
+import { TextBlockItem } from "./text-block-item";
 
 export const metadata: Metadata = {
   title: "Lesson editor | English Learning Platform",
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 
 type LessonEditorPageProps = {
   params: Promise<{ courseId: string; moduleId: string; lessonId: string }>;
+  searchParams: Promise<{ notice?: string }>;
 };
 
 function getTextBody(content: unknown) {
@@ -30,8 +32,12 @@ function getTextBody(content: unknown) {
 
 export default async function LessonEditorPage({
   params,
+  searchParams,
 }: LessonEditorPageProps) {
-  const { courseId, moduleId, lessonId } = await params;
+  const [{ courseId, moduleId, lessonId }, { notice }] = await Promise.all([
+    params,
+    searchParams,
+  ]);
   const supabase = await createClient();
   const { data: claimsData, error: claimsError } =
     await supabase.auth.getClaims();
@@ -137,6 +143,12 @@ export default async function LessonEditorPage({
             <p>New locked blocks are placed after existing blocks automatically.</p>
           </div>
 
+          {notice === "block-deleted" ? (
+            <p className="form-message form-message-success" role="status">
+              The locked text block was deleted.
+            </p>
+          ) : null}
+
           <div className="admin-block-grid">
             <div className="admin-panel">
               <h3>Create locked text block</h3>
@@ -156,20 +168,18 @@ export default async function LessonEditorPage({
               ) : textBlocks && textBlocks.length > 0 ? (
                 <ol className="text-block-list">
                   {textBlocks.map((block) => (
-                    <li key={block.id}>
-                      <span className="block-position">
-                        Block {block.sort_order + 1}
-                      </span>
-                      <div className="text-block-heading">
-                        {block.title ? <h4>{block.title}</h4> : <span />}
-                        <span className="locked-block-badge">
-                          Locked core block
-                        </span>
-                      </div>
-                      <p className="text-block-body">
-                        {getTextBody(block.content)}
-                      </p>
-                    </li>
+                    <TextBlockItem
+                      block={{
+                        body: getTextBody(block.content),
+                        id: block.id,
+                        position: block.sort_order + 1,
+                        title: block.title,
+                      }}
+                      courseId={course.id}
+                      key={block.id}
+                      lessonId={lesson.id}
+                      moduleId={courseModule.id}
+                    />
                   ))}
                 </ol>
               ) : (

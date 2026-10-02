@@ -68,6 +68,11 @@ export type TextBlockFormState = {
   fieldErrors: TextBlockFieldErrors;
 };
 
+export type DeleteTextBlockState = {
+  status: "idle" | "error";
+  message: string;
+};
+
 const ORGANISATION_NAME_MAX_LENGTH = 120;
 const ORGANISATION_SLUG_MAX_LENGTH = 80;
 const COURSE_TITLE_MAX_LENGTH = 160;
@@ -266,6 +271,52 @@ async function createAdminClient() {
   }
 
   return supabase;
+}
+
+async function findLockedTextBlock(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+) {
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", courseId)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return null;
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return null;
+  }
+
+  const { data: block, error: blockError } = await supabase
+    .from("lesson_blocks")
+    .select("id, title")
+    .eq("id", blockId)
+    .eq("lesson_id", lesson.id)
+    .eq("block_type", "text")
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (blockError || !block) {
+    return null;
+  }
+
+  return { block, lesson };
 }
 
 export async function createOrganisation(
@@ -766,4 +817,174 @@ export async function createLockedTextBlock(
     message: `A locked text block was added to ${lesson.title}.`,
     fieldErrors: {},
   };
+}
+
+export async function updateLockedTextBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+  _previousState: TextBlockFormState,
+  formData: FormData,
+): Promise<TextBlockFormState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId) ||
+    !UUID_PATTERN.test(blockId)
+  ) {
+    return {
+      status: "error",
+      message: "This text block link is invalid. Refresh the lesson editor.",
+      fieldErrors: {},
+    };
+  }
+
+  const fields = {
+    title: readTextField(formData, "title"),
+    body: readMultilineField(formData, "body"),
+  };
+  const fieldErrors = validateTextBlock(fields);
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      status: "error",
+      message: "Check the highlighted fields and try again.",
+      fieldErrors,
+    };
+  }
+
+  const context = await findLockedTextBlock(
+    supabase,
+    courseId,
+    moduleId,
+    lessonId,
+    blockId,
+  );
+
+  if (!context) {
+    return {
+      status: "error",
+      message: "This locked text block is not available in the selected lesson.",
+      fieldErrors: {},
+    };
+  }
+
+  // Only these two columns are client-editable. The database trigger maintains
+  // updated_at; all structural and lock columns remain untouched.
+  const { error: updateError } = await supabase
+    .from("lesson_blocks")
+    .update({
+      title: fields.title || null,
+      content: { body: fields.body },
+    })
+    .eq("id", context.block.id)
+    .eq("lesson_id", context.lesson.id)
+    .eq("block_type", "text")
+    .eq("is_locked", true);
+
+  if (updateError) {
+    if (updateError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to edit lesson blocks.",
+        fieldErrors: {},
+      };
+    }
+
+    console.error("Unexpected locked text block update failure", {
+      code: updateError.code,
+      message: updateError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The text block could not be updated. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+
+  return {
+    status: "success",
+    message: "The locked text block was updated.",
+    fieldErrors: {},
+  };
+}
+
+export async function deleteLockedTextBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+  _previousState: DeleteTextBlockState,
+  _formData: FormData,
+): Promise<DeleteTextBlockState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId) ||
+    !UUID_PATTERN.test(blockId)
+  ) {
+    return {
+      status: "error",
+      message: "This text block link is invalid. Refresh the lesson editor.",
+    };
+  }
+
+  const context = await findLockedTextBlock(
+    supabase,
+    courseId,
+    moduleId,
+    lessonId,
+    blockId,
+  );
+
+  if (!context) {
+    return {
+      status: "error",
+      message: "This locked text block is not available in the selected lesson.",
+    };
+  }
+
+  const { error: deleteError } = await supabase
+    .from("lesson_blocks")
+    .delete()
+    .eq("id", context.block.id)
+    .eq("lesson_id", context.lesson.id)
+    .eq("block_type", "text")
+    .eq("is_locked", true);
+
+  if (deleteError) {
+    if (deleteError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to delete lesson blocks.",
+      };
+    }
+
+    console.error("Unexpected locked text block delete failure", {
+      code: deleteError.code,
+      message: deleteError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The text block could not be deleted. Please try again.",
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+  redirect(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}?notice=block-deleted`,
+  );
 }
