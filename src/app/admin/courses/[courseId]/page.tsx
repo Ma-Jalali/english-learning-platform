@@ -139,6 +139,13 @@ export default async function CourseEditorPage({
                       <p>
                         {courseModule.description || "No description provided."}
                       </p>
+                      <Link
+                        aria-label={`Manage lessons for ${courseModule.title}`}
+                        className="button-link secondary-link module-manage-link"
+                        href={`/admin/courses/${course.id}/modules/${courseModule.id}`}
+                      >
+                        Manage lessons
+                      </Link>
                     </li>
                   ))}
                 </ol>

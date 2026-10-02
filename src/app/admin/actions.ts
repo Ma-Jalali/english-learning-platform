@@ -45,6 +45,18 @@ export type ModuleFormState = {
   fieldErrors: ModuleFieldErrors;
 };
 
+type LessonFieldErrors = {
+  title?: string;
+  slug?: string;
+  description?: string;
+};
+
+export type LessonFormState = {
+  status: "idle" | "error" | "success";
+  message: string;
+  fieldErrors: LessonFieldErrors;
+};
+
 const ORGANISATION_NAME_MAX_LENGTH = 120;
 const ORGANISATION_SLUG_MAX_LENGTH = 80;
 const COURSE_TITLE_MAX_LENGTH = 160;
@@ -53,6 +65,9 @@ const COURSE_DESCRIPTION_MAX_LENGTH = 2000;
 const MODULE_TITLE_MAX_LENGTH = 160;
 const MODULE_SLUG_MAX_LENGTH = 80;
 const MODULE_DESCRIPTION_MAX_LENGTH = 2000;
+const LESSON_TITLE_MAX_LENGTH = 160;
+const LESSON_SLUG_MAX_LENGTH = 80;
+const LESSON_DESCRIPTION_MAX_LENGTH = 2000;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -157,6 +172,36 @@ function validateModule(fields: {
   if (fields.description.length > MODULE_DESCRIPTION_MAX_LENGTH) {
     fieldErrors.description =
       `Use ${MODULE_DESCRIPTION_MAX_LENGTH} characters or fewer.`;
+  }
+
+  return fieldErrors;
+}
+
+function validateLesson(fields: {
+  title: string;
+  slug: string;
+  description: string;
+}) {
+  const fieldErrors: LessonFieldErrors = {};
+
+  if (!fields.title) {
+    fieldErrors.title = "Enter a lesson title.";
+  } else if (fields.title.length > LESSON_TITLE_MAX_LENGTH) {
+    fieldErrors.title = `Use ${LESSON_TITLE_MAX_LENGTH} characters or fewer.`;
+  }
+
+  if (!fields.slug) {
+    fieldErrors.slug = "Enter a URL-friendly slug.";
+  } else if (fields.slug.length > LESSON_SLUG_MAX_LENGTH) {
+    fieldErrors.slug = `Use ${LESSON_SLUG_MAX_LENGTH} characters or fewer.`;
+  } else if (!SLUG_PATTERN.test(fields.slug)) {
+    fieldErrors.slug =
+      "Use lowercase letters, numbers, and single hyphens only.";
+  }
+
+  if (fields.description.length > LESSON_DESCRIPTION_MAX_LENGTH) {
+    fieldErrors.description =
+      `Use ${LESSON_DESCRIPTION_MAX_LENGTH} characters or fewer.`;
   }
 
   return fieldErrors;
@@ -417,6 +462,140 @@ export async function createModule(
   return {
     status: "success",
     message: `${module.title} was added to ${course.title}.`,
+    fieldErrors: {},
+  };
+}
+
+export async function createLockedLesson(
+  courseId: string,
+  moduleId: string,
+  _previousState: LessonFormState,
+  formData: FormData,
+): Promise<LessonFormState> {
+  const supabase = await createAdminClient();
+
+  if (!UUID_PATTERN.test(courseId) || !UUID_PATTERN.test(moduleId)) {
+    return {
+      status: "error",
+      message: "This module link is invalid. Return to the course editor.",
+      fieldErrors: {},
+    };
+  }
+
+  const fields = {
+    title: readTextField(formData, "title"),
+    slug: readTextField(formData, "slug"),
+    description: readTextField(formData, "description"),
+  };
+  const fieldErrors = validateLesson(fields);
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      status: "error",
+      message: "Check the highlighted fields and try again.",
+      fieldErrors,
+    };
+  }
+
+  // Matching both IDs prevents a route or action call from attaching a lesson
+  // to a module outside the course represented by the editor URL.
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id, title")
+    .eq("id", moduleId)
+    .eq("course_id", courseId)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return {
+      status: "error",
+      message: "This module does not belong to the selected course.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: lastLesson, error: orderError } = await supabase
+    .from("lessons")
+    .select("sort_order")
+    .eq("module_id", moduleId)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (orderError) {
+    return {
+      status: "error",
+      message: "The next lesson position could not be determined. Try again.",
+      fieldErrors: {},
+    };
+  }
+
+  const nextSortOrder = (lastLesson?.sort_order ?? -1) + 1;
+  // Do not chain .select() here. The lesson SELECT policy calls the STABLE
+  // can_read_lesson() helper, which queries public.lessons. During an
+  // INSERT ... RETURNING statement that helper cannot see the row inserted by
+  // the same statement, so requesting the representation causes RLS to reject
+  // an otherwise authorized admin insert. A minimal insert avoids that
+  // self-referential read check; the refreshed page reads the row normally in
+  // a subsequent statement.
+  const { error: insertError } = await supabase
+    .from("lessons")
+    .insert({
+      module_id: moduleId,
+      title: fields.title,
+      slug: fields.slug,
+      description: fields.description || null,
+      sort_order: nextSortOrder,
+      is_locked: true,
+    });
+
+  if (insertError) {
+    if (insertError.code === "23505") {
+      return {
+        status: "error",
+        message: "That lesson slug is already in use for this module.",
+        fieldErrors: {
+          slug: "Choose a different slug for this module.",
+        },
+      };
+    }
+
+    if (insertError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to create lessons.",
+        fieldErrors: {},
+      };
+    }
+
+    if (insertError.code === "23503") {
+      return {
+        status: "error",
+        message: "This module is no longer available. Return to the course editor.",
+        fieldErrors: {},
+      };
+    }
+
+    // Keep diagnostics server-side and exclude form values, session data, and
+    // database details that should not be sent back to the browser.
+    console.error("Unexpected locked lesson insert failure", {
+      code: insertError.code,
+      message: insertError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The lesson could not be created. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(`/admin/courses/${courseId}/modules/${moduleId}`);
+  revalidatePath(`/admin/courses/${courseId}`);
+
+  return {
+    status: "success",
+    message: `${fields.title} was added to ${courseModule.title} as a locked lesson.`,
     fieldErrors: {},
   };
 }
