@@ -33,11 +33,26 @@ export type CourseFormState = {
   fieldErrors: CourseFieldErrors;
 };
 
+type ModuleFieldErrors = {
+  title?: string;
+  slug?: string;
+  description?: string;
+};
+
+export type ModuleFormState = {
+  status: "idle" | "error" | "success";
+  message: string;
+  fieldErrors: ModuleFieldErrors;
+};
+
 const ORGANISATION_NAME_MAX_LENGTH = 120;
 const ORGANISATION_SLUG_MAX_LENGTH = 80;
 const COURSE_TITLE_MAX_LENGTH = 160;
 const COURSE_SLUG_MAX_LENGTH = 80;
 const COURSE_DESCRIPTION_MAX_LENGTH = 2000;
+const MODULE_TITLE_MAX_LENGTH = 160;
+const MODULE_SLUG_MAX_LENGTH = 80;
+const MODULE_DESCRIPTION_MAX_LENGTH = 2000;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -112,6 +127,36 @@ function validateDraftCourse(fields: {
   if (fields.description.length > COURSE_DESCRIPTION_MAX_LENGTH) {
     fieldErrors.description =
       `Use ${COURSE_DESCRIPTION_MAX_LENGTH} characters or fewer.`;
+  }
+
+  return fieldErrors;
+}
+
+function validateModule(fields: {
+  title: string;
+  slug: string;
+  description: string;
+}) {
+  const fieldErrors: ModuleFieldErrors = {};
+
+  if (!fields.title) {
+    fieldErrors.title = "Enter a module title.";
+  } else if (fields.title.length > MODULE_TITLE_MAX_LENGTH) {
+    fieldErrors.title = `Use ${MODULE_TITLE_MAX_LENGTH} characters or fewer.`;
+  }
+
+  if (!fields.slug) {
+    fieldErrors.slug = "Enter a URL-friendly slug.";
+  } else if (fields.slug.length > MODULE_SLUG_MAX_LENGTH) {
+    fieldErrors.slug = `Use ${MODULE_SLUG_MAX_LENGTH} characters or fewer.`;
+  } else if (!SLUG_PATTERN.test(fields.slug)) {
+    fieldErrors.slug =
+      "Use lowercase letters, numbers, and single hyphens only.";
+  }
+
+  if (fields.description.length > MODULE_DESCRIPTION_MAX_LENGTH) {
+    fieldErrors.description =
+      `Use ${MODULE_DESCRIPTION_MAX_LENGTH} characters or fewer.`;
   }
 
   return fieldErrors;
@@ -271,6 +316,107 @@ export async function createDraftCourse(
   return {
     status: "success",
     message: `${course.title} was created as a draft.`,
+    fieldErrors: {},
+  };
+}
+
+export async function createModule(
+  courseId: string,
+  _previousState: ModuleFormState,
+  formData: FormData,
+): Promise<ModuleFormState> {
+  const supabase = await createAdminClient();
+
+  if (!UUID_PATTERN.test(courseId)) {
+    return {
+      status: "error",
+      message: "This course link is invalid. Return to the admin workspace.",
+      fieldErrors: {},
+    };
+  }
+
+  const fields = {
+    title: readTextField(formData, "title"),
+    slug: readTextField(formData, "slug"),
+    description: readTextField(formData, "description"),
+  };
+  const fieldErrors = validateModule(fields);
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      status: "error",
+      message: "Check the highlighted fields and try again.",
+      fieldErrors,
+    };
+  }
+
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select("id, title")
+    .eq("id", courseId)
+    .maybeSingle();
+
+  if (courseError || !course) {
+    return {
+      status: "error",
+      message: "This course is no longer available. Return to the admin workspace.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: lastModule, error: orderError } = await supabase
+    .from("modules")
+    .select("sort_order")
+    .eq("course_id", courseId)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (orderError) {
+    return {
+      status: "error",
+      message: "The next module position could not be determined. Try again.",
+      fieldErrors: {},
+    };
+  }
+
+  const nextSortOrder = (lastModule?.sort_order ?? -1) + 1;
+  const { data: module, error: insertError } = await supabase
+    .from("modules")
+    .insert({
+      course_id: courseId,
+      title: fields.title,
+      slug: fields.slug,
+      description: fields.description || null,
+      sort_order: nextSortOrder,
+    })
+    .select("id, title")
+    .single();
+
+  if (insertError) {
+    if (insertError.code === "23505") {
+      return {
+        status: "error",
+        message: "That module slug is already in use for this course.",
+        fieldErrors: {
+          slug: "Choose a different slug for this course.",
+        },
+      };
+    }
+
+    return {
+      status: "error",
+      message: "The module could not be created. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(`/admin/courses/${courseId}`);
+  revalidatePath("/admin");
+
+  return {
+    status: "success",
+    message: `${module.title} was added to ${course.title}.`,
     fieldErrors: {},
   };
 }

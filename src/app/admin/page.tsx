@@ -46,6 +46,10 @@ export default async function AdminPage() {
     )
     .order("created_at", { ascending: false });
 
+  const { count: moduleCount, error: moduleCountError } = await supabase
+    .from("modules")
+    .select("id", { count: "exact", head: true });
+
   const email =
     typeof claims.email === "string" ? claims.email : "Email unavailable";
   const organisationCount = organisations?.length ?? 0;
@@ -75,7 +79,14 @@ export default async function AdminPage() {
           : `${courseCount} ${courseCount === 1 ? "course" : "courses"}`,
     },
     { title: "Cohorts", value: "No cohorts yet" },
-    { title: "Content", value: "No modules or lessons yet" },
+    {
+      title: "Content",
+      value: moduleCountError
+        ? "Content unavailable"
+        : moduleCount === 0
+          ? "No modules or lessons yet"
+          : `${moduleCount} ${moduleCount === 1 ? "module" : "modules"}`,
+    },
   ];
 
   return (
@@ -230,6 +241,13 @@ export default async function AdminPage() {
                           </dd>
                         </div>
                       </dl>
+                      <Link
+                        aria-label={`Manage course content for ${course.title}`}
+                        className="button-link secondary-link course-manage-link"
+                        href={`/admin/courses/${course.id}`}
+                      >
+                        Manage course content
+                      </Link>
                     </li>
                   ))}
                 </ul>
