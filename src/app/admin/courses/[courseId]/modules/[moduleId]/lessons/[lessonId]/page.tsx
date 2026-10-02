@@ -167,14 +167,16 @@ export default async function LessonEditorPage({
                 </p>
               ) : textBlocks && textBlocks.length > 0 ? (
                 <ol className="text-block-list">
-                  {textBlocks.map((block) => (
+                  {textBlocks.map((block, index) => (
                     <TextBlockItem
                       block={{
                         body: getTextBody(block.content),
                         id: block.id,
-                        position: block.sort_order + 1,
+                        position: index + 1,
                         title: block.title,
                       }}
+                      canMoveDown={index < textBlocks.length - 1}
+                      canMoveUp={index > 0}
                       courseId={course.id}
                       key={block.id}
                       lessonId={lesson.id}

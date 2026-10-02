@@ -704,6 +704,11 @@ textarea:focus-visible {
   gap: 10px;
   margin-top: 4px;
 }
+.block-move-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .text-block-actions button {
   min-height: 42px;
   padding: 9px 14px;
@@ -763,6 +768,8 @@ textarea:focus-visible {
   .course-list-heading { flex-direction: column; }
   .lesson-list-heading { flex-direction: column; }
   .text-block-heading { flex-direction: column; }
+  .block-move-controls { width: 100%; }
+  .block-move-controls button { flex: 1 1 120px; }
   .admin-overview-card { min-height: 120px; }
   .admin-organisation-section,
   .admin-course-section,

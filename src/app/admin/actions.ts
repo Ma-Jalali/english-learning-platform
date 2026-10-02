@@ -73,6 +73,11 @@ export type DeleteTextBlockState = {
   message: string;
 };
 
+export type MoveTextBlockState = {
+  status: "idle" | "error" | "success";
+  message: string;
+};
+
 const ORGANISATION_NAME_MAX_LENGTH = 120;
 const ORGANISATION_SLUG_MAX_LENGTH = 80;
 const COURSE_TITLE_MAX_LENGTH = 160;
@@ -305,7 +310,7 @@ async function findLockedTextBlock(
 
   const { data: block, error: blockError } = await supabase
     .from("lesson_blocks")
-    .select("id, title")
+    .select("id, title, sort_order")
     .eq("id", blockId)
     .eq("lesson_id", lesson.id)
     .eq("block_type", "text")
@@ -317,6 +322,27 @@ async function findLockedTextBlock(
   }
 
   return { block, lesson };
+}
+
+async function setLockedTextBlockSortOrder(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  blockId: string,
+  lessonId: string,
+  expectedSortOrder: number,
+  nextSortOrder: number,
+) {
+  const { data, error } = await supabase
+    .from("lesson_blocks")
+    .update({ sort_order: nextSortOrder })
+    .eq("id", blockId)
+    .eq("lesson_id", lessonId)
+    .eq("block_type", "text")
+    .eq("is_locked", true)
+    .eq("sort_order", expectedSortOrder)
+    .select("id")
+    .maybeSingle();
+
+  return { error, updated: Boolean(data) };
 }
 
 export async function createOrganisation(
@@ -987,4 +1013,163 @@ export async function deleteLockedTextBlock(
   redirect(
     `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}?notice=block-deleted`,
   );
+}
+
+export async function moveLockedTextBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+  _previousState: MoveTextBlockState,
+  formData: FormData,
+): Promise<MoveTextBlockState> {
+  const supabase = await createAdminClient();
+  const direction = readTextField(formData, "direction");
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId) ||
+    !UUID_PATTERN.test(blockId) ||
+    (direction !== "up" && direction !== "down")
+  ) {
+    return {
+      status: "error",
+      message: "This move request is invalid. Refresh the lesson editor.",
+    };
+  }
+
+  const context = await findLockedTextBlock(
+    supabase,
+    courseId,
+    moduleId,
+    lessonId,
+    blockId,
+  );
+
+  if (!context) {
+    return {
+      status: "error",
+      message: "This locked text block is not available in the selected lesson.",
+    };
+  }
+
+  let adjacentQuery = supabase
+    .from("lesson_blocks")
+    .select("id, sort_order")
+    .eq("lesson_id", context.lesson.id)
+    .eq("block_type", "text")
+    .eq("is_locked", true)
+    .neq("id", context.block.id);
+
+  adjacentQuery =
+    direction === "up"
+      ? adjacentQuery
+          .lt("sort_order", context.block.sort_order)
+          .order("sort_order", { ascending: false })
+      : adjacentQuery
+          .gt("sort_order", context.block.sort_order)
+          .order("sort_order", { ascending: true });
+
+  const { data: adjacentBlock, error: adjacentError } = await adjacentQuery
+    .limit(1)
+    .maybeSingle();
+
+  if (adjacentError) {
+    if (adjacentError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to reorder lesson blocks.",
+      };
+    }
+
+    console.error("Unexpected adjacent text block lookup failure", {
+      code: adjacentError.code,
+      message: adjacentError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The adjacent text block could not be loaded. Please try again.",
+    };
+  }
+
+  if (!adjacentBlock) {
+    return {
+      status: "error",
+      message:
+        direction === "up"
+          ? "This text block is already first."
+          : "This text block is already last.",
+    };
+  }
+
+  const originalSortOrder = context.block.sort_order;
+  const adjacentSortOrder = adjacentBlock.sort_order;
+  const firstUpdate = await setLockedTextBlockSortOrder(
+    supabase,
+    context.block.id,
+    context.lesson.id,
+    originalSortOrder,
+    adjacentSortOrder,
+  );
+
+  if (firstUpdate.error || !firstUpdate.updated) {
+    if (firstUpdate.error?.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to reorder lesson blocks.",
+      };
+    }
+
+    return {
+      status: "error",
+      message: "The block order changed before this move completed. Try again.",
+    };
+  }
+
+  const secondUpdate = await setLockedTextBlockSortOrder(
+    supabase,
+    adjacentBlock.id,
+    context.lesson.id,
+    adjacentSortOrder,
+    originalSortOrder,
+  );
+
+  if (secondUpdate.error || !secondUpdate.updated) {
+    const rollback = await setLockedTextBlockSortOrder(
+      supabase,
+      context.block.id,
+      context.lesson.id,
+      adjacentSortOrder,
+      originalSortOrder,
+    );
+
+    if (rollback.error || !rollback.updated) {
+      console.error("Locked text block reorder rollback failed", {
+        code: rollback.error?.code ?? "no-row-updated",
+      });
+    }
+
+    if (secondUpdate.error?.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to reorder lesson blocks.",
+      };
+    }
+
+    return {
+      status: "error",
+      message: "The block order changed before this move completed. Try again.",
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+
+  return {
+    status: "success",
+    message: `The text block was moved ${direction}.`,
+  };
 }

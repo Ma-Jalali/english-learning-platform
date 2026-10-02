@@ -6,7 +6,9 @@ import { useFormStatus } from "react-dom";
 import {
   deleteLockedTextBlock,
   type DeleteTextBlockState,
+  type MoveTextBlockState,
   type TextBlockFormState,
+  moveLockedTextBlock,
   updateLockedTextBlock,
 } from "@/app/admin/actions";
 
@@ -17,6 +19,8 @@ type TextBlockItemProps = {
     position: number;
     title: string | null;
   };
+  canMoveDown: boolean;
+  canMoveUp: boolean;
   courseId: string;
   lessonId: string;
   moduleId: string;
@@ -29,6 +33,11 @@ const initialUpdateState: TextBlockFormState = {
 };
 
 const initialDeleteState: DeleteTextBlockState = {
+  status: "idle",
+  message: "",
+};
+
+const initialMoveState: MoveTextBlockState = {
   status: "idle",
   message: "",
 };
@@ -53,8 +62,47 @@ function DeleteButton() {
   );
 }
 
+function MoveButtons({
+  blockName,
+  canMoveDown,
+  canMoveUp,
+}: {
+  blockName: string;
+  canMoveDown: boolean;
+  canMoveUp: boolean;
+}) {
+  const { pending } = useFormStatus();
+
+  return (
+    <>
+      <button
+        aria-label={`Move ${blockName} up`}
+        className="secondary"
+        disabled={pending || !canMoveUp}
+        name="direction"
+        type="submit"
+        value="up"
+      >
+        Move up
+      </button>
+      <button
+        aria-label={`Move ${blockName} down`}
+        className="secondary"
+        disabled={pending || !canMoveDown}
+        name="direction"
+        type="submit"
+        value="down"
+      >
+        Move down
+      </button>
+    </>
+  );
+}
+
 export function TextBlockItem({
   block,
+  canMoveDown,
+  canMoveUp,
   courseId,
   lessonId,
   moduleId,
@@ -74,6 +122,13 @@ export function TextBlockItem({
     lessonId,
     block.id,
   );
+  const moveBlock = moveLockedTextBlock.bind(
+    null,
+    courseId,
+    moduleId,
+    lessonId,
+    block.id,
+  );
   const [updateState, updateAction] = useActionState(
     updateBlock,
     initialUpdateState,
@@ -81,6 +136,10 @@ export function TextBlockItem({
   const [deleteState, deleteAction] = useActionState(
     deleteBlock,
     initialDeleteState,
+  );
+  const [moveState, moveAction] = useActionState(
+    moveBlock,
+    initialMoveState,
   );
 
   function confirmDelete(event: FormEvent<HTMLFormElement>) {
@@ -104,6 +163,13 @@ export function TextBlockItem({
       <p className="text-block-body">{block.body}</p>
 
       <div className="text-block-actions">
+        <form action={moveAction} className="block-move-controls">
+          <MoveButtons
+            blockName={block.title || `Block ${block.position}`}
+            canMoveDown={canMoveDown}
+            canMoveUp={canMoveUp}
+          />
+        </form>
         <button
           aria-controls={`edit-block-${block.id}`}
           aria-expanded={isEditing}
@@ -197,6 +263,19 @@ export function TextBlockItem({
       {deleteState.message ? (
         <p className="form-message form-message-error" role="alert">
           {deleteState.message}
+        </p>
+      ) : null}
+
+      {moveState.message ? (
+        <p
+          className={`form-message ${
+            moveState.status === "success"
+              ? "form-message-success"
+              : "form-message-error"
+          }`}
+          role={moveState.status === "success" ? "status" : "alert"}
+        >
+          {moveState.message}
         </p>
       ) : null}
     </li>
