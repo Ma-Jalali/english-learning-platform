@@ -37,7 +37,9 @@ a { color: var(--accent-dark); }
 button:disabled { cursor: wait; opacity: 0.65; }
 a:focus-visible,
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 3px solid rgba(97, 84, 217, 0.28);
   outline-offset: 3px;
 }
@@ -103,8 +105,24 @@ input:focus-visible {
   background: var(--surface);
   font: inherit;
 }
-.field-group input:hover { border-color: #aaa6d8; }
-.field-group input:focus { border-color: var(--accent); }
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  border: 1px solid #cfd1dc;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--ink);
+  background: var(--surface);
+  font: inherit;
+}
+.field-group select { min-height: 50px; }
+.field-group textarea { min-height: 120px; resize: vertical; }
+.field-group input:hover,
+.field-group select:hover,
+.field-group textarea:hover { border-color: #aaa6d8; }
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus { border-color: var(--accent); }
 .field-hint,
 .auth-note {
   margin: 0;
@@ -311,8 +329,10 @@ input:focus-visible {
   color: var(--muted);
   line-height: 1.45;
 }
-.admin-organisation-section { margin-top: 72px; }
-.admin-organisation-grid {
+.admin-organisation-section,
+.admin-course-section { margin-top: 72px; }
+.admin-organisation-grid,
+.admin-course-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 20px;
@@ -326,6 +346,17 @@ input:focus-visible {
 }
 .admin-panel h3 { margin-bottom: 24px; font-size: 1.15rem; }
 .admin-form { display: grid; gap: 20px; }
+.admin-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.optional-label {
+  margin-left: 5px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
 .field-error {
   margin: 0;
   color: #8b2635;
@@ -363,6 +394,78 @@ input:focus-visible {
   font-size: 0.84rem;
   overflow-wrap: anywhere;
 }
+.course-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.course-list > li {
+  display: grid;
+  gap: 18px;
+  border: 1px solid #e1e2ea;
+  border-radius: 14px;
+  padding: 18px;
+  background: #fbfbfe;
+}
+.course-list-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+.course-card-title {
+  min-width: 0;
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.course-status-badge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #e1c66f;
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: #705416;
+  background: #fff3ce;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+.course-status-label { font-weight: 600; }
+.course-status-value {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.course-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 0;
+}
+.course-details > div { min-width: 0; }
+.course-details dt {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.course-details dd {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.course-details code {
+  color: #4e586d;
+  font-size: 0.84rem;
+}
 .admin-empty-state {
   margin: 0;
   border-radius: 12px;
@@ -395,12 +498,18 @@ input:focus-visible {
   .admin-header-actions .sign-out-control { justify-items: stretch; }
   .admin-intro { margin: 56px 0 48px; }
   .admin-overview-grid,
-  .admin-organisation-grid { grid-template-columns: 1fr; }
+  .admin-organisation-grid,
+  .admin-course-grid,
+  .admin-form-row,
+  .course-details { grid-template-columns: 1fr; }
+  .course-list-heading { flex-direction: column; }
   .admin-overview-card { min-height: 120px; }
-  .admin-organisation-section { margin-top: 56px; }
+  .admin-organisation-section,
+  .admin-course-section { margin-top: 56px; }
 }
 
 @media (min-width: 641px) and (max-width: 900px) {
   .admin-overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .admin-organisation-grid { grid-template-columns: 1fr; }
+  .admin-organisation-grid,
+  .admin-course-grid { grid-template-columns: 1fr; }
 }

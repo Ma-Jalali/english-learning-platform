@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { SignOutButton } from "@/app/dashboard/sign-out-button";
 import { createClient } from "@/lib/supabase/server";
 
+import { CourseForm } from "./course-form";
 import { OrganisationForm } from "./organisation-form";
 
 export const metadata: Metadata = {
@@ -38,9 +39,23 @@ export default async function AdminPage() {
     .select("id, name, slug, created_at")
     .order("created_at", { ascending: false });
 
+  const { data: courses, error: coursesError } = await supabase
+    .from("courses")
+    .select(
+      "id, organisation_id, title, slug, course_family, level, status, created_at",
+    )
+    .order("created_at", { ascending: false });
+
   const email =
     typeof claims.email === "string" ? claims.email : "Email unavailable";
   const organisationCount = organisations?.length ?? 0;
+  const courseCount = courses?.length ?? 0;
+  const organisationNames = new Map(
+    organisations?.map((organisation) => [
+      organisation.id,
+      organisation.name,
+    ]) ?? [],
+  );
 
   const overviewCards = [
     {
@@ -52,7 +67,13 @@ export default async function AdminPage() {
               organisationCount === 1 ? "organisation" : "organisations"
             }`,
     },
-    { title: "Courses", value: "No courses yet" },
+    {
+      title: "Courses",
+      value:
+        courseCount === 0
+          ? "No courses yet"
+          : `${courseCount} ${courseCount === 1 ? "course" : "courses"}`,
+    },
     { title: "Cohorts", value: "No cohorts yet" },
     { title: "Content", value: "No modules or lessons yet" },
   ];
@@ -141,6 +162,80 @@ export default async function AdminPage() {
               ) : (
                 <p className="admin-empty-state">
                   No organisations yet. Create the first one using the form.
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="admin-course-section"
+          aria-labelledby="courses-heading"
+        >
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Course setup</p>
+              <h2 id="courses-heading">Draft courses</h2>
+            </div>
+            <p>Create the course shell. Publishing and course content come later.</p>
+          </div>
+
+          <div className="admin-course-grid">
+            <div className="admin-panel">
+              <h3>Create a draft course</h3>
+              <CourseForm
+                organisations={
+                  organisations?.map(({ id, name }) => ({ id, name })) ?? []
+                }
+              />
+            </div>
+
+            <div className="admin-panel" aria-live="polite">
+              <h3>Created courses</h3>
+              {coursesError ? (
+                <p className="form-message form-message-error" role="alert">
+                  Courses could not be loaded. Please refresh and try again.
+                </p>
+              ) : courses && courses.length > 0 ? (
+                <ul className="course-list">
+                  {courses.map((course) => (
+                    <li key={course.id}>
+                      <div className="course-list-heading">
+                        <h4 className="course-card-title">{course.title}</h4>
+                        <span className="course-status-badge">
+                          <span className="course-status-label">Status:</span>
+                          <span className="course-status-value">Draft</span>
+                        </span>
+                      </div>
+                      <dl className="course-details">
+                        <div>
+                          <dt>Organisation</dt>
+                          <dd>
+                            {organisationNames.get(course.organisation_id) ??
+                              "Unknown organisation"}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Course family</dt>
+                          <dd>{course.course_family}</dd>
+                        </div>
+                        <div>
+                          <dt>Level</dt>
+                          <dd>{course.level}</dd>
+                        </div>
+                        <div>
+                          <dt>Slug</dt>
+                          <dd>
+                            <code>{course.slug}</code>
+                          </dd>
+                        </div>
+                      </dl>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="admin-empty-state">
+                  No draft courses yet. Create the first one using the form.
                 </p>
               )}
             </div>
