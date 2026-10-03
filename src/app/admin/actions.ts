@@ -72,6 +72,16 @@ export type CohortFormState = {
   fieldErrors: CohortFieldErrors;
 };
 
+type MembershipFieldErrors = {
+  profileId?: string;
+};
+
+export type MembershipFormState = {
+  status: "idle" | "error" | "success";
+  message: string;
+  fieldErrors: MembershipFieldErrors;
+};
+
 type LessonFieldErrors = {
   title?: string;
   slug?: string;
@@ -384,6 +394,35 @@ async function createAdminClient() {
   }
 
   return supabase;
+}
+
+async function findAdminCohortContext(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  courseId: string,
+  cohortId: string,
+) {
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select("id, title")
+    .eq("id", courseId)
+    .maybeSingle();
+
+  if (courseError || !course) {
+    return null;
+  }
+
+  const { data: cohort, error: cohortError } = await supabase
+    .from("cohorts")
+    .select("id, name")
+    .eq("id", cohortId)
+    .eq("course_id", course.id)
+    .maybeSingle();
+
+  if (cohortError || !cohort) {
+    return null;
+  }
+
+  return { cohort, course };
 }
 
 async function findLockedTextBlock(
@@ -854,6 +893,273 @@ export async function createCohort(
   return {
     status: "success",
     message: `${fields.name} was added to ${course.title}.`,
+    fieldErrors: {},
+  };
+}
+
+export async function createStudentEnrolment(
+  courseId: string,
+  cohortId: string,
+  _previousState: MembershipFormState,
+  formData: FormData,
+): Promise<MembershipFormState> {
+  const supabase = await createAdminClient();
+  const profileId = readTextField(formData, "profileId");
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(cohortId) ||
+    !UUID_PATTERN.test(profileId)
+  ) {
+    return {
+      status: "error",
+      message: "This enrolment request is invalid. Refresh the page and try again.",
+      fieldErrors: {
+        profileId: "Select an available student.",
+      },
+    };
+  }
+
+  const context = await findAdminCohortContext(
+    supabase,
+    courseId,
+    cohortId,
+  );
+
+  if (!context) {
+    return {
+      status: "error",
+      message: "This cohort does not belong to the selected course.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("id, email, display_name, role")
+    .eq("id", profileId)
+    .maybeSingle();
+
+  if (profileError || !profile) {
+    return {
+      status: "error",
+      message: "The selected student is no longer available.",
+      fieldErrors: {
+        profileId: "Select an available student.",
+      },
+    };
+  }
+
+  if (profile.role !== "student") {
+    return {
+      status: "error",
+      message: "Only student profiles can be enrolled in a cohort.",
+      fieldErrors: {
+        profileId: "Select a profile whose server-controlled role is student.",
+      },
+    };
+  }
+
+  // A minimal insert avoids an unnecessary returned-row SELECT. RLS and the
+  // database membership-role trigger independently enforce the same admin and
+  // student-role decisions.
+  const { error: insertError } = await supabase.from("enrolments").insert({
+    cohort_id: context.cohort.id,
+    student_id: profile.id,
+  });
+
+  if (insertError) {
+    if (insertError.code === "23505") {
+      return {
+        status: "error",
+        message: "That student is already enrolled in this cohort.",
+        fieldErrors: {
+          profileId: "Select a student who is not already enrolled.",
+        },
+      };
+    }
+
+    if (insertError.code === "23514") {
+      return {
+        status: "error",
+        message: "Only a current student profile can be enrolled.",
+        fieldErrors: {
+          profileId: "Refresh the directory and select a student.",
+        },
+      };
+    }
+
+    if (insertError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to create enrolments.",
+        fieldErrors: {},
+      };
+    }
+
+    if (insertError.code === "23503") {
+      return {
+        status: "error",
+        message: "The selected cohort or student is no longer available.",
+        fieldErrors: {},
+      };
+    }
+
+    console.error("Unexpected student enrolment insert failure", {
+      code: insertError.code,
+      message: insertError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The student could not be enrolled. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/cohorts/${context.cohort.id}`,
+  );
+
+  const profileLabel =
+    profile.display_name || profile.email || "The selected student";
+
+  return {
+    status: "success",
+    message: `${profileLabel} was enrolled in ${context.cohort.name}.`,
+    fieldErrors: {},
+  };
+}
+
+export async function createTeacherAssignment(
+  courseId: string,
+  cohortId: string,
+  _previousState: MembershipFormState,
+  formData: FormData,
+): Promise<MembershipFormState> {
+  const supabase = await createAdminClient();
+  const profileId = readTextField(formData, "profileId");
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(cohortId) ||
+    !UUID_PATTERN.test(profileId)
+  ) {
+    return {
+      status: "error",
+      message: "This assignment request is invalid. Refresh the page and try again.",
+      fieldErrors: {
+        profileId: "Select an available teacher.",
+      },
+    };
+  }
+
+  const context = await findAdminCohortContext(
+    supabase,
+    courseId,
+    cohortId,
+  );
+
+  if (!context) {
+    return {
+      status: "error",
+      message: "This cohort does not belong to the selected course.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("id, email, display_name, role")
+    .eq("id", profileId)
+    .maybeSingle();
+
+  if (profileError || !profile) {
+    return {
+      status: "error",
+      message: "The selected teacher is no longer available.",
+      fieldErrors: {
+        profileId: "Select an available teacher.",
+      },
+    };
+  }
+
+  if (profile.role !== "teacher") {
+    return {
+      status: "error",
+      message: "Only teacher profiles can be assigned to a cohort.",
+      fieldErrors: {
+        profileId: "Select a profile whose server-controlled role is teacher.",
+      },
+    };
+  }
+
+  const { error: insertError } = await supabase
+    .from("teacher_assignments")
+    .insert({
+      cohort_id: context.cohort.id,
+      teacher_id: profile.id,
+    });
+
+  if (insertError) {
+    if (insertError.code === "23505") {
+      return {
+        status: "error",
+        message: "That teacher is already assigned to this cohort.",
+        fieldErrors: {
+          profileId: "Select a teacher who is not already assigned.",
+        },
+      };
+    }
+
+    if (insertError.code === "23514") {
+      return {
+        status: "error",
+        message: "Only a current teacher profile can be assigned.",
+        fieldErrors: {
+          profileId: "Refresh the directory and select a teacher.",
+        },
+      };
+    }
+
+    if (insertError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to assign teachers.",
+        fieldErrors: {},
+      };
+    }
+
+    if (insertError.code === "23503") {
+      return {
+        status: "error",
+        message: "The selected cohort or teacher is no longer available.",
+        fieldErrors: {},
+      };
+    }
+
+    console.error("Unexpected teacher assignment insert failure", {
+      code: insertError.code,
+      message: insertError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The teacher could not be assigned. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/cohorts/${context.cohort.id}`,
+  );
+
+  const profileLabel =
+    profile.display_name || profile.email || "The selected teacher";
+
+  return {
+    status: "success",
+    message: `${profileLabel} was assigned to ${context.cohort.name}.`,
     fieldErrors: {},
   };
 }

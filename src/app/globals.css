@@ -897,9 +897,12 @@ textarea:focus-visible {
 
 .admin-organisation-section,
 .admin-course-section,
+.admin-cohort-section,
+.admin-directory-section,
 .admin-module-section,
 .admin-lesson-section,
-.admin-block-section {
+.admin-block-section,
+.membership-section {
   margin-top: clamp(4.5rem, 9vw, 7.5rem);
 }
 
@@ -1106,6 +1109,116 @@ textarea:focus-visible {
   gap: var(--space-2);
 }
 
+.directory-panel {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.directory-filter {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) minmax(10rem, 0.45fr) auto;
+  gap: var(--space-4);
+  align-items: end;
+}
+
+.directory-filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.directory-filter-actions button,
+.directory-filter-actions .button-link {
+  min-height: 2.9rem;
+}
+
+.directory-result-count {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.directory-list,
+.membership-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.directory-list > li {
+  display: grid;
+  gap: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  background: var(--color-surface-soft);
+}
+
+.directory-user-heading,
+.membership-list > li {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.directory-user-heading h3,
+.membership-list h4 {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 0.98rem;
+  overflow-wrap: anywhere;
+}
+
+.directory-user-heading p,
+.membership-list p {
+  margin: 0.3rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.directory-user-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.directory-user-details dt {
+  margin-bottom: 0.3rem;
+  color: var(--color-muted);
+  font-size: 0.66rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.directory-user-details dd {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.78fr) minmax(0, 1.22fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.membership-list > li {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: var(--color-surface-soft);
+}
+
 .cohort-details {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1155,6 +1268,7 @@ textarea:focus-visible {
 }
 
 .course-manage-link,
+.cohort-manage-link,
 .module-manage-link,
 .lesson-manage-link {
   width: fit-content;
@@ -1741,7 +1855,10 @@ textarea:focus-visible {
   .admin-form-row,
   .course-details,
   .cohort-details,
-  .course-editor-summary {
+  .course-editor-summary,
+  .directory-filter,
+  .directory-user-details,
+  .membership-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1777,6 +1894,7 @@ textarea:focus-visible {
   }
 
   .course-list-heading,
+  .directory-user-heading,
   .lesson-list-heading,
   .text-block-heading {
     align-items: flex-start;
@@ -1833,7 +1951,8 @@ textarea:focus-visible {
   .admin-course-grid,
   .admin-module-grid,
   .admin-lesson-grid,
-  .admin-block-grid {
+  .admin-block-grid,
+  .membership-grid {
     grid-template-columns: 1fr;
   }
 

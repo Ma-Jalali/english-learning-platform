@@ -41,9 +41,12 @@ The repository currently provides:
 - Allowlisted Google Drive PDF/video references without OAuth or Drive API
   credentials. Only canonical URLs reconstructed from validated file IDs are
   rendered.
-- Database foundations for enrolments, teacher assignments, and fixed teacher
-  slots, including role validation, hierarchy protection, and teacher update
-  boundaries. Admin management interfaces for those records do not exist yet.
+- An administrator-only user directory and cohort membership workspace for
+  enrolling existing students and assigning existing teachers, backed by
+  server-controlled roles, hierarchy checks, database validation, and RLS.
+- Fixed teacher-slot foundations, including role validation, hierarchy
+  protection, and teacher update boundaries. The teacher workspace does not
+  exist yet.
 - Draft/published/archived course status in the database. Publishing workflow
   and student course delivery do not exist yet.
 
@@ -77,50 +80,34 @@ changes require a new migration.
   ordering (`b109c10`).
 - [x] Allowlisted Google Drive PDF/video blocks (`6796e89`).
 - [x] Admin course cohort creation and ordered listing (`a763028`).
+- [x] Secure administrator user directory, student enrolment, and teacher
+  assignment foundation (completed 3 October 2026).
+
+The directory migration was applied manually to the current Supabase project.
+The completed milestone was verified with real disposable student and teacher
+accounts: administrator directory/filtering, enrolment, assignment, duplicate
+option removal, unauthenticated redirects, student redirects from all new admin
+routes, and desktop/mobile layouts all passed.
 
 ## Active milestone
 
-### Secure user directory, cohort enrolment, and teacher assignment foundation
+### Student learning interface
 
-Status: **Next — not started**
+Status: **Next**
 
-Deliver one secure vertical admin milestone that:
+Deliver the first secure learner-facing vertical slice that:
 
-- adds the minimum new migration needed for an administrator-safe user
-  directory, without editing existing migrations;
-- exposes only the identity fields administrators genuinely need and never
-  exposes secrets or trusts editable Auth metadata for authorization;
-- lets admins find existing users and see their server-controlled profile role
-  and organisation context;
-- lets admins enrol student profiles into a selected cohort;
-- lets admins assign teacher profiles to a selected cohort;
-- rejects role mismatches, duplicate memberships, invalid hierarchy IDs, and
-  unauthorized requests with helpful messages;
-- provides clear cohort membership lists without adding student or teacher
-  workspaces;
-- rechecks identity, admin role, and course/cohort/user relationships in every
-  server action;
-- preserves the existing database role-validation triggers and RLS rather than
-  bypassing them;
-- includes responsive, keyboard-accessible admin interfaces and appropriate
-  empty, success, and error states;
-- documents any manual Supabase migration step and does not apply it remotely
-  without explicit approval.
-
-Completion requires lint, production build, whitespace checks, relevant
-desktop/mobile browser checks, authorization checks, roadmap update, and a local
-conventional commit.
+- shows only published courses available through the authenticated student's
+  enrolments;
+- provides cohort-aware course, module, lesson, and supported block views;
+- keeps locked core content read-only and protects private media access;
+- includes accessible loading, empty, and unavailable states;
+- does not add progress tracking, teacher tools, assessment workflows,
+  publishing controls, or payments yet.
 
 ## Remaining MVP milestones
 
-### 1. Student learning interface
-
-- [ ] Show only published courses available through the student's enrolments.
-- [ ] Provide cohort-aware course, module, lesson, and supported block views.
-- [ ] Keep locked core content read-only and protect private media access.
-- [ ] Add accessible loading, empty, unavailable, and completion-ready states.
-
-### 2. Progress tracking
+### 1. Progress tracking
 
 - [ ] Add a new RLS-protected progress model scoped to the authenticated student
   and enrolled course hierarchy.
@@ -128,7 +115,7 @@ conventional commit.
 - [ ] Define administrator visibility and prevent students from writing progress
   for another user or inaccessible lesson.
 
-### 3. Teacher workspace and fixed teacher slots
+### 2. Teacher workspace and fixed teacher slots
 
 - [ ] Build an assigned-cohort teacher workspace.
 - [ ] Let admins create and assign fixed announcement, homework, and
@@ -137,7 +124,7 @@ conventional commit.
 - [ ] Confirm teachers cannot create, delete, move, retype, reassign, unlock, or
   otherwise alter core content or slot structure.
 
-### 4. Assessments, submissions, and feedback
+### 3. Assessments, submissions, and feedback
 
 - [ ] Add administrator-owned assessment definitions and criteria.
 - [ ] Add student-owned submissions and evidence with strict cohort/course
@@ -145,14 +132,14 @@ conventional commit.
 - [ ] Add teacher feedback and simple rubric marking for assigned cohorts.
 - [ ] Provide students with secure feedback and result views.
 
-### 5. Course publishing
+### 4. Course publishing
 
 - [ ] Add admin-only publishing controls and readiness validation.
 - [ ] Define how draft, published, and archived states affect each role.
 - [ ] Prevent incomplete or inaccessible course structures from being published.
 - [ ] Verify enrolled-student and assigned-teacher read paths end to end.
 
-### 6. Production testing and deployment
+### 5. Production testing and deployment
 
 - [ ] Add automated coverage for authorization helpers, server actions, URL
   allowlists, hierarchy validation, and critical user journeys.

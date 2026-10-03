@@ -109,6 +109,9 @@ export default async function AdminPage() {
             English Learning Platform
           </Link>
           <div className="admin-header-actions">
+            <Link className="button-link secondary-link" href="/admin/users">
+              User directory
+            </Link>
             <Link className="button-link secondary-link" href="/dashboard">
               Dashboard
             </Link>

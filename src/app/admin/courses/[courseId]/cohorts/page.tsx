@@ -81,7 +81,8 @@ export default async function CohortsPage({ params }: CohortsPageProps) {
           <h1 id="cohorts-page-heading">Cohorts</h1>
           <p>
             Create the ordered cohort shells for <strong>{course.title}</strong>.
-            Student enrolment will be configured separately in a later phase.
+            Open a cohort to manage its student enrolments and teacher
+            assignments.
           </p>
           <dl className="course-editor-summary">
             <div>
@@ -147,6 +148,13 @@ export default async function CohortsPage({ params }: CohortsPageProps) {
                           <dd>{course.title}</dd>
                         </div>
                       </dl>
+                      <Link
+                        aria-label={`Manage members for ${cohort.name}`}
+                        className="button-link secondary-link cohort-manage-link"
+                        href={`/admin/courses/${course.id}/cohorts/${cohort.id}`}
+                      >
+                        Manage members
+                      </Link>
                     </li>
                   ))}
                 </ol>
