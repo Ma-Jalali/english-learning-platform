@@ -6,11 +6,13 @@ import { useFormStatus } from "react-dom";
 import {
   deleteLockedTextBlock,
   type DeleteTextBlockState,
-  type MoveTextBlockState,
+  type MoveCoreBlockState,
   type TextBlockFormState,
-  moveLockedTextBlock,
+  moveLockedCoreBlock,
   updateLockedTextBlock,
 } from "@/app/admin/actions";
+
+import { BlockMoveButtons } from "./block-move-buttons";
 
 type TextBlockItemProps = {
   block: {
@@ -37,7 +39,7 @@ const initialDeleteState: DeleteTextBlockState = {
   message: "",
 };
 
-const initialMoveState: MoveTextBlockState = {
+const initialMoveState: MoveCoreBlockState = {
   status: "idle",
   message: "",
 };
@@ -59,43 +61,6 @@ function DeleteButton() {
     <button className="danger-button" disabled={pending} type="submit">
       {pending ? "Deleting…" : "Delete"}
     </button>
-  );
-}
-
-function MoveButtons({
-  blockName,
-  canMoveDown,
-  canMoveUp,
-}: {
-  blockName: string;
-  canMoveDown: boolean;
-  canMoveUp: boolean;
-}) {
-  const { pending } = useFormStatus();
-
-  return (
-    <>
-      <button
-        aria-label={`Move ${blockName} up`}
-        className="secondary"
-        disabled={pending || !canMoveUp}
-        name="direction"
-        type="submit"
-        value="up"
-      >
-        Move up
-      </button>
-      <button
-        aria-label={`Move ${blockName} down`}
-        className="secondary"
-        disabled={pending || !canMoveDown}
-        name="direction"
-        type="submit"
-        value="down"
-      >
-        Move down
-      </button>
-    </>
   );
 }
 
@@ -122,7 +87,7 @@ export function TextBlockItem({
     lessonId,
     block.id,
   );
-  const moveBlock = moveLockedTextBlock.bind(
+  const moveBlock = moveLockedCoreBlock.bind(
     null,
     courseId,
     moduleId,
@@ -164,7 +129,7 @@ export function TextBlockItem({
 
       <div className="text-block-actions">
         <form action={moveAction} className="block-move-controls">
-          <MoveButtons
+          <BlockMoveButtons
             blockName={block.title || `Block ${block.position}`}
             canMoveDown={canMoveDown}
             canMoveUp={canMoveUp}

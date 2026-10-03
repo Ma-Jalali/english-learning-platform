@@ -3,6 +3,15 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import {
+  COURSE_MEDIA_BUCKET,
+  COURSE_MEDIA_SOURCE,
+  getCourseMediaDescriptor,
+  isExpectedCourseMediaStoragePath,
+  isValidCourseMediaUploadMetadata,
+  parseCourseMediaContent,
+  type CourseMediaUploadMetadata,
+} from "@/lib/course-media";
 import { createClient } from "@/lib/supabase/server";
 
 import { COURSE_FAMILIES, COURSE_LEVELS } from "./course-options";
@@ -73,7 +82,17 @@ export type DeleteTextBlockState = {
   message: string;
 };
 
-export type MoveTextBlockState = {
+export type MediaBlockActionState = {
+  status: "idle" | "error" | "success";
+  message: string;
+};
+
+export type DeleteMediaBlockState = {
+  status: "idle" | "error";
+  message: string;
+};
+
+export type MoveCoreBlockState = {
   status: "idle" | "error" | "success";
   message: string;
 };
@@ -324,7 +343,52 @@ async function findLockedTextBlock(
   return { block, lesson };
 }
 
-async function setLockedTextBlockSortOrder(
+async function findLockedCoreBlock(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+) {
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", courseId)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return null;
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return null;
+  }
+
+  const { data: block, error: blockError } = await supabase
+    .from("lesson_blocks")
+    .select("id, sort_order, block_type")
+    .eq("id", blockId)
+    .eq("lesson_id", lesson.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (blockError || !block) {
+    return null;
+  }
+
+  return { block, lesson };
+}
+
+async function setLockedCoreBlockSortOrder(
   supabase: Awaited<ReturnType<typeof createClient>>,
   blockId: string,
   lessonId: string,
@@ -336,7 +400,6 @@ async function setLockedTextBlockSortOrder(
     .update({ sort_order: nextSortOrder })
     .eq("id", blockId)
     .eq("lesson_id", lessonId)
-    .eq("block_type", "text")
     .eq("is_locked", true)
     .eq("sort_order", expectedSortOrder)
     .select("id")
@@ -845,6 +908,189 @@ export async function createLockedTextBlock(
   };
 }
 
+export async function createLockedMediaBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  metadata: CourseMediaUploadMetadata,
+): Promise<MediaBlockActionState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId)
+  ) {
+    return {
+      status: "error",
+      message: "This lesson link is invalid. Return to the module editor.",
+    };
+  }
+
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select("id, organisation_id")
+    .eq("id", courseId)
+    .maybeSingle();
+
+  if (courseError || !course) {
+    return {
+      status: "error",
+      message: "This course is no longer available.",
+    };
+  }
+
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", course.id)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return {
+      status: "error",
+      message: "This module does not belong to the selected course.",
+    };
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id, title")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return {
+      status: "error",
+      message: "This locked lesson does not belong to the selected module.",
+    };
+  }
+
+  if (
+    !isValidCourseMediaUploadMetadata(
+      metadata,
+      course.organisation_id,
+      course.id,
+    )
+  ) {
+    return {
+      status: "error",
+      message:
+        "The uploaded file details are invalid. The file will be removed; choose it again and retry.",
+    };
+  }
+
+  const descriptor = getCourseMediaDescriptor(metadata.mimeType);
+
+  if (!descriptor) {
+    return {
+      status: "error",
+      message: "Only PDF and supported video files can be added.",
+    };
+  }
+
+  // Confirm the browser upload exists and compare its Storage-reported values
+  // with the small metadata payload. The file itself never passes through this
+  // action or the Next.js server.
+  const { data: objectInfo, error: objectInfoError } = await supabase.storage
+    .from(COURSE_MEDIA_BUCKET)
+    .info(metadata.storagePath);
+
+  if (objectInfoError || !objectInfo) {
+    return {
+      status: "error",
+      message:
+        "The uploaded file could not be verified. It will be removed; please try again.",
+    };
+  }
+
+  if (
+    objectInfo.size !== metadata.sizeBytes ||
+    objectInfo.contentType?.toLowerCase() !== metadata.mimeType.toLowerCase()
+  ) {
+    return {
+      status: "error",
+      message:
+        "The uploaded file does not match its verified type or size. It will be removed.",
+    };
+  }
+
+  const { data: lastBlock, error: orderError } = await supabase
+    .from("lesson_blocks")
+    .select("sort_order")
+    .eq("lesson_id", lesson.id)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (orderError) {
+    return {
+      status: "error",
+      message:
+        "The next block position could not be determined. The uploaded file will be removed.",
+    };
+  }
+
+  const nextSortOrder = (lastBlock?.sort_order ?? -1) + 1;
+  const { error: insertError } = await supabase.from("lesson_blocks").insert({
+    lesson_id: lesson.id,
+    block_type: descriptor.blockType,
+    title: null,
+    content: {
+      source: COURSE_MEDIA_SOURCE,
+      storagePath: metadata.storagePath,
+      fileName: metadata.fileName,
+      mimeType: metadata.mimeType,
+      sizeBytes: metadata.sizeBytes,
+    },
+    sort_order: nextSortOrder,
+    is_locked: true,
+  });
+
+  if (insertError) {
+    if (insertError.code === "42501") {
+      return {
+        status: "error",
+        message:
+          "Your account is not permitted to create media blocks. The uploaded file will be removed.",
+      };
+    }
+
+    if (insertError.code === "23503") {
+      return {
+        status: "error",
+        message:
+          "This lesson is no longer available. The uploaded file will be removed.",
+      };
+    }
+
+    console.error("Unexpected locked media block insert failure", {
+      code: insertError.code,
+      message: insertError.message,
+    });
+
+    return {
+      status: "error",
+      message:
+        "The media block could not be created. The uploaded file will be removed; please try again.",
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+
+  return {
+    status: "success",
+    message: `${metadata.fileName} was added to ${lesson.title} as a locked ${
+      descriptor.blockType === "file" ? "PDF" : "video"
+    } block.`,
+  };
+}
+
 export async function updateLockedTextBlock(
   courseId: string,
   moduleId: string,
@@ -1015,14 +1261,165 @@ export async function deleteLockedTextBlock(
   );
 }
 
-export async function moveLockedTextBlock(
+export async function deleteLockedMediaBlock(
   courseId: string,
   moduleId: string,
   lessonId: string,
   blockId: string,
-  _previousState: MoveTextBlockState,
+  _previousState: DeleteMediaBlockState,
+  _formData: FormData,
+): Promise<DeleteMediaBlockState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId) ||
+    !UUID_PATTERN.test(blockId)
+  ) {
+    return {
+      status: "error",
+      message: "This media block link is invalid. Refresh the lesson editor.",
+    };
+  }
+
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select("id, organisation_id")
+    .eq("id", courseId)
+    .maybeSingle();
+
+  if (courseError || !course) {
+    return {
+      status: "error",
+      message: "This course is no longer available.",
+    };
+  }
+
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", course.id)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return {
+      status: "error",
+      message: "This module does not belong to the selected course.",
+    };
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return {
+      status: "error",
+      message: "This locked lesson does not belong to the selected module.",
+    };
+  }
+
+  const { data: block, error: blockError } = await supabase
+    .from("lesson_blocks")
+    .select("id, block_type, content")
+    .eq("id", blockId)
+    .eq("lesson_id", lesson.id)
+    .in("block_type", ["file", "video"])
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (blockError || !block) {
+    return {
+      status: "error",
+      message: "This locked media block is not available in the selected lesson.",
+    };
+  }
+
+  const content = parseCourseMediaContent(block.content);
+  const descriptor = content
+    ? getCourseMediaDescriptor(content.mimeType)
+    : null;
+
+  if (
+    !content ||
+    !descriptor ||
+    descriptor.blockType !== block.block_type ||
+    !isExpectedCourseMediaStoragePath(
+      content.storagePath,
+      course.organisation_id,
+      course.id,
+      content.mimeType,
+    )
+  ) {
+    return {
+      status: "error",
+      message:
+        "This media block has invalid storage details and was not deleted.",
+    };
+  }
+
+  // Remove the object first. If the database delete then fails, the visible
+  // block remains available for an admin to retry instead of leaving an
+  // invisible orphaned object in Storage.
+  const { error: storageDeleteError } = await supabase.storage
+    .from(COURSE_MEDIA_BUCKET)
+    .remove([content.storagePath]);
+
+  if (storageDeleteError) {
+    console.error("Unexpected locked media object delete failure", {
+      message: storageDeleteError.message,
+    });
+
+    return {
+      status: "error",
+      message:
+        "The stored file could not be removed, so the media block was kept. Please try again.",
+    };
+  }
+
+  const { error: deleteError } = await supabase
+    .from("lesson_blocks")
+    .delete()
+    .eq("id", block.id)
+    .eq("lesson_id", lesson.id)
+    .eq("block_type", block.block_type)
+    .eq("is_locked", true);
+
+  if (deleteError) {
+    console.error("Locked media object removed but block delete failed", {
+      code: deleteError.code,
+      message: deleteError.message,
+    });
+
+    return {
+      status: "error",
+      message:
+        "The file was removed, but its block record could not be deleted. Refresh and try again.",
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+  redirect(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}?notice=media-deleted`,
+  );
+}
+
+export async function moveLockedCoreBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+  _previousState: MoveCoreBlockState,
   formData: FormData,
-): Promise<MoveTextBlockState> {
+): Promise<MoveCoreBlockState> {
   const supabase = await createAdminClient();
   const direction = readTextField(formData, "direction");
 
@@ -1039,7 +1436,7 @@ export async function moveLockedTextBlock(
     };
   }
 
-  const context = await findLockedTextBlock(
+  const context = await findLockedCoreBlock(
     supabase,
     courseId,
     moduleId,
@@ -1050,7 +1447,7 @@ export async function moveLockedTextBlock(
   if (!context) {
     return {
       status: "error",
-      message: "This locked text block is not available in the selected lesson.",
+      message: "This locked block is not available in the selected lesson.",
     };
   }
 
@@ -1058,7 +1455,6 @@ export async function moveLockedTextBlock(
     .from("lesson_blocks")
     .select("id, sort_order")
     .eq("lesson_id", context.lesson.id)
-    .eq("block_type", "text")
     .eq("is_locked", true)
     .neq("id", context.block.id);
 
@@ -1083,14 +1479,14 @@ export async function moveLockedTextBlock(
       };
     }
 
-    console.error("Unexpected adjacent text block lookup failure", {
+    console.error("Unexpected adjacent core block lookup failure", {
       code: adjacentError.code,
       message: adjacentError.message,
     });
 
     return {
       status: "error",
-      message: "The adjacent text block could not be loaded. Please try again.",
+      message: "The adjacent block could not be loaded. Please try again.",
     };
   }
 
@@ -1099,14 +1495,14 @@ export async function moveLockedTextBlock(
       status: "error",
       message:
         direction === "up"
-          ? "This text block is already first."
-          : "This text block is already last.",
+          ? "This block is already first."
+          : "This block is already last.",
     };
   }
 
   const originalSortOrder = context.block.sort_order;
   const adjacentSortOrder = adjacentBlock.sort_order;
-  const firstUpdate = await setLockedTextBlockSortOrder(
+  const firstUpdate = await setLockedCoreBlockSortOrder(
     supabase,
     context.block.id,
     context.lesson.id,
@@ -1128,7 +1524,7 @@ export async function moveLockedTextBlock(
     };
   }
 
-  const secondUpdate = await setLockedTextBlockSortOrder(
+  const secondUpdate = await setLockedCoreBlockSortOrder(
     supabase,
     adjacentBlock.id,
     context.lesson.id,
@@ -1137,7 +1533,7 @@ export async function moveLockedTextBlock(
   );
 
   if (secondUpdate.error || !secondUpdate.updated) {
-    const rollback = await setLockedTextBlockSortOrder(
+    const rollback = await setLockedCoreBlockSortOrder(
       supabase,
       context.block.id,
       context.lesson.id,
@@ -1146,7 +1542,7 @@ export async function moveLockedTextBlock(
     );
 
     if (rollback.error || !rollback.updated) {
-      console.error("Locked text block reorder rollback failed", {
+      console.error("Locked core block reorder rollback failed", {
         code: rollback.error?.code ?? "no-row-updated",
       });
     }
@@ -1170,6 +1566,6 @@ export async function moveLockedTextBlock(
 
   return {
     status: "success",
-    message: `The text block was moved ${direction}.`,
+    message: `The block was moved ${direction}.`,
   };
 }

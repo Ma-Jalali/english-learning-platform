@@ -3,9 +3,18 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { SignOutButton } from "@/app/dashboard/sign-out-button";
+import {
+  COURSE_MEDIA_BUCKET,
+  COURSE_MEDIA_SIGNED_URL_TTL_SECONDS,
+  getCourseMediaDescriptor,
+  isExpectedCourseMediaStoragePath,
+  parseCourseMediaContent,
+} from "@/lib/course-media";
 import { createClient } from "@/lib/supabase/server";
 
 import { BlockForm } from "./block-form";
+import { MediaBlockItem } from "./media-block-item";
+import { MediaUploadForm } from "./media-upload-form";
 import { TextBlockItem } from "./text-block-item";
 
 export const metadata: Metadata = {
@@ -59,7 +68,7 @@ export default async function LessonEditorPage({
 
   const { data: course, error: courseError } = await supabase
     .from("courses")
-    .select("id, title, course_family, level")
+    .select("id, organisation_id, title, course_family, level")
     .eq("id", courseId)
     .maybeSingle();
 
@@ -89,13 +98,82 @@ export default async function LessonEditorPage({
     notFound();
   }
 
-  const { data: textBlocks, error: blocksError } = await supabase
+  const { data: lessonBlocks, error: blocksError } = await supabase
     .from("lesson_blocks")
-    .select("id, title, content, sort_order, is_locked, created_at")
+    .select(
+      "id, block_type, title, content, sort_order, is_locked, created_at",
+    )
     .eq("lesson_id", lesson.id)
-    .eq("block_type", "text")
+    .eq("is_locked", true)
+    .in("block_type", ["text", "file", "video"])
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
+
+  const blockViews = await Promise.all(
+    (lessonBlocks ?? []).map(async (block, index) => {
+      const position = index + 1;
+
+      if (block.block_type === "text") {
+        return {
+          kind: "text" as const,
+          block: {
+            body: getTextBody(block.content),
+            id: block.id,
+            position,
+            title: block.title,
+          },
+        };
+      }
+
+      const content = parseCourseMediaContent(block.content);
+      const descriptor = content
+        ? getCourseMediaDescriptor(content.mimeType)
+        : null;
+
+      if (
+        !content ||
+        !descriptor ||
+        descriptor.blockType !== block.block_type ||
+        !isExpectedCourseMediaStoragePath(
+          content.storagePath,
+          course.organisation_id,
+          course.id,
+          content.mimeType,
+        )
+      ) {
+        return {
+          kind: "invalid" as const,
+          block: {
+            id: block.id,
+            position,
+          },
+        };
+      }
+
+      // Signed preview URLs are created only after the server-side admin and
+      // hierarchy checks above. The private object path is never made public.
+      const { data: signedUrlData, error: signedUrlError } =
+        await supabase.storage
+          .from(COURSE_MEDIA_BUCKET)
+          .createSignedUrl(
+            content.storagePath,
+            COURSE_MEDIA_SIGNED_URL_TTL_SECONDS,
+          );
+
+      return {
+        kind: "media" as const,
+        block: {
+          blockType: descriptor.blockType,
+          fileName: content.fileName,
+          id: block.id,
+          mimeType: content.mimeType,
+          position,
+          signedUrl: signedUrlError ? null : signedUrlData.signedUrl,
+          sizeBytes: content.sizeBytes,
+        },
+      };
+    }),
+  );
 
   return (
     <main className="admin-main">
@@ -126,8 +204,8 @@ export default async function LessonEditorPage({
             <strong>{courseModule.title}</strong>
           </p>
           <p>
-            Create the locked core content for this lesson. Text is stored and
-            displayed as plain text.
+            Shape the locked core lesson with ordered text, PDF, and video
+            blocks. Media stays private and course-authorised.
           </p>
         </section>
 
@@ -138,9 +216,11 @@ export default async function LessonEditorPage({
           <div className="section-heading">
             <div>
               <p className="eyebrow">Lesson content</p>
-              <h2 id="blocks-heading">Text blocks</h2>
+              <h2 id="blocks-heading">Core blocks</h2>
             </div>
-            <p>New locked blocks are placed after existing blocks automatically.</p>
+            <p>
+              New locked blocks are placed after existing content automatically.
+            </p>
           </div>
 
           {notice === "block-deleted" ? (
@@ -149,45 +229,102 @@ export default async function LessonEditorPage({
             </p>
           ) : null}
 
+          {notice === "media-deleted" ? (
+            <p className="form-message form-message-success" role="status">
+              The locked media block and its private file were deleted.
+            </p>
+          ) : null}
+
           <div className="admin-block-grid">
-            <div className="admin-panel">
-              <h3>Create locked text block</h3>
-              <BlockForm
-                courseId={course.id}
-                lessonId={lesson.id}
-                moduleId={courseModule.id}
-              />
+            <div className="block-creator-stack">
+              <div className="admin-panel">
+                <h3>Create locked text block</h3>
+                <BlockForm
+                  courseId={course.id}
+                  lessonId={lesson.id}
+                  moduleId={courseModule.id}
+                />
+              </div>
+
+              <div className="admin-panel media-upload-panel">
+                <p className="panel-kicker">Private course media</p>
+                <h3>Add media</h3>
+                <p className="media-upload-intro">
+                  Files upload directly to Supabase Storage. The browser never
+                  sends large files through a Next.js action.
+                </p>
+                <MediaUploadForm
+                  courseId={course.id}
+                  lessonId={lesson.id}
+                  moduleId={courseModule.id}
+                  organisationId={course.organisation_id}
+                />
+              </div>
             </div>
 
             <div className="admin-panel" aria-live="polite">
-              <h3>Lesson text blocks</h3>
+              <h3>Ordered lesson content</h3>
               {blocksError ? (
                 <p className="form-message form-message-error" role="alert">
-                  Text blocks could not be loaded. Please refresh and try again.
+                  Lesson blocks could not be loaded. Please refresh and try again.
                 </p>
-              ) : textBlocks && textBlocks.length > 0 ? (
-                <ol className="text-block-list">
-                  {textBlocks.map((block, index) => (
-                    <TextBlockItem
-                      block={{
-                        body: getTextBody(block.content),
-                        id: block.id,
-                        position: index + 1,
-                        title: block.title,
-                      }}
-                      canMoveDown={index < textBlocks.length - 1}
-                      canMoveUp={index > 0}
-                      courseId={course.id}
-                      key={block.id}
-                      lessonId={lesson.id}
-                      moduleId={courseModule.id}
-                    />
-                  ))}
+              ) : blockViews.length > 0 ? (
+                <ol className="text-block-list lesson-block-list">
+                  {blockViews.map((view, index) => {
+                    const canMoveUp = index > 0;
+                    const canMoveDown = index < blockViews.length - 1;
+
+                    if (view.kind === "text") {
+                      return (
+                        <TextBlockItem
+                          block={view.block}
+                          canMoveDown={canMoveDown}
+                          canMoveUp={canMoveUp}
+                          courseId={course.id}
+                          key={view.block.id}
+                          lessonId={lesson.id}
+                          moduleId={courseModule.id}
+                        />
+                      );
+                    }
+
+                    if (view.kind === "media") {
+                      return (
+                        <MediaBlockItem
+                          block={view.block}
+                          canMoveDown={canMoveDown}
+                          canMoveUp={canMoveUp}
+                          courseId={course.id}
+                          key={view.block.id}
+                          lessonId={lesson.id}
+                          moduleId={courseModule.id}
+                        />
+                      );
+                    }
+
+                    return (
+                      <li className="media-block-item" key={view.block.id}>
+                        <span className="block-position">
+                          Block {view.block.position}
+                        </span>
+                        <div className="text-block-heading">
+                          <h4>Media block unavailable</h4>
+                          <span className="locked-block-badge">
+                            Locked core block
+                          </span>
+                        </div>
+                        <p className="form-message form-message-error" role="alert">
+                          This block has invalid media metadata and cannot be
+                          previewed. Review the stored record before continuing.
+                        </p>
+                      </li>
+                    );
+                  })}
                 </ol>
               ) : (
                 <p className="admin-empty-state">
-                  No text blocks yet. Create the first locked text block using
-                  the form.
+                  No lesson blocks yet. Create text or add private media using
+                  the controls provided.
                 </p>
               )}
             </div>
