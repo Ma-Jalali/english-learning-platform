@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Porcelain Atlas V2 visual refinement for the English Learning Platform.">
+  <title>Porcelain Atlas V2 — Phase 0A refinement</title>
+  <link rel="stylesheet" href="porcelain-atlas-v2.css?v=5">
+  <script src="prototype.js" defer></script>
+  <script src="porcelain-atlas-v2.js?v=4" defer></script>
+</head>
+<body class="atlas-v2">
+  <div class="v2-lab-bar">
+    <span>Phase 0A refinement · Visual prototype only · No scoring or storage</span>
+    <div class="v2-lab-actions">
+      <a href="index.html">Comparison index</a>
+      <a href="porcelain-atlas.html">View V1</a>
+      <button type="button" data-motion-toggle aria-pressed="false">Reduce motion</button>
+    </div>
+  </div>
+
+  <header class="v2-masthead">
+    <a class="v2-brand" href="#top" aria-label="English Learning Platform, return to lesson top">
+      <span class="v2-brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>English Learning Platform</span>
+    </a>
+    <p class="v2-concept-label">Porcelain Atlas <strong>V2</strong></p>
+    <div class="v2-masthead-actions">
+      <a class="v2-text-link" href="porcelain-atlas-v2-specimens.html">System specimen</a>
+      <button class="v2-course-button" type="button" data-dialog-open="atlas-v2-course-dialog">Course map</button>
+      <a class="v2-button v2-button-secondary v2-button-compact" href="#practice">Go to practice</a>
+    </div>
+  </header>
+
+  <div class="v2-shell" id="top">
+    <aside class="v2-course-rail" aria-label="Course navigation">
+      <div class="v2-rail-sticky">
+        <div class="v2-course-chip"><span aria-hidden="true">IE</span><div><small>IELTS Preparation</small><strong>B2 · Pilot cohort</strong></div></div>
+        <p class="v2-overline">Module 01</p>
+        <h2>Introduction to the IELTS Test</h2>
+        <ol class="v2-route-list">
+          <li class="is-complete"><a href="#opening"><span class="v2-route-marker" aria-hidden="true">✓</span><span><small>Lesson 01</small>Welcome to IELTS</span></a></li>
+          <li class="is-current"><a href="#opening" aria-current="page"><span class="v2-route-marker" aria-hidden="true">02</span><span><small>In progress</small>Test Structure Overview</span></a></li>
+          <li><a href="#measures"><span class="v2-route-marker" aria-hidden="true">03</span><span><small>Next</small>How IELTS is Scored</span></a></li>
+          <li><a href="#practice"><span class="v2-route-marker" aria-hidden="true">04</span><span><small>Lesson</small>Your Study Baseline</span></a></li>
+        </ol>
+        <div class="v2-rail-progress" aria-label="Module progress, 42 percent">
+          <div><span>Module progress</span><strong>42%</strong></div>
+          <div class="v2-progress-track" aria-hidden="true"><span style="--progress:42%"></span></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="v2-paper">
+      <section class="v2-hero" id="opening" aria-labelledby="v2-title">
+        <nav class="v2-breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="#top">IELTS Preparation</a></li>
+            <li><a href="#opening">Introduction</a></li>
+            <li aria-current="page">Structure overview</li>
+          </ol>
+        </nav>
+        <div class="v2-hero-grid">
+          <div class="v2-hero-copy">
+            <p class="v2-overline">IELTS Preparation (B2) <span>·</span> IELTS Pilot Cohort</p>
+            <h1 id="v2-title">IELTS Test<br>Structure Overview</h1>
+            <p class="v2-lead">Understand what each part of IELTS asks you to do, which language evidence it collects, and how to approach instructions with precision.</p>
+            <div class="v2-lesson-progress" aria-label="Lesson progress, 3 of 7 sections viewed">
+              <div class="v2-progress-copy"><span><strong>3 of 7</strong> sections viewed</span><span>18 min</span></div>
+              <div class="v2-progress-track" aria-hidden="true"><span style="--progress:43%"></span></div>
+            </div>
+          </div>
+          <aside class="v2-lesson-map" aria-label="Lesson route">
+            <div class="v2-map-header"><span>Today’s route</span><span>02 / 04</span></div>
+            <ol>
+              <li class="is-past"><span>01</span><div><strong>Orient</strong><small>One test, four kinds of evidence</small></div></li>
+              <li class="is-now"><span>02</span><div><strong>Notice</strong><small>What each skill measures</small></div></li>
+              <li><span>03</span><div><strong>Keep</strong><small>Save the field guide</small></div></li>
+              <li><span>04</span><div><strong>Practise</strong><small>Read instructions precisely</small></div></li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <div class="v2-reading-stream">
+        <section class="v2-section" aria-labelledby="v2-orient-title">
+          <header class="v2-section-header"><span class="v2-section-number">01</span><div><p class="v2-overline">Orient</p><h2 id="v2-orient-title">One test, four kinds of evidence.</h2></div></header>
+          <div class="v2-prose">
+            <p class="v2-drop-lead">IELTS does not measure one vague idea of “good English”. It gathers evidence from four skills: how you understand written and spoken language, and how clearly you communicate in writing and speech.</p>
+            <p>Academic and General Training candidates share the same Listening and Speaking tests. Reading and Writing differ because the contexts and communication purposes are different.</p>
+            <details class="v2-disclosure">
+              <summary><span>Why are results reported as skill bands?</span><span class="v2-disclosure-icon" aria-hidden="true"></span></summary>
+              <div><p>A separate band for each skill reveals a profile rather than a single total. A learner may understand complex reading texts confidently while still needing more control in extended speaking.</p></div>
+            </details>
+          </div>
+        </section>
+
+        <section class="v2-section" id="measures" aria-labelledby="v2-measures-title">
+          <header class="v2-section-header"><span class="v2-section-number">02</span><div><p class="v2-overline">Notice</p><h2 id="v2-measures-title">What IELTS measures</h2></div></header>
+          <div class="v2-prose">
+            <p>Every task creates an opportunity to demonstrate a specific part of communicative ability. Knowing the purpose of a task helps you choose a strategy without trying to predict tricks.</p>
+          </div>
+          <dl class="v2-skill-index">
+            <div><dt><span class="v2-skill-glyph is-reading" aria-hidden="true"><i></i><i></i><i></i></span>Reading</dt><dd>Locate ideas, distinguish claims, follow relationships and interpret detail in context.</dd></div>
+            <div><dt><span class="v2-skill-glyph is-listening" aria-hidden="true"><i></i><i></i><i></i></span>Listening</dt><dd>Follow purpose, detail, attitude and development across conversations and talks.</dd></div>
+            <div><dt><span class="v2-skill-glyph is-writing" aria-hidden="true"><i></i></span>Writing</dt><dd>Address the task, organise ideas, use vocabulary precisely and control grammar.</dd></div>
+            <div><dt><span class="v2-skill-glyph is-speaking" aria-hidden="true"><i></i><i></i></span>Speaking</dt><dd>Develop ideas fluently, choose language flexibly and remain intelligible.</dd></div>
+          </dl>
+
+          <aside class="v2-exam-tip" aria-labelledby="v2-tip-title">
+            <div class="v2-tip-mark" aria-hidden="true"><span>!</span></div>
+            <div><p class="v2-overline">Exam tip · Instruction evidence</p><h3 id="v2-tip-title">Treat instructions as part of the question.</h3><p>“NO MORE THAN TWO WORDS AND/OR A NUMBER” is a scoring condition. Check the word limit before listening or scanning, then check it again before moving on.</p></div>
+          </aside>
+        </section>
+
+        <section class="v2-section v2-media-section" id="media" aria-labelledby="v2-media-title">
+          <div class="v2-media-shell">
+            <figure class="v2-media-art">
+              <img src="assets/porcelain-atlas-v2.svg" alt="Four connected routes represent Reading, Listening, Writing and Speaking gathering evidence around one shared communication goal.">
+              <figcaption>Each skill follows a distinct route; all four create evidence of purposeful communication.</figcaption>
+            </figure>
+            <div class="v2-media-copy">
+              <div class="v2-media-meta"><span class="v2-media-kind"><i aria-hidden="true"></i>Visual explainer</span><span>03:20</span></div>
+              <p class="v2-overline">Four-skill field note</p>
+              <h2 id="v2-media-title">Four routes.<br>One evidence profile.</h2>
+              <p>Notice how comprehension and production remain separate while contributing to the same overall picture of language use.</p>
+              <button class="v2-button v2-button-secondary v2-button-compact" type="button" data-reveal-target="v2-transcript" aria-expanded="false"><span class="v2-button-icon" aria-hidden="true">≡</span>Transcript note</button>
+              <div class="v2-transcript" id="v2-transcript" hidden><p><strong>Transcript preview:</strong> Reading and Listening show how you understand meaning. Writing and Speaking show how you construct meaning for another person.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="v2-section" aria-labelledby="v2-resource-title">
+          <header class="v2-section-header"><span class="v2-section-number">03</span><div><p class="v2-overline">Keep</p><h2 id="v2-resource-title">A reference you can return to.</h2></div></header>
+          <div class="v2-resource-row">
+            <div class="v2-resource-file" aria-hidden="true"><span>PDF</span><i></i><i></i><i></i></div>
+            <div class="v2-resource-copy"><strong>IELTS structure field guide</strong><span>Accessible PDF · 8 pages · 1.2 MB</span><small>Private course resource</small></div>
+            <button class="v2-button v2-button-secondary v2-button-compact" type="button" data-reveal-target="v2-pdf" aria-expanded="false">Preview <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="v2-pdf-preview" id="v2-pdf" hidden>
+            <div role="img" aria-label="Preview of an accessible field guide page titled Four skills, one evidence profile."><p>IELTS Preparation · Field guide 02</p><h3>Four skills, one evidence profile</h3><span></span><span></span><span></span><span></span></div>
+            <p>This representative preview demonstrates hierarchy and a clear open action without embedding a real PDF.</p>
+          </div>
+        </section>
+      </div>
+
+      <section class="v2-practice" id="practice" aria-labelledby="v2-practice-title">
+        <header class="v2-practice-header">
+          <div><p class="v2-overline">04 · Practise</p><h2 id="v2-practice-title">Read the task before the text</h2><p>Six response patterns using the same lesson evidence. Nothing is scored or stored.</p></div>
+          <div class="v2-practice-progress" aria-label="Question group progress, 4 of 6 answered"><strong>4<span>/6</span></strong><small>answered</small></div>
+        </header>
+
+        <div class="v2-question-list">
+          <article class="v2-question" id="v2-q1">
+            <div class="v2-question-meta"><span>Question 1</span><span>True / False / Not Given</span></div>
+            <fieldset>
+              <legend>IELTS reports only one overall measure of English ability.</legend>
+              <div class="v2-options v2-options-inline">
+                <label class="v2-option"><input type="radio" name="v2-q1"><span>True</span></label>
+                <label class="v2-option"><input type="radio" name="v2-q1" checked><span>False</span></label>
+                <label class="v2-option"><input type="radio" name="v2-q1"><span>Not Given</span></label>
+              </div>
+            </fieldset>
+            <div class="v2-question-actions"><button class="v2-button v2-button-primary" type="button" data-reveal-target="v2-immediate" aria-expanded="false" data-announcement="Question 1 demonstration feedback: correct. Explanation available."><span>Check answer</span><span aria-hidden="true">→</span></button></div>
+            <div class="v2-feedback v2-feedback-correct" id="v2-immediate" hidden>
+              <div class="v2-feedback-heading"><span class="v2-state-icon" aria-hidden="true">✓</span><div><p>Correct</p><h3 tabindex="-1">You tested the absolute claim against the lesson.</h3></div></div>
+              <p>The lesson distinguishes four skill bands from the overall band. This is a fixed visual state; no client scoring occurred.</p>
+              <details class="v2-disclosure v2-feedback-detail"><summary><span>Read the detailed explanation</span><span class="v2-disclosure-icon" aria-hidden="true"></span></summary><div><p><strong>Strategy:</strong> look for absolute language such as “only”. The lesson reports separate evidence for Reading, Listening, Writing and Speaking, so the absolute claim conflicts with the text.</p></div></details>
+            </div>
+          </article>
+
+          <article class="v2-question" id="v2-q2">
+            <div class="v2-question-meta"><span>Question 2</span><span>Multiple choice · five options</span></div>
+            <fieldset>
+              <legend>Which action best demonstrates careful instruction reading?</legend>
+              <div class="v2-options">
+                <label class="v2-option"><input type="radio" name="v2-q2"><span>Predicting the topic from the heading</span></label>
+                <label class="v2-option"><input type="radio" name="v2-q2" checked><span>Checking the permitted number of words and numbers</span></label>
+                <label class="v2-option"><input type="radio" name="v2-q2"><span>Reading every option at the same speed</span></label>
+                <label class="v2-option"><input type="radio" name="v2-q2"><span>Changing a word taken from the recording</span></label>
+                <label class="v2-option"><input type="radio" name="v2-q2"><span>Leaving spelling checks until another day</span></label>
+              </div>
+            </fieldset>
+          </article>
+
+          <article class="v2-question" id="v2-q3">
+            <div class="v2-question-meta"><span>Question 3</span><span>Summary completion · shared bank</span></div>
+            <h3>Complete the summary.</h3>
+            <p class="v2-instruction">Choose one word for each gap. Options may be used once.</p>
+            <ul class="v2-word-bank" aria-label="Shared word bank"><li>detail</li><li>purpose</li><li>decoration</li><li>evidence</li><li>speed</li></ul>
+            <div class="v2-completion-sentence">
+              <span>IELTS tasks collect</span>
+              <label class="v2-gap"><span class="v2-gap-label">Gap 1</span><span class="v2-select-wrap"><select><option value="">Select a word</option><option>detail</option><option>purpose</option><option>decoration</option><option>evidence</option><option>speed</option></select><i aria-hidden="true"></i></span></label>
+              <span>about language ability. Reading instructions clarifies the task</span>
+              <label class="v2-gap has-punctuation"><span class="v2-gap-label">Gap 2</span><span class="v2-select-wrap"><select><option value="">Select a word</option><option>detail</option><option>purpose</option><option>decoration</option><option>evidence</option><option>speed</option></select><i aria-hidden="true"></i></span><span class="v2-gap-punctuation" aria-hidden="true">.</span></label>
+            </div>
+          </article>
+
+          <article class="v2-question" id="v2-q4">
+            <div class="v2-question-meta"><span>Question 4</span><span>Inline dropdown</span></div>
+            <h3>Complete the sentence.</h3>
+            <div class="v2-completion-sentence v2-single-gap-sentence">
+              <span>Listening and Speaking are</span>
+              <label class="v2-gap"><span class="v2-gap-label">Relationship</span><span class="v2-select-wrap"><select aria-label="Relationship between Academic and General Training Listening and Speaking tests"><option value="">choose</option><option>the same</option><option>unrelated</option><option>optional</option></select><i aria-hidden="true"></i></span></label>
+              <span>for Academic and General Training candidates.</span>
+            </div>
+          </article>
+
+          <article class="v2-question" id="v2-q5">
+            <div class="v2-question-meta"><span>Question 5</span><span>Typed gap</span></div>
+            <label class="v2-question-label" for="v2-gap-answer">Complete the sentence. <strong>Use no more than two words.</strong></label>
+            <p>The four skills contribute to an overall band <span class="v2-blank" aria-hidden="true"></span>.</p>
+            <input class="v2-text-input" id="v2-gap-answer" type="text" autocomplete="off" aria-describedby="v2-gap-rule" placeholder="Type your answer">
+            <p class="v2-instruction" id="v2-gap-rule"><span aria-hidden="true">ⓘ</span> Maximum two words. Spelling matters in scored practice.</p>
+          </article>
+
+          <article class="v2-question" id="v2-q6">
+            <div class="v2-question-meta"><span>Question 6</span><span>Matching</span></div>
+            <h3>Match each skill to the main evidence it produces.</h3>
+            <div class="v2-matching-list">
+              <label><span><i>R</i>Reading</span><span class="v2-select-wrap"><select><option value="">Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option><option>Spoken fluency</option></select><i aria-hidden="true"></i></span></label>
+              <label><span><i>W</i>Writing</span><span class="v2-select-wrap"><select><option value="">Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option><option>Spoken fluency</option></select><i aria-hidden="true"></i></span></label>
+              <label><span><i>S</i>Speaking</span><span class="v2-select-wrap"><select><option value="">Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option><option>Spoken fluency</option></select><i aria-hidden="true"></i></span></label>
+            </div>
+          </article>
+        </div>
+
+        <div class="v2-group-actions">
+          <button class="v2-button v2-button-primary" type="button" data-reveal-target="v2-results" aria-expanded="false" data-announcement="Fixed group results available: correct, incorrect, partial and pending states."><span>Check answers</span><span aria-hidden="true">→</span></button>
+          <a class="v2-button v2-button-quiet" href="#opening">Return to lesson opening</a>
+        </div>
+
+        <section class="v2-group-results" id="v2-results" hidden aria-labelledby="v2-results-title">
+          <header><div><p class="v2-overline">Group review</p><h3 id="v2-results-title" tabindex="-1">Three of five responses automatically reviewed</h3></div><div class="v2-result-score"><strong>3<span>/5</span></strong><small>reviewed</small></div></header>
+          <p class="v2-result-note">Fixed presentation state only. No answers were computed or stored.</p>
+          <div class="v2-state-list">
+            <article class="is-correct"><span class="v2-state-icon" aria-hidden="true">✓</span><div><strong>Correct · Question 1</strong><p>The absolute claim conflicts with the four-skill explanation.</p></div></article>
+            <article class="is-incorrect"><span class="v2-state-icon" aria-hidden="true">×</span><div><strong>Incorrect · Question 2</strong><p>Re-read the word-limit instruction before trying again.</p></div></article>
+            <article class="is-partial"><span class="v2-state-icon" aria-hidden="true">◐</span><div><strong>Partially correct · Question 3</strong><p>One of two summary gaps matches the passage purpose.</p></div></article>
+            <article class="is-pending"><span class="v2-state-icon" aria-hidden="true">◷</span><div><strong>Pending review · Speaking reflection</strong><p>An assigned teacher would review the extended response.</p></div></article>
+          </div>
+          <details class="v2-disclosure v2-result-explanation" open><summary><span>Detailed explanation and next strategy</span><span class="v2-disclosure-icon" aria-hidden="true"></span></summary><div><p>Instruction words define the response: the source, maximum length and whether an option may be reused. On a retry, underline those constraints before searching the passage or listening for detail.</p></div></details>
+          <div class="v2-group-actions"><button class="v2-button v2-button-secondary" type="button" data-retry-target="v2-results">Retry this group</button><a class="v2-button v2-button-primary" href="#next-lessons"><span>Continue lesson</span><span aria-hidden="true">→</span></a></div>
+        </section>
+      </section>
+
+      <nav class="v2-lesson-footer" id="next-lessons" aria-label="Previous and next lessons">
+        <a href="#top"><span aria-hidden="true">←</span><span><small>Previous lesson</small><strong>Welcome to IELTS</strong></span></a>
+        <a href="#top"><span><small>Next lesson</small><strong>How IELTS is Scored</strong></span><span aria-hidden="true">→</span></a>
+      </nav>
+    </main>
+
+    <aside class="v2-page-index" aria-label="On this page">
+      <div><p class="v2-overline">On this page</p><a href="#opening" class="is-current">Overview</a><a href="#measures">What IELTS measures</a><a href="#media">Four-skill explainer</a><a href="#practice">Practice group</a></div>
+    </aside>
+  </div>
+
+  <dialog class="v2-course-dialog" id="atlas-v2-course-dialog" aria-labelledby="atlas-v2-dialog-title">
+    <div class="v2-dialog-head"><div><p class="v2-overline">IELTS Preparation · B2</p><h2 id="atlas-v2-dialog-title">Course map</h2></div><button type="button" data-dialog-close aria-label="Close course map"><span aria-hidden="true">×</span></button></div>
+    <nav aria-label="Mobile course navigation"><a href="#opening"><small>Lesson 01 · Complete</small>Welcome to IELTS</a><a class="is-current" href="#opening" aria-current="page"><small>Lesson 02 · In progress</small>Test Structure Overview</a><a href="#measures"><small>Lesson 03 · Next</small>How IELTS is Scored</a><a href="#practice"><small>Lesson 04</small>Your Study Baseline</a></nav>
+  </dialog>
+
+  <div class="v2-live sr-only" aria-live="polite" data-live-region></div>
+</body>
+</html>

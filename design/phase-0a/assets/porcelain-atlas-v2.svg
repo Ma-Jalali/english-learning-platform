@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 520" role="img" aria-labelledby="title desc">
+  <title id="title">Four connected IELTS skill routes</title>
+  <desc id="desc">Reading, listening, writing and speaking are represented by text, sound, pen and dialogue symbols connected through evidence routes to a shared communication point.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf9"/>
+      <stop offset="1" stop-color="#f5f7ff"/>
+    </linearGradient>
+    <filter id="lift" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#183a86" flood-opacity=".10"/>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#3158c7" stroke-opacity=".085" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect x="2" y="2" width="816" height="516" rx="28" fill="url(#paper)"/>
+  <rect x="2" y="2" width="816" height="516" rx="28" fill="url(#grid)"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 128C246 129 247 231 347 244C438 256 467 205 555 205C629 205 658 245 704 260" stroke="#3158c7" stroke-width="7"/>
+    <path d="M146 389C236 388 264 314 348 300C425 287 477 326 555 326C626 326 660 290 704 260" stroke="#f15a2a" stroke-width="7"/>
+    <path d="M150 128C199 209 185 324 146 389" stroke="#183a86" stroke-opacity=".35" stroke-width="2" stroke-dasharray="5 10"/>
+    <path d="M704 260C663 185 664 122 621 88" stroke="#f15a2a" stroke-opacity=".48" stroke-width="2" stroke-dasharray="5 10"/>
+  </g>
+
+  <g filter="url(#lift)">
+    <g transform="translate(76 70)">
+      <path d="M18 0h108a18 18 0 0 1 18 18v86a18 18 0 0 1-18 18H18A18 18 0 0 1 0 104V18A18 18 0 0 1 18 0Z" fill="#fffdf9" stroke="#cbd6f6"/>
+      <path d="M30 32h78M30 52h92M30 72h66M30 92h84" stroke="#3158c7" stroke-width="5"/>
+      <circle cx="121" cy="31" r="8" fill="#f15a2a"/>
+    </g>
+
+    <g transform="translate(535 52)">
+      <path d="M18 0h108a18 18 0 0 1 18 18v86a18 18 0 0 1-18 18H18A18 18 0 0 1 0 104V18A18 18 0 0 1 18 0Z" fill="#fffdf9" stroke="#cbd6f6"/>
+      <g transform="translate(27 27)" fill="#3158c7">
+        <rect x="0" y="27" width="8" height="24" rx="4"/>
+        <rect x="17" y="15" width="8" height="48" rx="4"/>
+        <rect x="34" y="4" width="8" height="70" rx="4"/>
+        <rect x="51" y="20" width="8" height="38" rx="4"/>
+        <rect x="68" y="10" width="8" height="58" rx="4"/>
+      </g>
+      <circle cx="119" cy="91" r="8" fill="#f15a2a"/>
+    </g>
+
+    <g transform="translate(75 328)">
+      <path d="M18 0h108a18 18 0 0 1 18 18v86a18 18 0 0 1-18 18H18A18 18 0 0 1 0 104V18A18 18 0 0 1 18 0Z" fill="#fffdf9" stroke="#ffd6c8"/>
+      <path d="m36 84 15-5 57-57-10-10-57 57-5 15Z" fill="#f15a2a"/>
+      <path d="m89 20 10-10 12 12-10 10" fill="#3158c7"/>
+      <path d="M31 96h82" stroke="#3158c7" stroke-width="4"/>
+    </g>
+
+    <g transform="translate(536 344)">
+      <path d="M18 0h108a18 18 0 0 1 18 18v86a18 18 0 0 1-18 18H18A18 18 0 0 1 0 104V18A18 18 0 0 1 18 0Z" fill="#fffdf9" stroke="#ffd6c8"/>
+      <path d="M27 28h63a18 18 0 0 1 18 18v10a18 18 0 0 1-18 18H60L42 89V74H27A18 18 0 0 1 9 56V46a18 18 0 0 1 18-18Z" fill="#3158c7"/>
+      <path d="M73 48h43a15 15 0 0 1 15 15v4a15 15 0 0 1-15 15h-8v14L91 82H73" fill="#f15a2a"/>
+      <circle cx="34" cy="51" r="4" fill="#fffdf9"/><circle cx="48" cy="51" r="4" fill="#fffdf9"/><circle cx="62" cy="51" r="4" fill="#fffdf9"/>
+    </g>
+  </g>
+
+  <g transform="translate(347 213)" filter="url(#lift)">
+    <path d="M62 0 124 36v72l-62 36L0 108V36L62 0Z" fill="#183a86"/>
+    <path d="m62 25 39 23v48l-39 23-39-23V48l39-23Z" fill="#fffdf9" fill-opacity=".12" stroke="#fffdf9" stroke-opacity=".5"/>
+    <circle cx="62" cy="72" r="13" fill="#f15a2a"/>
+    <circle cx="62" cy="72" r="25" fill="none" stroke="#fffdf9" stroke-opacity=".7" stroke-width="2"/>
+  </g>
+
+  <g fill="#183a86">
+    <circle cx="150" cy="128" r="8"/><circle cx="704" cy="260" r="8"/>
+  </g>
+  <g fill="#f15a2a">
+    <circle cx="146" cy="389" r="8"/><circle cx="621" cy="88" r="7"/>
+  </g>
+</svg>

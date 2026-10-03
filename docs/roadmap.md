@@ -104,9 +104,36 @@ restored to draft after testing, and the learner view again hides it.
 
 ## Active milestone
 
-### Progress tracking
+### Phase 0B — Chosen-direction surface prototypes
 
-Status: **Next**
+Status: **Next — not started. Await a separate request to begin.**
+
+Phase 0A is complete (4 October 2026): **Porcelain Atlas V3 is the visually
+approved product direction**. V1 and V2 are preserved exploratory iterations.
+Academic Instrument’s restraint remains the reference for serious assessment
+and administration; selected Living Language Studio ideas may be used sparingly
+for media-led and speaking/listening experiences.
+
+The [design laboratory](../design/phase-0a/README.md) is isolated from production.
+V3 is the approved foundation, not production-ready application code.
+
+When separately requested, build four non-production, responsive surface prototypes:
+
+- public landing;
+- student lesson;
+- admin content workbench;
+- assessment and detailed feedback experience.
+
+Use the realistic IELTS pilot fixture and acceptance criteria in the
+[approved design brief](visual-design-brief.md). Obtain separate visual approval
+before production CSS redesign, component migration, or implementation. Product
+decisions unrelated to visual selection remain unresolved; no Phase 0B work is
+included in the Phase 0A closeout.
+
+### Progress tracking — paused
+
+Status: **Paused at the user’s request during the design phase.** Resume only
+when separately authorised; it is not the next active milestone.
 
 Deliver the first secure learning-progress vertical slice that:
 
@@ -183,8 +210,10 @@ the active roadmap.
 
 ## How to continue
 
-Codex should read `AGENTS.md` and this roadmap, then implement the next
-incomplete milestone as one secure vertical slice. It should run all required
+Codex should read `AGENTS.md` and this roadmap. The next milestone is Phase 0B,
+but it must not begin until the user requests it. Follow its non-production
+boundary and separate visual-approval gate; do not resume Progress Tracking or
+start production migration automatically. For an authorised milestone, run all required
 automated checks, perform relevant desktop/mobile and authorization checks, fix
 discovered problems, update this roadmap with the verified result and next
 active milestone, and commit the completed milestone locally with a clear

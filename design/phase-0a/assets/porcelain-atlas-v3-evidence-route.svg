@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-labelledby="title desc" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <title id="title">Four skills evidence route</title>
+  <desc id="desc">A crisp editorial map connects a bound book for reading, a pair of headphones for listening, a page and pencil for writing, and a microphone for speaking toward one shared evidence profile.</desc>
+  <defs>
+    <filter id="card-shadow" x="-18%" y="-18%" width="136%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#3c2631" flood-opacity=".12"/></filter>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".96"/><stop offset=".48" stop-color="#fffdf9" stop-opacity=".9"/><stop offset="1" stop-color="#e9deee" stop-opacity=".86"/></linearGradient>
+    <linearGradient id="route" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#f15a2a"/><stop offset=".48" stop-color="#c74616"/><stop offset="1" stop-color="#5a345c"/></linearGradient>
+    <linearGradient id="atmosphere" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#f5dccb"/><stop offset=".48" stop-color="#f8f1eb"/><stop offset="1" stop-color="#e5e0f1"/></linearGradient>
+    <linearGradient id="ink-glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#484046"/><stop offset=".45" stop-color="#242023"/><stop offset="1" stop-color="#171714"/></linearGradient>
+  </defs>
+  <rect width="960" height="600" rx="40" fill="url(#atmosphere)"/>
+  <g opacity=".18" stroke="#ad9d91" stroke-width="1"><path d="M48 105h864M48 205h864M48 305h864M48 405h864M48 505h864"/><path d="M120 48v504M300 48v504M480 48v504M660 48v504M840 48v504"/></g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M145 436C209 416 230 310 356 299M282 170c32 31 47 75 78 110M605 319c48 23 53 88 91 118M606 278c59-21 74-86 132-105" stroke="#ded3ca" stroke-width="18"/>
+    <path d="M145 436C209 416 230 310 356 299M282 170c32 31 47 75 78 110M605 319c48 23 53 88 91 118M606 278c59-21 74-86 132-105" stroke="url(#route)" stroke-width="4" stroke-dasharray="1 12"/>
+  </g>
+  <g fill="#fffdf9" stroke="#fffdf9" stroke-width="7"><circle cx="145" cy="436" r="8"/><circle cx="282" cy="170" r="8"/><circle cx="696" cy="437" r="8"/><circle cx="738" cy="173" r="8"/></g>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(42 376)">
+      <rect width="202" height="158" rx="24" fill="url(#paper)" stroke="#fff" stroke-width="2" filter="url(#card-shadow)"/>
+      <g transform="translate(52 10) scale(1.75)" fill="none" stroke="#412242" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9h30v43H18a7 7 0 0 1-7-7V17a8 8 0 0 1 7-8Z" fill="#fffdf9"/><path d="M11 45a7 7 0 0 1 7-7h30M19 45h29M19 10v27" /><path d="M31 39v17l5-3 5 3V39" fill="#f15a2a" stroke="none"/><path d="M27 20h12" stroke="#3158c7"/></g>
+      <text x="101" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#322b2e" letter-spacing=".8">READING</text>
+    </g>
+    <g transform="translate(172 48)">
+      <rect width="220" height="174" rx="24" fill="url(#paper)" stroke="#fff" stroke-width="2" filter="url(#card-shadow)"/>
+      <g transform="translate(49 12) scale(1.95)" fill="none" stroke="#412242" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 35v-6a20 20 0 0 1 40 0v6"/><path d="M17 22a16 16 0 0 1 30 0" stroke="#f15a2a" stroke-width="3.5"/><rect x="9" y="31" width="12" height="22" rx="6" fill="#fffdf9"/><rect x="43" y="31" width="12" height="22" rx="6" fill="#fffdf9"/><path d="M14 37v10M50 37v10" stroke="#3158c7" stroke-width="1.6"/></g>
+      <text x="110" y="151" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#322b2e" letter-spacing=".8">LISTENING</text>
+    </g>
+    <g transform="translate(590 388)">
+      <rect width="222" height="166" rx="24" fill="url(#paper)" stroke="#fff" stroke-width="2" filter="url(#card-shadow)"/>
+      <g transform="translate(54 10) scale(1.8)" fill="none" stroke="#412242" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 9h24l8 8v35H15a4 4 0 0 1-4-4V13a4 4 0 0 1 4-4Z" fill="#fffdf9"/><path d="M38 9v10h9M20 26h15M20 33h10M20 44h8" stroke-width="1.7"/><path d="m31 44 15-23 7 5-15 23-9 3Z" fill="#fff0e8"/><path d="m34 43 14-20 3 2-14 21Z" fill="#f15a2a" stroke="none"/><path d="m31 44 7 5M46 21l2-3a3 3 0 0 1 5 3l-1 3" stroke-width="1.7"/></g>
+      <text x="111" y="143" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#322b2e" letter-spacing=".8">WRITING</text>
+    </g>
+    <g transform="translate(700 68)">
+      <rect width="218" height="176" rx="24" fill="url(#paper)" stroke="#fff" stroke-width="2" filter="url(#card-shadow)"/>
+      <g transform="translate(48 7) scale(2)" fill="none" stroke="#412242" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="23" y="7" width="18" height="34" rx="9" fill="#fffdf9"/><path d="M17 29v5a15 15 0 0 0 30 0v-5M32 49v8M24 57h16"/><path d="M24 20h5M24 27h5M35 20h5M35 27h5" stroke-width="1.7"/><path d="M27 39a9 9 0 0 0 10 0" stroke="#f15a2a" stroke-width="3.5"/></g>
+      <text x="109" y="153" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#322b2e" letter-spacing=".8">SPEAKING</text>
+    </g>
+  </g>
+  <g transform="translate(350 250)">
+    <rect width="260" height="108" rx="23" fill="url(#ink-glass)" stroke="#665960" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <circle cx="38" cy="54" r="15" fill="#f15a2a"/><path d="M32 54l4 4 9-11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="70" y="48" fill="#fff" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing=".8">EVIDENCE PROFILE</text>
+    <text x="70" y="72" fill="#d9d2cb" font-family="Arial,sans-serif" font-size="12.5">four related measures</text>
+  </g>
+  <text x="350" y="230" fill="#5a345c" font-family="Arial,sans-serif" font-size="11" font-weight="700" letter-spacing="1.7">FOUR SIGNALS · ONE SHARED PROFILE</text>
+</svg>

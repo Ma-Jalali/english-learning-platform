@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Porcelain Atlas V2 palette and component specimens.">
+  <title>Porcelain Atlas V2 — System specimen</title>
+  <link rel="stylesheet" href="porcelain-atlas-v2.css?v=5">
+  <script src="prototype.js" defer></script>
+  <script src="porcelain-atlas-v2.js?v=4" defer></script>
+</head>
+<body class="atlas-v2-specimen">
+  <div class="v2-lab-bar"><span>Porcelain Atlas V2 · Prototype system specimen</span><div class="v2-lab-actions"><a href="porcelain-atlas-v2.html">Return to lesson</a><a href="index.html">Comparison index</a><button type="button" data-motion-toggle aria-pressed="false">Reduce motion</button></div></div>
+  <header class="v2-specimen-masthead">
+    <a class="v2-brand" href="porcelain-atlas-v2.html"><span class="v2-brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>English Learning Platform</span></a>
+    <div><p class="v2-overline">Phase 0A · V2 refinement</p><h1>Colour and component discipline.</h1><p>This sheet records the visible token decisions behind the refined Porcelain Atlas direction. It is a prototype reference—not a production design system.</p></div>
+    <nav aria-label="Specimen views"><a href="?view=palette">Palette</a><a href="?view=components">Components</a><a href="?view=assessment">Assessment</a><a href="?view=focus">Focus</a></nav>
+  </header>
+
+  <main class="v2-specimen-main">
+    <section class="v2-specimen-section" id="palette" data-specimen="palette" aria-labelledby="palette-title">
+      <header class="v2-specimen-heading"><div><p class="v2-overline">01 · Colour specimen</p><h2 id="palette-title">A warm identity with separate course and semantic roles.</h2></div><p>Bright coral-orange identifies the platform and pairs with deep ink for primary actions. Dark orange can carry white text when an alternate treatment is needed. Cobalt identifies IELTS. Semantic states never borrow brand or course meaning.</p></header>
+      <div class="v2-swatch-grid">
+        <article style="--swatch:#F15A2A"><span></span><div><strong>Brand orange</strong><code>#F15A2A</code><small>Identity · markers · highlights</small></div></article>
+        <article style="--swatch:#C74616"><span></span><div><strong>Interactive orange</strong><code>#C74616</code><small>White text · alternate action</small></div></article>
+        <article class="is-light" style="--swatch:#FFF0E8"><span></span><div><strong>Orange tint</strong><code>#FFF0E8</code><small>Exam tips · quiet emphasis</small></div></article>
+        <article style="--swatch:#3158C7"><span></span><div><strong>IELTS cobalt</strong><code>#3158C7</code><small>Course identity · progress</small></div></article>
+        <article style="--swatch:#183A86"><span></span><div><strong>Deep cobalt</strong><code>#183A86</code><small>Course text · active navigation</small></div></article>
+        <article class="is-light" style="--swatch:#EAF0FF"><span></span><div><strong>Cobalt tint</strong><code>#EAF0FF</code><small>Selected response · media field</small></div></article>
+        <article class="is-light" style="--swatch:#F7F4EE"><span></span><div><strong>Porcelain</strong><code>#F7F4EE</code><small>Product canvas</small></div></article>
+        <article class="is-light" style="--swatch:#FFFDF9"><span></span><div><strong>Paper</strong><code>#FFFDF9</code><small>Reading surface</small></div></article>
+        <article style="--swatch:#171714"><span></span><div><strong>Ink</strong><code>#171714</code><small>Primary text</small></div></article>
+        <article style="--swatch:#5D5A54"><span></span><div><strong>Muted ink</strong><code>#5D5A54</code><small>Supporting text</small></div></article>
+        <article class="is-light" style="--swatch:#D8D2C7"><span></span><div><strong>Hairline</strong><code>#D8D2C7</code><small>Selective separation</small></div></article>
+        <article style="--swatch:#157347"><span></span><div><strong>Correct</strong><code>#157347</code><small>Outcome only</small></div></article>
+        <article style="--swatch:#B42318"><span></span><div><strong>Incorrect</strong><code>#B42318</code><small>Outcome only</small></div></article>
+        <article style="--swatch:#8A5B00"><span></span><div><strong>Partial</strong><code>#8A5B00</code><small>Outcome only</small></div></article>
+        <article style="--swatch:#40566F"><span></span><div><strong>Pending</strong><code>#40566F</code><small>Manual review state</small></div></article>
+      </div>
+      <div class="v2-pairing-table" role="region" aria-label="Core contrast pairs" tabindex="0">
+        <table><caption>Core foreground/background pairings</caption><thead><tr><th scope="col">Use</th><th scope="col">Foreground</th><th scope="col">Background</th><th scope="col">Measured contrast</th></tr></thead><tbody><tr><th scope="row">Reading text</th><td>Ink</td><td>Paper</td><td data-contrast="#171714|#FFFDF9">—</td></tr><tr><th scope="row">Supporting text</th><td>Muted ink</td><td>Paper</td><td data-contrast="#5D5A54|#FFFDF9">—</td></tr><tr><th scope="row">Primary action</th><td>Ink</td><td>Brand orange</td><td data-contrast="#171714|#F15A2A">—</td></tr><tr><th scope="row">Alternate dark action</th><td>White</td><td>Interactive orange</td><td data-contrast="#FFFFFF|#C74616">—</td></tr><tr><th scope="row">Course label</th><td>Deep cobalt</td><td>Cobalt tint</td><td data-contrast="#183A86|#EAF0FF">—</td></tr><tr><th scope="row">Exam-tip copy</th><td>Ink</td><td>Orange tint</td><td data-contrast="#171714|#FFF0E8">—</td></tr></tbody></table>
+      </div>
+    </section>
+
+    <section class="v2-specimen-section" id="components" data-specimen="components" aria-labelledby="components-title">
+      <header class="v2-specimen-heading"><div><p class="v2-overline">02 · Component detail</p><h2 id="components-title">Compact controls, expressive states.</h2></div><p>Touch targets remain generous while visible geometry stays controlled. Every selected, disabled, feedback and destructive state uses more than colour alone.</p></header>
+      <div class="v2-component-board">
+        <section><p class="v2-overline">Buttons</p><div class="v2-specimen-row"><button class="v2-button v2-button-primary" type="button">Continue <span aria-hidden="true">→</span></button><button class="v2-button v2-button-secondary" type="button">Preview resource</button><button class="v2-button v2-button-quiet" type="button">Return to lesson</button><button class="v2-button v2-button-destructive" type="button">Remove draft</button><button class="v2-button v2-button-secondary" type="button" disabled>Unavailable</button></div></section>
+        <section><p class="v2-overline">Badges and context</p><div class="v2-specimen-row"><span class="v2-badge is-course"><i aria-hidden="true"></i>IELTS · B2</span><span class="v2-badge is-neutral">In progress</span><span class="v2-badge is-locked"><span aria-hidden="true">◇</span>Core lesson</span><span class="v2-badge is-pending"><span aria-hidden="true">◷</span>Pending review</span></div></section>
+        <section><p class="v2-overline">Dropdowns and inputs</p><div class="v2-field-grid"><label><span>Skill evidence</span><span class="v2-select-wrap"><select><option>Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option></select><i aria-hidden="true"></i></span></label><label><span>Compact gap</span><span class="v2-select-wrap"><select><option>evidence</option><option>purpose</option><option>detail</option></select><i aria-hidden="true"></i></span></label><label><span>Typed answer</span><input class="v2-text-input" type="text" value="profile" aria-describedby="input-note"><small id="input-note">Maximum two words</small></label><label><span>Disabled state</span><span class="v2-select-wrap"><select disabled><option>Released after review</option></select><i aria-hidden="true"></i></span></label></div></section>
+        <section><p class="v2-overline">Feedback hierarchy</p><div class="v2-specimen-feedback-grid"><article class="is-correct"><span class="v2-state-icon" aria-hidden="true">✓</span><div><strong>Correct</strong><p>You located the evidence.</p></div></article><article class="is-incorrect"><span class="v2-state-icon" aria-hidden="true">×</span><div><strong>Incorrect</strong><p>Check the word limit.</p></div></article><article class="is-partial"><span class="v2-state-icon" aria-hidden="true">◐</span><div><strong>Partially correct</strong><p>One gap still needs review.</p></div></article><article class="is-pending"><span class="v2-state-icon" aria-hidden="true">◷</span><div><strong>Pending review</strong><p>Your response is safely submitted.</p></div></article></div></section>
+        <section><p class="v2-overline">Loading, empty, error and unavailable</p><div class="v2-system-state-grid"><article class="is-loading"><span class="v2-state-symbol" aria-hidden="true"></span><div><strong>Preparing lesson</strong><p>Preserving the reading layout while content loads.</p></div></article><article><span class="v2-state-symbol" aria-hidden="true">＋</span><div><strong>No saved notes yet</strong><p>Your lesson remains available without them.</p></div></article><article class="is-error"><span class="v2-state-symbol" aria-hidden="true">!</span><div><strong>Preview could not load</strong><p>Your work is safe. Try the resource again.</p></div></article><article class="is-unavailable"><span class="v2-state-symbol" aria-hidden="true">↗</span><div><strong>External resource unavailable</strong><p>The lesson text remains available.</p></div></article></div></section>
+      </div>
+    </section>
+
+    <section class="v2-specimen-section" id="assessment" data-specimen="assessment" aria-labelledby="assessment-title">
+      <header class="v2-specimen-heading"><div><p class="v2-overline">03 · Assessment detail</p><h2 id="assessment-title">Language stays readable around the controls.</h2></div><p>Sentence gaps use compact native controls at wide widths and become associated rows on narrow screens. Labels, punctuation, and instructions remain explicit.</p></header>
+      <div class="v2-assessment-specimen">
+        <article class="v2-question" aria-labelledby="specimen-summary-title">
+          <div class="v2-question-meta"><span>Question 3</span><span>Summary completion · shared bank</span></div>
+          <h3 id="specimen-summary-title">Complete the summary.</h3>
+          <p class="v2-instruction">Choose one word for each gap. Options may be used once.</p>
+          <ul class="v2-word-bank" aria-label="Shared word bank"><li>detail</li><li>purpose</li><li>decoration</li><li>evidence</li><li>speed</li></ul>
+          <div class="v2-completion-sentence">
+            <span>IELTS tasks collect</span>
+            <label class="v2-gap"><span class="v2-gap-label">Gap 1</span><span class="v2-select-wrap"><select aria-label="Specimen gap 1"><option>Select a word</option><option>evidence</option><option>purpose</option></select><i aria-hidden="true"></i></span></label>
+            <span>about language ability. Reading instructions clarifies the task</span>
+            <label class="v2-gap has-punctuation"><span class="v2-gap-label">Gap 2</span><span class="v2-select-wrap"><select aria-label="Specimen gap 2"><option>Select a word</option><option>purpose</option><option>detail</option></select><i aria-hidden="true"></i></span><span class="v2-gap-punctuation" aria-hidden="true">.</span></label>
+          </div>
+        </article>
+        <article class="v2-question" aria-labelledby="specimen-inline-title">
+          <div class="v2-question-meta"><span>Question 4</span><span>Inline dropdown</span></div>
+          <h3 id="specimen-inline-title">Complete the sentence.</h3>
+          <div class="v2-completion-sentence v2-single-gap-sentence"><span>Listening and Speaking are</span><label class="v2-gap"><span class="v2-gap-label">Relationship</span><span class="v2-select-wrap"><select aria-label="Specimen relationship"><option>choose</option><option>the same</option><option>different</option></select><i aria-hidden="true"></i></span></label><span>for Academic and General Training candidates.</span></div>
+        </article>
+        <article class="v2-question" aria-labelledby="specimen-typed-title">
+          <div class="v2-question-meta"><span>Question 5</span><span>Typed gap</span></div>
+          <label class="v2-question-label" id="specimen-typed-title" for="specimen-typed-gap">Complete the sentence. <strong>Use no more than two words.</strong></label>
+          <p>The four skills contribute to an overall band <span class="v2-blank" aria-hidden="true"></span>.</p>
+          <input class="v2-text-input" id="specimen-typed-gap" type="text" autocomplete="off" aria-describedby="specimen-word-limit" placeholder="Type your answer">
+          <p class="v2-instruction" id="specimen-word-limit"><span aria-hidden="true">ⓘ</span> Maximum two words. Spelling matters in scored practice.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="v2-specimen-section" id="focus" data-specimen="focus" aria-labelledby="focus-title">
+      <header class="v2-specimen-heading"><div><p class="v2-overline">04 · Focus detail</p><h2 id="focus-title">Visible, calm and unmistakable.</h2></div><p>The focus ring is external to the component edge, survives pale tints, and does not depend on hover. Tab through this row to inspect every control.</p></header>
+      <div class="v2-focus-stage">
+        <p>Keyboard focus uses a 3 px blue ring with a 4 px offset. The focused component keeps its own selected or semantic state.</p>
+        <div class="v2-specimen-row"><button class="v2-button v2-button-primary" type="button" data-focus-sample>Check answers</button><button class="v2-button v2-button-secondary" type="button">Preview</button><label class="v2-option"><input type="radio" name="focus-demo" checked><span>False</span></label><span class="v2-select-wrap"><select aria-label="Focus example select"><option>Choose evidence</option><option>Meaning in text</option></select><i aria-hidden="true"></i></span></div>
+        <aside><strong>Focus order</strong><span>Primary action → secondary action → selected response → dropdown</span></aside>
+      </div>
+    </section>
+  </main>
+  <div class="sr-only" aria-live="polite" data-live-region></div>
+</body>
+</html>

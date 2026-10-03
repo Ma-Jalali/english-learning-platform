@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <defs>
+    <linearGradient id="rim" x1="15" y1="10" x2="82" y2="88" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".45" stop-color="#f9e7d9"/><stop offset="1" stop-color="#d8bfd4"/></linearGradient>
+    <linearGradient id="lens" x1="30" y1="19" x2="74" y2="78" gradientUnits="userSpaceOnUse"><stop stop-color="#fffdf9"/><stop offset=".65" stop-color="#fff4ea"/><stop offset="1" stop-color="#eadfeb"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dy="4" stdDeviation="3" flood-color="#684355" flood-opacity=".15"/></filter>
+  </defs>
+  <circle cx="48" cy="45" r="37" fill="url(#rim)" stroke="#fff" stroke-width="1.5" filter="url(#shadow)"/>
+  <circle cx="48" cy="45" r="31" fill="url(#lens)" stroke="#cdb7c8" stroke-width=".7"/>
+  <path d="M21 34a30 30 0 0 1 53-4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <g stroke="#896e83" stroke-width="1.2" stroke-linecap="round"><path d="M48 19v4m26 22h-4M48 71v-4M22 45h4M30 27l3 3m33-3-3 3m3 33-3-3m-33 3 3-3"/></g>
+  <g transform="rotate(30 48 45)" stroke-linejoin="round"><path d="m48 25 7 20-7 20-7-20Z" fill="#5a345c"/><path d="m48 25 7 20H41Z" fill="#f15a2a"/><path d="m48 28 4 14" stroke="#ffb690" stroke-width="1.2"/></g>
+  <circle cx="48" cy="45" r="4" fill="#fffdf9" stroke="#5a345c" stroke-width="1.5"/>
+</svg>

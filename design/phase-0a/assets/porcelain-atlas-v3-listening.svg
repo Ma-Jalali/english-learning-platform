@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="title">
+  <title id="title">Listening</title>
+  <g fill="none" stroke="#412242" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 35v-6a20 20 0 0 1 40 0v6"/><path d="M17 22a16 16 0 0 1 30 0" stroke="#f15a2a" stroke-width="3.5"/><rect x="9" y="31" width="12" height="22" rx="6" fill="#fffdf9"/><rect x="43" y="31" width="12" height="22" rx="6" fill="#fffdf9"/><path d="M14 37v10M50 37v10" stroke="#3158c7" stroke-width="1.6"/>
+  </g>
+</svg>

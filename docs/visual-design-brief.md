@@ -1,10 +1,10 @@
 # Visual Product, Block System, and Assessment Engine Design Brief
 
-**Status:** Draft for approval — research and design analysis only
+**Status:** Brief approved; Phase 0A complete — Porcelain Atlas V3 visually selected on 4 October 2026. Phase 0B is next and has not started.
 
 **Audit date:** 3 October 2026
 
-**Scope boundary:** This document proposes a product direction. It does not authorise implementation, schema changes, migration changes, remote database work, or changes to the roadmap.
+**Scope boundary:** This document records the approved visual direction, not production-ready application code. Production implementation still requires Phase 0B surface prototypes and separate visual approval. No schema changes, migration changes, or remote database work are authorised.
 
 ## 1. Executive design vision
 
@@ -942,9 +942,11 @@ The target is WCAG 2.2 AA as a baseline, with AAA-oriented reading contrast wher
 - **Strengths:** most memorable and pedagogically expressive; excellent for authentic language, speaking, and Young Learners.
 - **Risks:** highest content/asset cost; greater risk of visual noise, theme fragmentation, motion excess, and reduced institutional seriousness.
 
-## 25. Recommended visual concept
+## 25. Selected visual direction
 
-**Recommend Concept A: Porcelain Atlas**, borrowing Academic Instrument’s restraint for assessment and operations and only selective Living Language Studio techniques for media-led lessons.
+**Selected: Porcelain Atlas V3**, explicitly visually approved by the user on 4 October 2026 after the Phase 0A comparison and iterative review. Academic Instrument’s restraint remains the reference for serious assessment and administration. Selected Living Language Studio ideas may be used sparingly for media-led and speaking/listening experiences.
+
+V1 and V2 are preserved exploratory iterations. V3 is the approved foundation, not production-ready application code. Its latest refinement uses near-white reading/practice surfaces, a neutral outer canvas, clear-glass controls, restrained orange identity, and limited course/supporting colour. The lab source and decision record are in [the Phase 0A laboratory](../design/phase-0a/README.md).
 
 Why it is the best long-term fit:
 
@@ -957,7 +959,7 @@ Why it is the best long-term fit:
 - **Accessibility:** opaque reading surfaces, restrained motion, clear markers, and strong typography are inherent rather than corrective.
 - **Responsive design:** atlas rails become navigable sheets and the editorial spine becomes a strong mobile sequence.
 
-The recommendation is a direction, not a request to implement. It should first be tested through a small set of visual prototypes after approval.
+The selection does not approve production implementation. Phase 0B must validate four distinct product surfaces and receive separate approval before production CSS redesign or component migration. The unrelated product decisions in Section 28 remain unresolved.
 
 ## 26. Wire-level descriptions of essential screens and states
 
@@ -1019,7 +1021,9 @@ No phase begins until this brief and then the relevant prototype are approved.
 
 ### Phase 0A — Visual direction comparison
 
-Create one visual concept board for each of the three directions:
+**Status: Complete — Porcelain Atlas V3 visually approved on 4 October 2026.** The preserved comparison includes all three directions and Porcelain Atlas V1/V2 exploratory iterations.
+
+Original comparison requirements (retained as the evaluation record): create one visual concept board for each of the three directions:
 
 1. Porcelain Atlas
 2. Academic Instrument
@@ -1029,11 +1033,11 @@ Every board must apply its concept to **the same representative slice** of the I
 
 The boards must be genuinely different compositions. Differences should be visible in spatial model, navigation, typography, surface hierarchy, block rhythm, illustration language, assessment arrangement, feedback presentation, desktop behaviour, and mobile behaviour—not merely palette, radius, or shadow changes.
 
-Porcelain Atlas remains the written recommendation, not an approved visual direction. **No concept proceeds because this brief recommends it.** The three boards require an explicit visual review and selection decision. Unresolved product decisions in Section 28 remain open during this comparison and must not be silently settled by a concept board.
+Selection followed explicit visual review, not merely this brief’s written recommendation. Porcelain Atlas V3 is now approved as the foundation. Academic Instrument remains the restraint reference for serious assessment/administration; Living Language Studio contributes only selective media and speaking/listening ideas. Unresolved product decisions in Section 28 remain open and are not settled by this selection.
 
 ### Phase 0B — Chosen-direction prototypes
 
-Only after one direction is explicitly selected through Phase 0A, create four non-production, high-fidelity responsive prototypes:
+**Status: Next — not started. Await a separate request to begin.** The Phase 0A visual-selection gate is satisfied. When authorised, create four non-production, high-fidelity responsive prototypes using Porcelain Atlas V3:
 
 - public landing;
 - student lesson;
@@ -1169,4 +1173,4 @@ Acceptance evidence should record viewport results, keyboard paths, contrast che
 
 ## Approval gate
 
-This brief intentionally stops before visual prototyping or implementation. Approval of the written brief authorises only the separately requested Phase 0A comparison work: equivalent concept boards for Porcelain Atlas, Academic Instrument, and Living Language Studio. It does not select Porcelain Atlas or any other direction. Phase 0B begins only after explicit visual selection, and production CSS redesign or component migration begins only after the first high-fidelity prototype set is visually reviewed and explicitly accepted. Application code, schemas, migrations, unresolved product decisions, and the roadmap remain unchanged until a separately approved implementation milestone.
+Phase 0A is complete: the user visually selected Porcelain Atlas V3 on 4 October 2026. This approves the visual foundation only. Phase 0B has not started and requires a separate request; its four high-fidelity surface prototypes must be visually reviewed and explicitly accepted before any production CSS redesign or component migration begins. No application, schema, migration, Supabase, or unrelated product-policy changes are authorised by this selection. The roadmap records Phase 0B as next and Progress Tracking as paused.

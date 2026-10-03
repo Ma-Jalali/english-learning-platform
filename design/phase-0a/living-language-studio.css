@@ -1,0 +1,512 @@
+body.studio {
+  color: #181815;
+  background: #f5ecdd;
+}
+
+.studio .lab-ribbon {
+  background: #0d1730;
+}
+
+.studio .studio-top {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 12%, rgb(107 212 195 / 24%), transparent 21rem),
+    radial-gradient(circle at 15% 52%, rgb(201 79 18 / 22%), transparent 25rem),
+    #101936;
+}
+
+.studio .studio-top::after {
+  position: absolute;
+  right: -9rem;
+  bottom: -13rem;
+  width: 32rem;
+  height: 32rem;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 50%;
+  content: "";
+}
+
+.studio .masthead {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.25rem clamp(1rem, 4vw, 4.5rem);
+}
+
+.studio .masthead-mark {
+  border-radius: 14px 4px 14px 14px;
+}
+
+.studio .masthead-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.studio .masthead .button-secondary,
+.studio .mobile-course-button {
+  color: #fff;
+}
+
+.studio .stage-hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(390px, 1.05fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  max-width: 1440px;
+  min-height: 700px;
+  margin: 0 auto;
+  padding: 4rem clamp(1rem, 4vw, 4.5rem) 6rem;
+}
+
+.studio .course-kicker {
+  color: #91e3d5;
+}
+
+.studio .stage-hero h1 {
+  max-width: 11ch;
+  margin: 0.7rem 0 1.4rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.3rem, 6vw, 6.6rem);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+}
+
+.studio .hero-lead {
+  max-width: 50ch;
+  color: #e6e2d9;
+  font-size: 1.1rem;
+}
+
+.studio .scene-figure {
+  position: relative;
+  margin: 0;
+}
+
+.studio .scene-figure img {
+  border-radius: 4rem 1rem 4rem 1rem;
+  box-shadow: 0 40px 100px rgb(0 0 0 / 32%);
+}
+
+.studio .scene-figure::before {
+  position: absolute;
+  z-index: -1;
+  inset: -1.4rem 3rem 2rem -1.5rem;
+  border: 1px solid rgb(255 255 255 / 35%);
+  border-radius: 4.5rem 1rem 4.5rem 1rem;
+  content: "";
+  animation: studio-outline 7s var(--ease) infinite alternate;
+}
+
+@keyframes studio-outline {
+  from { transform: translate(0, 0); }
+  to { transform: translate(10px, -7px); }
+}
+
+.studio .scene-figure figcaption {
+  max-width: 46ch;
+  margin-top: 1rem;
+  color: #c8cbd5;
+  font-size: 0.85rem;
+}
+
+.studio .hero-progress {
+  max-width: 390px;
+  margin-top: 2rem;
+}
+
+.studio .progress-track {
+  background: rgb(255 255 255 / 18%);
+}
+
+.studio .progress-track span {
+  background: #6bd4c3;
+}
+
+.studio .scene-nav {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  max-width: 1120px;
+  margin: -1.8rem auto 0;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  color: #fff;
+  background: rgb(20 29 54 / 92%);
+  box-shadow: 0 18px 55px rgb(20 25 45 / 24%);
+  backdrop-filter: blur(18px);
+}
+
+.studio .scene-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 0.9rem;
+  border-right: 1px solid rgb(255 255 255 / 13%);
+  text-decoration: none;
+  font-size: 0.76rem;
+}
+
+.studio .scene-nav a[aria-current="location"] {
+  background: var(--brand-orange-strong);
+}
+
+.studio .scene-nav span {
+  color: #91e3d5;
+  font-weight: 900;
+}
+
+.studio .studio-main {
+  overflow: hidden;
+}
+
+.studio .editorial-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(330px, 0.55fr);
+  gap: clamp(2rem, 7vw, 8rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(5rem, 10vw, 9rem) clamp(1rem, 4vw, 4rem);
+}
+
+.studio .scene-number {
+  color: var(--brand-orange-strong);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.studio .editorial-scene h2,
+.studio .practice-stage h2 {
+  margin: 0.6rem 0 1.4rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.studio .teaching-copy p {
+  max-width: 63ch;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.12rem;
+  line-height: 1.82;
+}
+
+.studio .skill-orbit {
+  position: relative;
+  min-height: 430px;
+}
+
+.studio .orbit-centre,
+.studio .orbit-item {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.studio .orbit-centre {
+  inset: 29% 24%;
+  color: #fff;
+  background: #101936;
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+}
+
+.studio .orbit-item {
+  width: 104px;
+  height: 104px;
+  border: 1px solid #b7aa98;
+  background: #fff9ef;
+  font-size: 0.78rem;
+  font-weight: 820;
+}
+
+.studio .orbit-item:nth-child(2) { top: 0; left: 12%; }
+.studio .orbit-item:nth-child(3) { top: 8%; right: 5%; background: #dbe4fb; }
+.studio .orbit-item:nth-child(4) { bottom: 4%; left: 4%; background: #f6d8c3; }
+.studio .orbit-item:nth-child(5) { right: 12%; bottom: 0; background: #d9f1ec; }
+
+.studio .orbit-line {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  width: 84%;
+  height: 1px;
+  background: #9e9385;
+  transform: rotate(-18deg);
+}
+
+.studio .exam-tip {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  max-width: 1060px;
+  margin: 0 auto 7rem;
+  overflow: hidden;
+  border-radius: 1.8rem 0.4rem 1.8rem 0.4rem;
+  color: #fff;
+  background: var(--course-cobalt-deep);
+}
+
+.studio .tip-symbol {
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: var(--brand-orange-strong);
+  font-family: Georgia, serif;
+  font-size: 3rem;
+}
+
+.studio .tip-copy {
+  padding: 1.7rem 2rem;
+}
+
+.studio .tip-copy h3,
+.studio .tip-copy p {
+  margin: 0.25rem 0;
+}
+
+.studio .media-scene {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.55fr);
+  min-height: 520px;
+  color: #fff;
+  background: #18203a;
+}
+
+.studio .media-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 50%, #6bd4c3 0 7rem, transparent 7.1rem),
+    radial-gradient(circle at 70% 52%, #f3a16d 0 9rem, transparent 9.1rem),
+    #213f9a;
+}
+
+.studio .soundline {
+  width: 72%;
+  height: 120px;
+  background: repeating-linear-gradient(90deg, #fff 0 4px, transparent 4px 22px);
+  clip-path: polygon(0 45%, 8% 10%, 16% 72%, 24% 30%, 32% 88%, 40% 20%, 48% 62%, 56% 8%, 64% 82%, 72% 33%, 80% 68%, 88% 22%, 100% 54%, 100% 58%, 88% 28%, 80% 75%, 72% 40%, 64% 90%, 56% 15%, 48% 69%, 40% 28%, 32% 95%, 24% 38%, 16% 80%, 8% 18%, 0 52%);
+  opacity: 0.85;
+  animation: waveform 3.8s ease-in-out infinite alternate;
+}
+
+@keyframes waveform {
+  from { transform: scaleY(0.82); opacity: 0.68; }
+  to { transform: scaleY(1.08); opacity: 0.95; }
+}
+
+.studio .media-copy {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3rem;
+}
+
+.studio .media-copy h2 {
+  font-family: Georgia, serif;
+  font-size: 2.7rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.studio .media-copy .resource-action {
+  margin-top: 1.5rem;
+  color: #fff;
+}
+
+.studio .practice-stage {
+  padding: clamp(4rem, 8vw, 8rem) clamp(1rem, 5vw, 5rem);
+  background:
+    radial-gradient(circle at 92% 10%, rgb(29 79 196 / 12%), transparent 26rem),
+    #fff9ef;
+}
+
+.studio .practice-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.studio .practice-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.4fr);
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+
+.studio .practice-note {
+  padding: 1.2rem;
+  border-left: 4px solid var(--brand-orange);
+  background: #f4e6d4;
+}
+
+.studio .question {
+  margin: 0;
+  padding: 2.1rem 0;
+}
+
+.studio .question + .question {
+  border-top-color: #c9bca8;
+}
+
+.studio .question-number {
+  border-radius: 50%;
+  color: #fff;
+  border-color: var(--course-cobalt);
+  background: var(--course-cobalt);
+}
+
+.studio .option {
+  border-radius: 0.9rem 0.25rem 0.9rem 0.25rem;
+  background: #fffdf8;
+}
+
+.studio .feedback-panel,
+.studio .group-results {
+  border-radius: 1.1rem 0.25rem 1.1rem 0.25rem;
+}
+
+.studio .coaching-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.studio .coaching-panel::after {
+  position: absolute;
+  right: -2rem;
+  bottom: -2rem;
+  width: 7rem;
+  height: 7rem;
+  border: 1px solid rgb(20 107 67 / 25%);
+  border-radius: 50%;
+  content: "";
+}
+
+.studio .lesson-footer-nav {
+  margin-top: 0;
+  background: #101936;
+}
+
+.studio .lesson-footer-nav a {
+  color: #fff;
+  background: #101936;
+}
+
+.studio .lesson-footer-nav small {
+  color: #c9cedd;
+}
+
+@media (max-width: 1040px) {
+  .studio .stage-hero,
+  .studio .editorial-scene {
+    grid-template-columns: 1fr;
+  }
+
+  .studio .scene-figure {
+    max-width: 720px;
+  }
+
+  .studio .skill-orbit {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 760px) {
+  .studio .masthead {
+    padding-block: 1rem;
+  }
+
+  .studio .masthead-actions .button-secondary {
+    display: none;
+  }
+
+  .studio .stage-hero {
+    min-height: auto;
+    padding: 3.5rem 1rem 4.5rem;
+  }
+
+  .studio .stage-hero h1 {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+
+  .studio .scene-figure img {
+    border-radius: 2rem 0.5rem 2rem 0.5rem;
+  }
+
+  .studio .scene-nav {
+    position: relative;
+    display: flex;
+    margin: 0;
+    border-radius: 0;
+    overflow-x: auto;
+    box-shadow: none;
+  }
+
+  .studio .scene-nav a {
+    flex: 0 0 auto;
+    min-width: 120px;
+  }
+
+  .studio .editorial-scene {
+    padding: 4rem 1rem;
+  }
+
+  .studio .skill-orbit {
+    min-height: 360px;
+  }
+
+  .studio .orbit-item {
+    width: 86px;
+    height: 86px;
+  }
+
+  .studio .exam-tip {
+    grid-template-columns: 1fr;
+    margin: 0 1rem 4rem;
+    border-radius: 1.2rem 0.3rem 1.2rem 0.3rem;
+  }
+
+  .studio .tip-symbol {
+    min-height: 58px;
+    place-items: start;
+    padding-left: 1rem;
+  }
+
+  .studio .media-scene,
+  .studio .practice-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .studio .media-art {
+    min-height: 340px;
+  }
+
+  .studio .media-copy {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .studio .practice-stage {
+    padding-inline: 1rem;
+  }
+}

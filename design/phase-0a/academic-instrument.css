@@ -1,0 +1,519 @@
+body.instrument {
+  background:
+    linear-gradient(90deg, transparent 71px, rgb(28 35 44 / 7%) 72px, transparent 73px),
+    #f4f1ea;
+}
+
+.instrument .masthead {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: stretch;
+  min-height: 78px;
+  border-bottom: 1px solid #252c34;
+  background: #f9f7f1;
+}
+
+.instrument .masthead-mark {
+  width: 72px;
+  height: 78px;
+  border-radius: 0;
+  font-size: 1.2rem;
+}
+
+.instrument .brand-lockup {
+  padding: 0 1.3rem;
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.instrument .masthead-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  border-left: 1px solid #252c34;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+.instrument .instrument-shell {
+  display: grid;
+  grid-template-columns: 72px 260px minmax(0, 1fr);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.instrument .index-rail {
+  min-height: 100%;
+  border-right: 1px solid #252c34;
+  background: #1b2430;
+}
+
+.instrument .index-rail ol {
+  position: sticky;
+  top: 1rem;
+  margin: 0;
+  padding: 1rem 0;
+  list-style: none;
+}
+
+.instrument .index-rail a {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  min-height: 58px;
+  color: #fff;
+  text-decoration: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+.instrument .index-rail a[aria-current="location"] {
+  color: #fff;
+  background: var(--brand-orange-strong);
+}
+
+.instrument .course-rail {
+  padding: 2rem 1.4rem;
+  border-right: 1px solid #252c34;
+  background: #ece8df;
+}
+
+.instrument .course-rail > div {
+  position: sticky;
+  top: 1.2rem;
+}
+
+.instrument .course-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.73rem;
+  letter-spacing: 0.08em;
+}
+
+.instrument .course-rail h2 {
+  margin: 0.55rem 0 2rem;
+  font-size: 1.5rem;
+  line-height: 1.08;
+}
+
+.instrument .module-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.instrument .module-list li {
+  margin-bottom: 1px;
+}
+
+.instrument .module-list a {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+  min-height: 0;
+  padding: 0.85rem 0;
+  border-top: 1px solid #a6a097;
+  text-decoration: none;
+  font-size: 0.82rem;
+}
+
+.instrument .module-list a[aria-current="page"] {
+  color: var(--course-cobalt-deep);
+  font-weight: 800;
+}
+
+.instrument .lesson-main {
+  min-width: 0;
+  background: #f9f7f1;
+}
+
+.instrument .lesson-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+  min-height: 520px;
+  border-bottom: 1px solid #252c34;
+}
+
+.instrument .hero-copy {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: clamp(2rem, 5vw, 5rem);
+}
+
+.instrument .hero-id {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  color: var(--course-cobalt-deep);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+}
+
+.instrument h1 {
+  max-width: 14ch;
+  margin: 2rem 0 1.2rem;
+  font-size: clamp(2.8rem, 5vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.instrument .hero-lead {
+  max-width: 54ch;
+  color: #4f5357;
+  font-size: 1.05rem;
+}
+
+.instrument .hero-figure {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 2rem;
+  border-left: 1px solid #252c34;
+  background: #ede9df;
+}
+
+.instrument .hero-figure img {
+  width: 100%;
+}
+
+.instrument .hero-figure figcaption {
+  margin-top: 1rem;
+  font-size: 0.74rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.instrument .progress-module {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem;
+  align-items: end;
+  max-width: 430px;
+  margin-top: 2rem;
+}
+
+.instrument .progress-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.instrument .lesson-body {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 5rem clamp(1.25rem, 6vw, 6rem);
+}
+
+.instrument .section-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 2rem;
+  padding: 3rem 0;
+  border-top: 1px solid #252c34;
+}
+
+.instrument .section-index {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.instrument .section-row h2 {
+  max-width: 18ch;
+  margin: -0.25rem 0 1.2rem;
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.instrument .section-row p {
+  max-width: 70ch;
+}
+
+.instrument .skill-table {
+  width: 100%;
+  margin-top: 2rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.instrument .skill-table th,
+.instrument .skill-table td {
+  padding: 0.9rem 0.7rem;
+  border-top: 1px solid #9e9a93;
+  text-align: left;
+  vertical-align: top;
+}
+
+.instrument .skill-table th {
+  width: 22%;
+  color: var(--course-cobalt-deep);
+}
+
+.instrument .exam-tip {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  margin: 3rem 0;
+  border: 2px solid #252c34;
+  background: #f3e2d3;
+}
+
+.instrument .tip-label {
+  display: grid;
+  place-items: center;
+  min-height: 130px;
+  padding: 1rem;
+  color: #fff;
+  background: var(--brand-orange-strong);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.instrument .tip-copy {
+  padding: 1.4rem 1.7rem;
+}
+
+.instrument .media-evidence {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  border: 1px solid #252c34;
+}
+
+.instrument .media-evidence figure {
+  margin: 0;
+  padding: 1.5rem;
+  background: #e8e4dc;
+}
+
+.instrument .media-evidence aside {
+  padding: 1.5rem;
+  border-left: 1px solid #252c34;
+}
+
+.instrument .media-evidence h3 {
+  margin-top: 0;
+}
+
+.instrument .resource-line {
+  display: grid;
+  grid-template-columns: 4rem 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #252c34;
+  border-bottom: 1px solid #252c34;
+}
+
+.instrument .assessment-zone {
+  padding: clamp(2rem, 5vw, 5rem);
+  border-top: 7px solid var(--course-cobalt);
+  background: #eef0f2;
+}
+
+.instrument .assessment-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.instrument .assessment-head {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  padding-bottom: 1.2rem;
+  border-bottom: 2px solid #1b2430;
+}
+
+.instrument .assessment-head h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.7rem);
+  letter-spacing: -0.04em;
+}
+
+.instrument .assessment-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+}
+
+.instrument .question {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 1.2rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid #888d91;
+}
+
+.instrument .question + .question {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.instrument .question-number {
+  border-radius: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.instrument .question-content {
+  min-width: 0;
+}
+
+.instrument .option {
+  background: #f8f9f9;
+}
+
+.instrument .feedback-panel,
+.instrument .group-results {
+  border: 1px solid #1b2430;
+  border-left: 8px solid var(--positive);
+  background: #f8faf9;
+}
+
+.instrument .lesson-footer-nav {
+  margin: 0;
+  border-top: 1px solid #252c34;
+}
+
+@media (max-width: 1100px) {
+  .instrument .instrument-shell {
+    grid-template-columns: 60px 210px minmax(0, 1fr);
+  }
+
+  .instrument .index-rail a {
+    width: 60px;
+  }
+
+  .instrument .lesson-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .instrument .hero-figure {
+    border-top: 1px solid #252c34;
+    border-left: 0;
+  }
+
+  .instrument .hero-figure img {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 760px) {
+  body.instrument {
+    background: #f4f1ea;
+  }
+
+  .instrument .masthead {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    min-height: 64px;
+  }
+
+  .instrument .masthead-mark {
+    width: 56px;
+    height: 64px;
+  }
+
+  .instrument .brand-lockup {
+    padding-inline: 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  .instrument .masthead-meta {
+    padding: 0 0.65rem;
+    border-left: 0;
+  }
+
+  .instrument .masthead-meta span {
+    display: none;
+  }
+
+  .instrument .instrument-shell {
+    display: block;
+  }
+
+  .instrument .lesson-hero {
+    min-height: auto;
+  }
+
+  .instrument .hero-copy {
+    padding: 2.5rem 1rem;
+  }
+
+  .instrument h1 {
+    font-size: clamp(2.7rem, 14vw, 4.1rem);
+  }
+
+  .instrument .hero-figure {
+    padding: 1rem;
+  }
+
+  .instrument .lesson-body {
+    padding: 2rem 1rem;
+  }
+
+  .instrument .section-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    padding: 2rem 0;
+  }
+
+  .instrument .section-index {
+    color: var(--brand-orange-strong);
+  }
+
+  .instrument .skill-table,
+  .instrument .skill-table tbody,
+  .instrument .skill-table tr,
+  .instrument .skill-table th,
+  .instrument .skill-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .instrument .skill-table tr {
+    padding: 0.75rem 0;
+    border-top: 1px solid #9e9a93;
+  }
+
+  .instrument .skill-table th,
+  .instrument .skill-table td {
+    padding: 0.2rem 0;
+    border: 0;
+  }
+
+  .instrument .exam-tip,
+  .instrument .media-evidence,
+  .instrument .assessment-head,
+  .instrument .question,
+  .instrument .resource-line {
+    grid-template-columns: 1fr;
+  }
+
+  .instrument .tip-label {
+    min-height: 56px;
+    place-items: start;
+    text-align: left;
+  }
+
+  .instrument .media-evidence aside {
+    border-top: 1px solid #252c34;
+    border-left: 0;
+  }
+
+  .instrument .resource-line .button-secondary {
+    width: 100%;
+  }
+
+  .instrument .assessment-zone {
+    padding-inline: 1rem;
+  }
+
+  .instrument .question {
+    gap: 0.65rem;
+  }
+}

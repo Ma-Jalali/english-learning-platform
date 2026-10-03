@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+  <title id="title">IELTS measurement instrument</title>
+  <desc id="desc">A precise four-quadrant diagram maps input and output skills against receptive and productive evidence.</desc>
+  <rect width="760" height="520" fill="#f6f2e9"/>
+  <g stroke="#1b2430" fill="none">
+    <path d="M92 78h574v356H92z" stroke-width="2"/>
+    <path d="M379 78v356M92 256h574" stroke-width="1"/>
+    <path d="M74 78h-20M74 167h-12M74 256h-20M74 345h-12M74 434h-20"/>
+    <path d="M92 454v18M235 454v10M379 454v18M522 454v10M666 454v18"/>
+  </g>
+  <rect x="92" y="78" width="287" height="178" fill="#1d4fc4" opacity=".1"/>
+  <rect x="379" y="256" width="287" height="178" fill="#c94f12" opacity=".12"/>
+  <g font-family="Arial, sans-serif" fill="#171714">
+    <text x="92" y="49" font-size="13" font-weight="700" letter-spacing="2">IELTS / SKILL EVIDENCE MATRIX</text>
+    <text x="112" y="114" font-size="12" font-weight="700" letter-spacing="1.6">01 / READING</text>
+    <text x="112" y="157" font-size="31" font-weight="700">Meaning in text</text>
+    <text x="112" y="188" font-size="14">claim · detail · position · sequence</text>
+    <text x="399" y="114" font-size="12" font-weight="700" letter-spacing="1.6">02 / LISTENING</text>
+    <text x="399" y="157" font-size="31" font-weight="700">Meaning in sound</text>
+    <text x="399" y="188" font-size="14">purpose · detail · speaker stance</text>
+    <text x="112" y="293" font-size="12" font-weight="700" letter-spacing="1.6">03 / WRITING</text>
+    <text x="112" y="336" font-size="31" font-weight="700">Constructed text</text>
+    <text x="112" y="367" font-size="14">task response · cohesion · control</text>
+    <text x="399" y="293" font-size="12" font-weight="700" letter-spacing="1.6">04 / SPEAKING</text>
+    <text x="399" y="336" font-size="31" font-weight="700">Spoken response</text>
+    <text x="399" y="367" font-size="14">fluency · range · clarity · control</text>
+  </g>
+  <g fill="#c94f12">
+    <circle cx="379" cy="256" r="9"/>
+    <path d="M365 256h28M379 242v28" stroke="#fff" stroke-width="2"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="11" fill="#5c5c58">
+    <text x="43" y="82">100</text><text x="43" y="260">50</text><text x="49" y="438">0</text>
+    <text x="86" y="494">INPUT</text><text x="624" y="494">OUTPUT</text>
+  </g>
+</svg>

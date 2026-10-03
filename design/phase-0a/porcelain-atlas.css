@@ -1,0 +1,530 @@
+body.atlas {
+  background:
+    radial-gradient(circle at 85% 6%, rgb(29 79 196 / 9%), transparent 26rem),
+    radial-gradient(circle at 8% 38%, rgb(201 79 18 / 7%), transparent 23rem),
+    #f7f2e9;
+}
+
+.atlas .masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.25rem clamp(1rem, 4vw, 4.5rem);
+}
+
+.atlas .masthead-mark,
+.atlas .question-number {
+  border-radius: 50%;
+}
+
+.atlas .masthead-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.atlas .concept-name {
+  color: var(--ink-soft);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.92rem;
+  font-style: italic;
+}
+
+.atlas .atlas-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 4.5rem) 5rem;
+}
+
+.atlas .course-rail {
+  position: relative;
+  padding: 3.5rem 2rem 3rem 0;
+}
+
+.atlas .course-rail::after {
+  position: absolute;
+  top: 7rem;
+  right: 1.55rem;
+  bottom: 2rem;
+  width: 2px;
+  background: #cec5b8;
+  content: "";
+}
+
+.atlas .rail-sticky {
+  position: sticky;
+  top: 1.5rem;
+}
+
+.atlas .rail-title {
+  margin: 0.5rem 0 1.8rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.38rem;
+  line-height: 1.12;
+}
+
+.atlas .route-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.atlas .route-list li {
+  position: relative;
+  margin: 0 0 1.3rem;
+  padding-right: 2.7rem;
+}
+
+.atlas .route-list li::after {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.92rem;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  border: 3px solid #f7f2e9;
+  border-radius: 50%;
+  background: #aaa397;
+  box-shadow: 0 0 0 1px #aaa397;
+  content: "";
+}
+
+.atlas .route-list li.done::after {
+  background: var(--course-cobalt);
+  box-shadow: 0 0 0 1px var(--course-cobalt);
+}
+
+.atlas .route-list li.current::after {
+  width: 18px;
+  height: 18px;
+  top: 0.1rem;
+  right: 0.78rem;
+  background: var(--brand-orange);
+  box-shadow: 0 0 0 2px var(--brand-orange);
+}
+
+.atlas .route-list a {
+  display: block;
+  min-height: 0;
+  text-decoration: none;
+}
+
+.atlas .route-list small {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.73rem;
+}
+
+.atlas .lesson-canvas {
+  min-width: 0;
+  border-radius: 2.1rem 2.1rem 0 0;
+  background: rgb(255 253 248 / 88%);
+  box-shadow: 0 30px 90px rgb(49 40 27 / 9%);
+}
+
+.atlas .lesson-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(310px, 0.78fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  min-height: 620px;
+  padding: clamp(2rem, 6vw, 6rem);
+  border-bottom: 1px solid #e4ddd2;
+}
+
+.atlas .breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+}
+
+.atlas .breadcrumb a {
+  min-height: 0;
+  text-underline-offset: 0.25em;
+}
+
+.atlas h1,
+.atlas h2,
+.atlas .display-serif {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.atlas h1 {
+  max-width: 12ch;
+  margin: 0.5rem 0 1.25rem;
+  font-size: clamp(3rem, 6.2vw, 6rem);
+  line-height: 0.96;
+}
+
+.atlas .hero-lead {
+  max-width: 54ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+}
+
+.atlas .hero-progress {
+  max-width: 390px;
+  margin-top: 2rem;
+}
+
+.atlas .atlas-figure {
+  position: relative;
+  margin: 0;
+}
+
+.atlas .atlas-figure img {
+  width: 100%;
+  filter: drop-shadow(0 25px 25px rgb(23 23 20 / 10%));
+  animation: atlas-breathe 9s var(--ease) infinite alternate;
+}
+
+.atlas .atlas-figure figcaption {
+  max-width: 36ch;
+  margin: 1rem auto 0;
+  color: var(--ink-soft);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+}
+
+@keyframes atlas-breathe {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+.atlas .lesson-stream {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 5rem clamp(1.25rem, 6vw, 5rem);
+}
+
+.atlas .lesson-stream::before {
+  position: absolute;
+  top: 5rem;
+  bottom: 4rem;
+  left: clamp(0.35rem, 2vw, 1.75rem);
+  width: 2px;
+  background: linear-gradient(var(--course-cobalt), #d7cfc2 35%, var(--brand-orange));
+  content: "";
+}
+
+.atlas .chapter {
+  position: relative;
+  margin-bottom: 5rem;
+}
+
+.atlas .chapter::before {
+  position: absolute;
+  top: 0.5rem;
+  left: calc(clamp(0.35rem, 2vw, 1.75rem) * -1 - 7px);
+  width: 13px;
+  height: 13px;
+  border: 4px solid var(--paper);
+  border-radius: 50%;
+  background: var(--course-cobalt);
+  box-shadow: 0 0 0 1px var(--course-cobalt);
+  content: "";
+}
+
+.atlas .chapter h2 {
+  margin: 0.35rem 0 1.25rem;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.05;
+}
+
+.atlas .chapter p {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  line-height: 1.78;
+}
+
+.atlas .measure-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 2.4rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.atlas .measure-item {
+  padding: 1.3rem 1rem 1.3rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.atlas .measure-item:nth-child(odd) {
+  padding-right: 2rem;
+}
+
+.atlas .measure-item strong {
+  display: block;
+  color: var(--course-cobalt-deep);
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.atlas .exam-tip {
+  position: relative;
+  width: calc(100% + 5rem);
+  margin: 3.5rem 0 3.5rem -2.5rem;
+  padding: 2rem 2.5rem 2rem 6.5rem;
+  background: #f0e2d1;
+}
+
+.atlas .exam-tip::before {
+  position: absolute;
+  top: 1.8rem;
+  left: 2rem;
+  color: var(--brand-orange-strong);
+  content: "↗";
+  font-family: Georgia, serif;
+  font-size: 3rem;
+}
+
+.atlas .exam-tip p {
+  margin-bottom: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.atlas .media-spread {
+  width: min(1050px, calc(100vw - 4rem));
+  margin: 1rem 0 5rem 50%;
+  transform: translateX(-50%);
+}
+
+.atlas .media-frame {
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: 1.7rem;
+  color: #fff;
+  background: var(--course-cobalt-deep);
+}
+
+.atlas .media-visual {
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    linear-gradient(130deg, rgb(255 255 255 / 11%), transparent 55%),
+    var(--course-cobalt);
+}
+
+.atlas .media-rings {
+  position: relative;
+  width: min(320px, 80%);
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 50%;
+}
+
+.atlas .media-rings::before,
+.atlas .media-rings::after {
+  position: absolute;
+  border: 1px solid rgb(255 255 255 / 45%);
+  border-radius: 50%;
+  content: "";
+}
+
+.atlas .media-rings::before { inset: 18%; }
+.atlas .media-rings::after { inset: 37%; background: var(--brand-orange); }
+
+.atlas .media-copy {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.atlas .media-copy p {
+  font-family: inherit;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.atlas .resource-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.atlas .assessment-zone {
+  padding: clamp(2rem, 6vw, 6rem);
+  color: #171714;
+  background: #e8edf9;
+}
+
+.atlas .assessment-inner {
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.atlas .assessment-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--course-cobalt-deep);
+}
+
+.atlas .assessment-head h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+}
+
+.atlas .question {
+  padding: 1.5rem 0;
+}
+
+.atlas .option {
+  border-color: #b7c4df;
+  background: rgb(255 255 255 / 68%);
+}
+
+.atlas .feedback-panel,
+.atlas .group-results {
+  border-radius: 0 1.2rem 1.2rem 0;
+}
+
+.atlas .lesson-footer-nav {
+  margin: 0;
+}
+
+@media (max-width: 1050px) {
+  .atlas .atlas-shell {
+    grid-template-columns: 210px minmax(0, 1fr);
+  }
+
+  .atlas .media-spread {
+    width: 100%;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .atlas .lesson-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas .atlas-figure {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 760px) {
+  .atlas .masthead {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    padding-block: 1rem;
+  }
+
+  .atlas .masthead-actions {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .atlas .masthead-actions a {
+    white-space: nowrap;
+  }
+
+  .atlas .concept-name {
+    display: none;
+  }
+
+  .atlas .atlas-shell {
+    display: block;
+    padding: 0;
+  }
+
+  .atlas .lesson-canvas {
+    border-radius: 1.5rem 1.5rem 0 0;
+    box-shadow: none;
+  }
+
+  .atlas .lesson-hero {
+    min-height: auto;
+    padding: 2.25rem 1.15rem 3rem;
+  }
+
+  .atlas h1 {
+    font-size: clamp(3rem, 15vw, 4.35rem);
+  }
+
+  .atlas .lesson-stream {
+    padding: 3.5rem 1.4rem 3.5rem 2.1rem;
+  }
+
+  .atlas .lesson-stream::before {
+    left: 0.65rem;
+  }
+
+  .atlas .chapter::before {
+    left: -1.84rem;
+  }
+
+  .atlas .measure-list,
+  .atlas .media-frame,
+  .atlas .assessment-head {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas .measure-item:nth-child(odd) {
+    padding-right: 0;
+  }
+
+  .atlas .exam-tip {
+    width: auto;
+    margin-inline: -0.75rem;
+    padding: 4.7rem 1.2rem 1.4rem;
+  }
+
+  .atlas .exam-tip::before {
+    top: 0.7rem;
+    left: 1.1rem;
+  }
+
+  .atlas .media-spread {
+    width: calc(100vw - 1.5rem);
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .atlas .media-frame {
+    border-radius: 1rem;
+  }
+
+  .atlas .media-visual {
+    min-height: 260px;
+  }
+
+  .atlas .resource-strip {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .atlas .assessment-zone {
+    padding-inline: 1rem;
+  }
+}

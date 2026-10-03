@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Living Language Studio visual direction prototype for the English Learning Platform.">
+  <title>Living Language Studio — Phase 0A</title>
+  <link rel="stylesheet" href="shared.css?v=2">
+  <link rel="stylesheet" href="living-language-studio.css">
+  <script src="prototype.js" defer></script>
+</head>
+<body class="studio">
+  <div class="lab-ribbon">
+    <span>Phase 0A visual study · Fixed demonstration content · No real scoring or storage</span>
+    <div class="lab-tools"><a href="index.html">Comparison index</a><button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Reduce motion</button></div>
+  </div>
+
+  <div class="studio-top" id="top">
+    <header class="masthead">
+      <a class="brand-lockup" href="#top"><span class="masthead-mark" aria-hidden="true">E</span><span>English Learning Platform</span></a>
+      <div class="masthead-actions"><span class="micro-label" style="color:#91e3d5">Living Language Studio</span><button class="mobile-course-button" type="button" data-dialog-open="studio-course-dialog">Lesson scenes</button><a class="button-secondary" href="#practice">Practise</a></div>
+    </header>
+
+    <section class="stage-hero" aria-labelledby="studio-title">
+      <div>
+        <p class="course-kicker">IELTS Preparation (B2) · IELTS Pilot Cohort</p>
+        <h1 id="studio-title">IELTS Test Structure Overview</h1>
+        <p class="hero-lead">Move through four scenes: notice what the test asks, connect the skills, practise the response, and reflect on the evidence you create.</p>
+        <div class="hero-progress" aria-label="Lesson progress, 3 of 7 sections viewed"><div class="progress-copy"><span>Scene 2 of 4 · 3/7 viewed</span><span>18 min</span></div><div class="progress-track" aria-hidden="true"><span></span></div></div>
+      </div>
+      <figure class="scene-figure"><img src="assets/living-language-studio.svg" alt="Two adult learners exchange ideas in a studio while sound paths represent noticing, listening, shaping and responding."><figcaption>Language is demonstrated in context: a reader, listener, writer or speaker makes meaning for someone.</figcaption></figure>
+    </section>
+  </div>
+
+  <nav class="scene-nav desktop-course-nav" aria-label="Lesson scene navigation">
+    <a href="#notice"><span>01</span> Notice</a>
+    <a href="#connect" aria-current="location"><span>02</span> Connect</a>
+    <a href="#media"><span>03</span> Listen</a>
+    <a href="#practice"><span>04</span> Practise</a>
+    <a href="#studio-next"><span>→</span> Next lesson</a>
+  </nav>
+
+  <main class="studio-main">
+    <section class="editorial-scene" id="notice" aria-labelledby="studio-notice-title">
+      <div class="teaching-copy">
+        <p class="scene-number">Scene 01 · Notice</p>
+        <h2 id="studio-notice-title">One test becomes four purposeful exchanges.</h2>
+        <p>IELTS does not measure one vague idea of “good English”. It gathers evidence from four skills: how you understand written and spoken language, and how clearly you communicate in writing and speech.</p>
+        <p>Academic and General Training candidates share Listening and Speaking. Reading and Writing change because the context and communication purpose change.</p>
+        <details><summary>Why separate skill bands?</summary><p>A separate band reveals a profile. You may follow a complex article confidently while needing more control when developing an extended spoken idea.</p></details>
+      </div>
+      <div class="skill-orbit" aria-label="Four skills orbit a central communication goal">
+        <div class="orbit-line" aria-hidden="true"></div>
+        <div class="orbit-centre">Meaning<br>for someone</div>
+        <div class="orbit-item">Reading<br><small>understand text</small></div>
+        <div class="orbit-item">Listening<br><small>follow speech</small></div>
+        <div class="orbit-item">Writing<br><small>shape text</small></div>
+        <div class="orbit-item">Speaking<br><small>share ideas</small></div>
+      </div>
+    </section>
+
+    <section class="editorial-scene" id="connect" aria-labelledby="studio-connect-title">
+      <div class="teaching-copy">
+        <p class="scene-number">Scene 02 · Connect</p>
+        <h2 id="studio-connect-title">What IELTS measures</h2>
+        <p>Each task creates a situation in which a skill becomes visible. Strong performance combines task understanding with language ability—it is not a collection of tricks.</p>
+        <div data-tabs>
+          <div class="tab-list" role="tablist" aria-label="IELTS skill explanations">
+            <button id="studio-tab-reading" type="button" role="tab" aria-selected="true" aria-controls="studio-panel-reading">Reading</button>
+            <button id="studio-tab-listening" type="button" role="tab" aria-selected="false" aria-controls="studio-panel-listening" tabindex="-1">Listening</button>
+            <button id="studio-tab-writing" type="button" role="tab" aria-selected="false" aria-controls="studio-panel-writing" tabindex="-1">Writing</button>
+            <button id="studio-tab-speaking" type="button" role="tab" aria-selected="false" aria-controls="studio-panel-speaking" tabindex="-1">Speaking</button>
+          </div>
+          <div class="tab-panel" id="studio-panel-reading" role="tabpanel" aria-labelledby="studio-tab-reading">Locate ideas, distinguish claims, follow relationships and interpret detail in context.</div>
+          <div class="tab-panel" id="studio-panel-listening" role="tabpanel" aria-labelledby="studio-tab-listening" hidden>Follow purpose, detail, attitude and development across conversations and talks.</div>
+          <div class="tab-panel" id="studio-panel-writing" role="tabpanel" aria-labelledby="studio-tab-writing" hidden>Address the task, organise ideas, use vocabulary precisely and control grammar.</div>
+          <div class="tab-panel" id="studio-panel-speaking" role="tabpanel" aria-labelledby="studio-tab-speaking" hidden>Develop ideas fluently, choose language flexibly and remain intelligible.</div>
+        </div>
+      </div>
+      <figure style="margin:0"><img src="assets/living-language-studio.svg" alt="A contextual studio scene connects people, sound and purposeful response."><figcaption class="instruction">Original prototype illustration: language evidence emerges through purposeful exchange.</figcaption></figure>
+    </section>
+
+    <aside class="exam-tip" aria-labelledby="studio-tip-title"><div class="tip-symbol" aria-hidden="true">↗</div><div class="tip-copy"><p class="course-kicker" style="color:#aee8de">Exam tip</p><h3 id="studio-tip-title">Treat instructions as the opening line of the conversation.</h3><p>“NO MORE THAN TWO WORDS AND/OR A NUMBER” tells you exactly what kind of response the task can accept. Listen or scan with that boundary already in mind.</p></div></aside>
+
+    <section class="media-scene" id="media" aria-labelledby="studio-media-title">
+      <div class="media-art" role="img" aria-label="An abstract waveform moves between turquoise and orange circles to represent listening and response."><div class="soundline" aria-hidden="true"></div></div>
+      <div class="media-copy">
+        <p class="course-kicker">Scene 03 · Listen · 03:20</p>
+        <h2 id="studio-media-title">Hear how the four skills connect.</h2>
+        <p>A media-led treatment foregrounds voice and context while retaining captions, a transcript path and a meaningful still state.</p>
+        <button class="button-secondary" type="button" data-reveal-target="studio-transcript" aria-expanded="false" style="color:#fff">Show transcript note</button>
+        <p id="studio-transcript" hidden>The four components gather distinct evidence, then contribute to an overall band profile.</p>
+        <button class="resource-action" type="button" data-reveal-target="studio-pdf" aria-expanded="false"><span class="resource-icon" aria-hidden="true">PDF</span><span><strong>IELTS structure field guide</strong><span class="resource-meta" style="color:#c9cedd">Accessible PDF · 8 pages · 1.2 MB</span></span></button>
+        <div class="pdf-preview" id="studio-pdf" hidden><div class="pdf-page" role="img" aria-label="Preview of an IELTS field guide page."><p class="micro-label">Field guide / 02</p><h3>Four skills, one evidence profile</h3><span></span><span></span><span></span></div></div>
+      </div>
+    </section>
+
+    <section class="practice-stage" id="practice" aria-labelledby="studio-practice-title">
+      <div class="practice-inner question-group">
+        <header class="practice-intro"><div><p class="scene-number">Scene 04 · Practise</p><h2 id="studio-practice-title">Read the task before the text</h2></div><div class="practice-note">Fixed visual states only. Your selections are not scored or stored.</div></header>
+
+        <div class="question">
+          <fieldset><legend><span class="question-number">1</span>True / False / Not Given: IELTS reports only one overall measure of English ability.</legend><div class="option-list"><label class="option"><input type="radio" name="studio-q1"><span>True</span></label><label class="option"><input type="radio" name="studio-q1" checked><span>False</span></label><label class="option"><input type="radio" name="studio-q1"><span>Not Given</span></label></div></fieldset>
+          <button class="button-primary" type="button" data-reveal-target="studio-immediate" aria-expanded="false" data-announcement="Question 1 demonstration feedback: correct. Coaching explanation available.">Check answer</button>
+          <div class="feedback-panel coaching-panel" id="studio-immediate" hidden><h4 tabindex="-1">✓ Correct · you followed the meaning</h4><p>The lesson presents four skill bands as well as the overall band. This is a pre-authored visual state; no client scoring occurred.</p><details class="explanation"><summary>Open coaching explanation</summary><p><strong>Notice:</strong> “only” makes the claim absolute. <strong>Evidence:</strong> the lesson identifies separate Reading, Listening, Writing and Speaking results. <strong>Next move:</strong> test absolute words against the passage.</p></details></div>
+        </div>
+
+        <div class="question"><fieldset><legend><span class="question-number">2</span>Which action best demonstrates careful instruction reading?</legend><div class="option-list"><label class="option"><input type="radio" name="studio-q2"><span>Predict the topic from the heading</span></label><label class="option"><input type="radio" name="studio-q2" checked><span>Check the permitted number of words and numbers</span></label><label class="option"><input type="radio" name="studio-q2"><span>Read every option at the same speed</span></label><label class="option"><input type="radio" name="studio-q2"><span>Change a word taken from the recording</span></label><label class="option"><input type="radio" name="studio-q2"><span>Leave spelling checks until another day</span></label></div></fieldset></div>
+
+        <div class="question"><p class="question-title"><span class="question-number">3</span>Summary completion with a shared word bank</p><p class="instruction">Choose one word for each gap. Options may be used once.</p><ul class="word-bank" aria-label="Shared word bank"><li>detail</li><li>purpose</li><li>decoration</li><li>evidence</li><li>speed</li></ul><p class="completion-line">IELTS tasks collect <label><span class="sr-only">Gap 1</span><select><option>Select</option><option>detail</option><option>purpose</option><option>decoration</option><option>evidence</option><option>speed</option></select></label> about ability. Instructions clarify the task <label><span class="sr-only">Gap 2</span><select><option>Select</option><option>detail</option><option>purpose</option><option>decoration</option><option>evidence</option><option>speed</option></select></label>.</p></div>
+
+        <div class="question"><p class="question-title"><span class="question-number">4</span>Inline dropdown completion</p><p class="completion-line">Listening and Speaking are <label><span class="sr-only">Relationship between IELTS versions</span><select><option>choose</option><option>the same</option><option>unrelated</option><option>optional</option></select></label> for Academic and General Training candidates.</p></div>
+
+        <div class="question"><label class="question-title" for="studio-gap"><span class="question-number">5</span>Complete the sentence. Use NO MORE THAN TWO WORDS.</label><p>The four skills contribute to an overall band ______.</p><input class="typed-answer" id="studio-gap" type="text" autocomplete="off" aria-describedby="studio-gap-rule"><p class="instruction" id="studio-gap-rule">Maximum two words. Spelling matters in scored practice.</p></div>
+
+        <div class="question"><p class="question-title"><span class="question-number">6</span>Match each skill to its main evidence.</p><div class="matching-list"><label class="matching-row"><span>Reading</span><select><option>Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option><option>Spoken fluency</option></select></label><label class="matching-row"><span>Writing</span><select><option>Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option><option>Spoken fluency</option></select></label><label class="matching-row"><span>Speaking</span><select><option>Choose evidence</option><option>Meaning in written texts</option><option>Organised written response</option><option>Spoken fluency</option></select></label></div></div>
+
+        <div class="button-row"><button class="button-primary" type="button" data-reveal-target="studio-results" aria-expanded="false" data-announcement="Fixed group review available with correct, incorrect, partial and pending states.">Check answers</button><a class="button-quiet" href="#top">Return to opening scene</a></div>
+        <section class="group-results coaching-panel" id="studio-results" hidden aria-labelledby="studio-results-title"><h3 id="studio-results-title" tabindex="-1">Your rehearsal review · 3 of 5 automatically reviewed</h3><p>Fixed presentation study; no result was computed.</p><div class="state-list"><article class="answer-state correct"><strong>Correct · Question 1</strong><span>You tested the absolute claim against the lesson.</span></article><article class="answer-state incorrect"><strong>Incorrect · Question 2</strong><span>Return to the instruction boundary before retrying.</span></article><article class="answer-state partial"><strong>Partially correct · Question 3</strong><span>One gap carries the intended meaning.</span></article><article class="answer-state pending"><strong>Pending review · spoken reflection</strong><span>A teacher would listen for clarity and development.</span></article></div><details class="explanation" open><summary>Detailed coaching sequence</summary><p><strong>Notice the instruction.</strong> Name the source, length and reuse rule. <strong>Find the evidence.</strong> Then shape only the response requested—not every idea you understood.</p></details><div class="button-row"><button class="button-secondary" type="button" data-retry-target="studio-results">Rehearse again</button><a class="button-primary" href="#studio-next">Continue lesson</a></div></section>
+      </div>
+    </section>
+
+    <nav class="lesson-footer-nav" id="studio-next" aria-label="Previous and next lessons"><a href="#top"><small>Previous scene</small><strong>Welcome to IELTS</strong></a><a href="#top"><small>Next scene</small><strong>How IELTS is Scored</strong></a></nav>
+  </main>
+
+  <dialog class="course-dialog" id="studio-course-dialog" aria-labelledby="studio-dialog-title"><div class="dialog-head"><h2 id="studio-dialog-title">Lesson scenes</h2><button class="dialog-close" type="button" data-dialog-close aria-label="Close lesson scenes">×</button></div><nav class="dialog-content" aria-label="Mobile course navigation"><a href="#notice">01 · Notice · one test, four skills</a><a href="#connect" aria-current="page">02 · Connect · what IELTS measures</a><a href="#media">03 · Listen · visual explainer</a><a href="#practice">04 · Practise · response group</a><a href="#studio-next">Next lesson · How IELTS is Scored</a></nav></dialog>
+  <div class="sr-only" aria-live="polite" data-live-region></div>
+</body>
+</html>
