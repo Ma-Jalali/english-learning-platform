@@ -1313,6 +1313,18 @@ textarea:focus-visible {
   margin-bottom: var(--space-3);
 }
 
+.drive-source-panel {
+  overflow: hidden;
+  border-color: rgba(163, 93, 54, 0.14);
+  background:
+    radial-gradient(circle at 100% 0, rgba(249, 184, 146, 0.16), transparent 13rem),
+    rgba(255, 255, 255, 0.92);
+}
+
+.drive-source-panel h3 {
+  margin-bottom: var(--space-3);
+}
+
 .media-upload-intro {
   margin: 0 0 var(--space-6);
   color: var(--color-muted);
@@ -1323,6 +1335,26 @@ textarea:focus-visible {
 .media-upload-form {
   display: grid;
   gap: var(--space-4);
+}
+
+.drive-sharing-warning {
+  border: 1px solid rgba(154, 94, 42, 0.17);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  color: #6e3f23;
+  background: rgba(255, 239, 220, 0.72);
+}
+
+.drive-sharing-warning strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+}
+
+.drive-sharing-warning p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.58;
 }
 
 .media-upload-dropzone {
@@ -1455,6 +1487,11 @@ textarea:focus-visible {
   background: var(--color-peach-soft);
 }
 
+.media-kind-drive {
+  color: #27603c;
+  background: #e8f5ec;
+}
+
 .media-block-meta {
   margin: -0.25rem 0 0;
   color: var(--color-muted);
@@ -1464,13 +1501,15 @@ textarea:focus-visible {
   overflow-wrap: anywhere;
 }
 
-.pdf-preview-shell {
+.pdf-preview-shell,
+.drive-preview-shell {
   display: grid;
   gap: var(--space-3);
 }
 
 .pdf-preview,
-.video-preview {
+.video-preview,
+.drive-preview {
   display: block;
   width: 100%;
   border: 1px solid var(--color-line);
@@ -1481,6 +1520,11 @@ textarea:focus-visible {
 
 .pdf-preview {
   min-height: 34rem;
+  background: var(--color-surface-soft);
+}
+
+.drive-preview {
+  min-height: 31rem;
   background: var(--color-surface-soft);
 }
 
@@ -1687,7 +1731,8 @@ textarea:focus-visible {
     flex-direction: column;
   }
 
-  .pdf-preview {
+  .pdf-preview,
+  .drive-preview {
     min-height: 25rem;
   }
 

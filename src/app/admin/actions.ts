@@ -12,6 +12,13 @@ import {
   parseCourseMediaContent,
   type CourseMediaUploadMetadata,
 } from "@/lib/course-media";
+import {
+  extractGoogleDriveFileId,
+  getGoogleDriveBlockType,
+  GOOGLE_DRIVE_SOURCE,
+  isGoogleDriveResourceType,
+  parseGoogleDriveContent,
+} from "@/lib/google-drive";
 import { createClient } from "@/lib/supabase/server";
 
 import { COURSE_FAMILIES, COURSE_LEVELS } from "./course-options";
@@ -92,6 +99,23 @@ export type DeleteMediaBlockState = {
   message: string;
 };
 
+type GoogleDriveBlockFieldErrors = {
+  title?: string;
+  shareLink?: string;
+  resourceType?: string;
+};
+
+export type GoogleDriveBlockFormState = {
+  status: "idle" | "error" | "success";
+  message: string;
+  fieldErrors: GoogleDriveBlockFieldErrors;
+};
+
+export type DeleteGoogleDriveBlockState = {
+  status: "idle" | "error";
+  message: string;
+};
+
 export type MoveCoreBlockState = {
   status: "idle" | "error" | "success";
   message: string;
@@ -110,6 +134,8 @@ const LESSON_SLUG_MAX_LENGTH = 80;
 const LESSON_DESCRIPTION_MAX_LENGTH = 2000;
 const TEXT_BLOCK_TITLE_MAX_LENGTH = 160;
 const TEXT_BLOCK_BODY_MAX_LENGTH = 20000;
+const GOOGLE_DRIVE_TITLE_MAX_LENGTH = 160;
+const GOOGLE_DRIVE_SHARE_LINK_MAX_LENGTH = 2048;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -267,6 +293,35 @@ function validateTextBlock(fields: { title: string; body: string }) {
     fieldErrors.body = "Enter the text block content.";
   } else if (fields.body.length > TEXT_BLOCK_BODY_MAX_LENGTH) {
     fieldErrors.body = `Use ${TEXT_BLOCK_BODY_MAX_LENGTH} characters or fewer.`;
+  }
+
+  return fieldErrors;
+}
+
+function validateGoogleDriveBlock(fields: {
+  title: string;
+  shareLink: string;
+  resourceType: string;
+}) {
+  const fieldErrors: GoogleDriveBlockFieldErrors = {};
+
+  if (!fields.title) {
+    fieldErrors.title = "Enter a display title.";
+  } else if (fields.title.length > GOOGLE_DRIVE_TITLE_MAX_LENGTH) {
+    fieldErrors.title = `Use ${GOOGLE_DRIVE_TITLE_MAX_LENGTH} characters or fewer.`;
+  }
+
+  if (!fields.shareLink) {
+    fieldErrors.shareLink = "Enter a Google Drive share link.";
+  } else if (fields.shareLink.length > GOOGLE_DRIVE_SHARE_LINK_MAX_LENGTH) {
+    fieldErrors.shareLink = "The Google Drive link is too long.";
+  } else if (!extractGoogleDriveFileId(fields.shareLink)) {
+    fieldErrors.shareLink =
+      "Use a valid https://drive.google.com file link, not embed code or another domain.";
+  }
+
+  if (!isGoogleDriveResourceType(fields.resourceType)) {
+    fieldErrors.resourceType = "Select PDF or Video.";
   }
 
   return fieldErrors;
@@ -1091,6 +1146,170 @@ export async function createLockedMediaBlock(
   };
 }
 
+export async function createLockedGoogleDriveBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  _previousState: GoogleDriveBlockFormState,
+  formData: FormData,
+): Promise<GoogleDriveBlockFormState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId)
+  ) {
+    return {
+      status: "error",
+      message: "This lesson link is invalid. Return to the module editor.",
+      fieldErrors: {},
+    };
+  }
+
+  const fields = {
+    title: readTextField(formData, "title"),
+    shareLink: readTextField(formData, "shareLink"),
+    resourceType: readTextField(formData, "resourceType"),
+  };
+  const fieldErrors = validateGoogleDriveBlock(fields);
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      status: "error",
+      message: "Check the highlighted fields and try again.",
+      fieldErrors,
+    };
+  }
+
+  // Parse the untrusted share link again in the action. Only the extracted ID
+  // is retained; the supplied URL never reaches the database or an iframe.
+  const fileId = extractGoogleDriveFileId(fields.shareLink);
+  const resourceType = fields.resourceType;
+
+  if (!fileId || !isGoogleDriveResourceType(resourceType)) {
+    return {
+      status: "error",
+      message: "The Google Drive file details are invalid.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select("id")
+    .eq("id", courseId)
+    .maybeSingle();
+
+  if (courseError || !course) {
+    return {
+      status: "error",
+      message: "This course is no longer available.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", course.id)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return {
+      status: "error",
+      message: "This module does not belong to the selected course.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id, title")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return {
+      status: "error",
+      message: "This locked lesson does not belong to the selected module.",
+      fieldErrors: {},
+    };
+  }
+
+  const { data: lastBlock, error: orderError } = await supabase
+    .from("lesson_blocks")
+    .select("sort_order")
+    .eq("lesson_id", lesson.id)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (orderError) {
+    return {
+      status: "error",
+      message: "The next block position could not be determined. Try again.",
+      fieldErrors: {},
+    };
+  }
+
+  const nextSortOrder = (lastBlock?.sort_order ?? -1) + 1;
+  const { error: insertError } = await supabase.from("lesson_blocks").insert({
+    lesson_id: lesson.id,
+    block_type: getGoogleDriveBlockType(resourceType),
+    title: fields.title,
+    content: {
+      source: GOOGLE_DRIVE_SOURCE,
+      fileId,
+      resourceType,
+    },
+    sort_order: nextSortOrder,
+    is_locked: true,
+  });
+
+  if (insertError) {
+    if (insertError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to create Drive blocks.",
+        fieldErrors: {},
+      };
+    }
+
+    if (insertError.code === "23503") {
+      return {
+        status: "error",
+        message: "This lesson is no longer available.",
+        fieldErrors: {},
+      };
+    }
+
+    console.error("Unexpected locked Google Drive block insert failure", {
+      code: insertError.code,
+      message: insertError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The Google Drive block could not be created. Please try again.",
+      fieldErrors: {},
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+
+  return {
+    status: "success",
+    message: `${fields.title} was added to ${lesson.title} as a locked Drive ${resourceType} block.`,
+    fieldErrors: {},
+  };
+}
+
 export async function updateLockedTextBlock(
   courseId: string,
   moduleId: string,
@@ -1409,6 +1628,135 @@ export async function deleteLockedMediaBlock(
   );
   redirect(
     `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}?notice=media-deleted`,
+  );
+}
+
+export async function deleteLockedGoogleDriveBlock(
+  courseId: string,
+  moduleId: string,
+  lessonId: string,
+  blockId: string,
+  _previousState: DeleteGoogleDriveBlockState,
+  _formData: FormData,
+): Promise<DeleteGoogleDriveBlockState> {
+  const supabase = await createAdminClient();
+
+  if (
+    !UUID_PATTERN.test(courseId) ||
+    !UUID_PATTERN.test(moduleId) ||
+    !UUID_PATTERN.test(lessonId) ||
+    !UUID_PATTERN.test(blockId)
+  ) {
+    return {
+      status: "error",
+      message: "This Drive block link is invalid. Refresh the lesson editor.",
+    };
+  }
+
+  const { data: course, error: courseError } = await supabase
+    .from("courses")
+    .select("id")
+    .eq("id", courseId)
+    .maybeSingle();
+
+  if (courseError || !course) {
+    return {
+      status: "error",
+      message: "This course is no longer available.",
+    };
+  }
+
+  const { data: courseModule, error: moduleError } = await supabase
+    .from("modules")
+    .select("id")
+    .eq("id", moduleId)
+    .eq("course_id", course.id)
+    .maybeSingle();
+
+  if (moduleError || !courseModule) {
+    return {
+      status: "error",
+      message: "This module does not belong to the selected course.",
+    };
+  }
+
+  const { data: lesson, error: lessonError } = await supabase
+    .from("lessons")
+    .select("id")
+    .eq("id", lessonId)
+    .eq("module_id", courseModule.id)
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (lessonError || !lesson) {
+    return {
+      status: "error",
+      message: "This locked lesson does not belong to the selected module.",
+    };
+  }
+
+  const { data: block, error: blockError } = await supabase
+    .from("lesson_blocks")
+    .select("id, block_type, content")
+    .eq("id", blockId)
+    .eq("lesson_id", lesson.id)
+    .in("block_type", ["file", "video"])
+    .eq("is_locked", true)
+    .maybeSingle();
+
+  if (blockError || !block) {
+    return {
+      status: "error",
+      message: "This locked Drive block is not available in the selected lesson.",
+    };
+  }
+
+  const content = parseGoogleDriveContent(block.content);
+
+  if (
+    !content ||
+    getGoogleDriveBlockType(content.resourceType) !== block.block_type
+  ) {
+    return {
+      status: "error",
+      message: "This Drive block has invalid metadata and was not deleted.",
+    };
+  }
+
+  // This action removes only the lesson block. It has no Google credentials
+  // and cannot modify or delete the original Drive file.
+  const { error: deleteError } = await supabase
+    .from("lesson_blocks")
+    .delete()
+    .eq("id", block.id)
+    .eq("lesson_id", lesson.id)
+    .eq("block_type", block.block_type)
+    .eq("is_locked", true);
+
+  if (deleteError) {
+    if (deleteError.code === "42501") {
+      return {
+        status: "error",
+        message: "Your account is not permitted to delete Drive blocks.",
+      };
+    }
+
+    console.error("Unexpected locked Google Drive block delete failure", {
+      code: deleteError.code,
+      message: deleteError.message,
+    });
+
+    return {
+      status: "error",
+      message: "The Google Drive block could not be deleted. Please try again.",
+    };
+  }
+
+  revalidatePath(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}`,
+  );
+  redirect(
+    `/admin/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}?notice=drive-deleted`,
   );
 }
 

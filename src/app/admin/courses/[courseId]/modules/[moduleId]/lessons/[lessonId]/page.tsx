@@ -10,9 +10,17 @@ import {
   isExpectedCourseMediaStoragePath,
   parseCourseMediaContent,
 } from "@/lib/course-media";
+import {
+  buildGoogleDriveOpenUrl,
+  buildGoogleDrivePreviewUrl,
+  getGoogleDriveBlockType,
+  parseGoogleDriveContent,
+} from "@/lib/google-drive";
 import { createClient } from "@/lib/supabase/server";
 
 import { BlockForm } from "./block-form";
+import { GoogleDriveBlockItem } from "./google-drive-block-item";
+import { GoogleDriveForm } from "./google-drive-form";
 import { MediaBlockItem } from "./media-block-item";
 import { MediaUploadForm } from "./media-upload-form";
 import { TextBlockItem } from "./text-block-item";
@@ -125,6 +133,35 @@ export default async function LessonEditorPage({
         };
       }
 
+      const driveContent = parseGoogleDriveContent(block.content);
+      const drivePreviewUrl = driveContent
+        ? buildGoogleDrivePreviewUrl(driveContent.fileId)
+        : null;
+      const driveOpenUrl = driveContent
+        ? buildGoogleDriveOpenUrl(driveContent.fileId)
+        : null;
+
+      if (
+        driveContent &&
+        drivePreviewUrl &&
+        driveOpenUrl &&
+        typeof block.title === "string" &&
+        block.title.trim() !== "" &&
+        getGoogleDriveBlockType(driveContent.resourceType) === block.block_type
+      ) {
+        return {
+          kind: "drive" as const,
+          block: {
+            id: block.id,
+            openUrl: driveOpenUrl,
+            position,
+            previewUrl: drivePreviewUrl,
+            resourceType: driveContent.resourceType,
+            title: block.title,
+          },
+        };
+      }
+
       const content = parseCourseMediaContent(block.content);
       const descriptor = content
         ? getCourseMediaDescriptor(content.mimeType)
@@ -205,7 +242,8 @@ export default async function LessonEditorPage({
           </p>
           <p>
             Shape the locked core lesson with ordered text, PDF, and video
-            blocks. Media stays private and course-authorised.
+            blocks. Supabase media stays private and course-authorised; external
+            Drive access follows the file owner&apos;s sharing settings.
           </p>
         </section>
 
@@ -235,6 +273,13 @@ export default async function LessonEditorPage({
             </p>
           ) : null}
 
+          {notice === "drive-deleted" ? (
+            <p className="form-message form-message-success" role="status">
+              The locked Drive block was deleted. The original Drive file was
+              not changed.
+            </p>
+          ) : null}
+
           <div className="admin-block-grid">
             <div className="block-creator-stack">
               <div className="admin-panel">
@@ -258,6 +303,20 @@ export default async function LessonEditorPage({
                   lessonId={lesson.id}
                   moduleId={courseModule.id}
                   organisationId={course.organisation_id}
+                />
+              </div>
+
+              <div className="admin-panel drive-source-panel">
+                <p className="panel-kicker">Externally hosted media</p>
+                <h3>Add from Google Drive</h3>
+                <p className="media-upload-intro">
+                  Add a validated Drive file reference without Google
+                  credentials or API access.
+                </p>
+                <GoogleDriveForm
+                  courseId={course.id}
+                  lessonId={lesson.id}
+                  moduleId={courseModule.id}
                 />
               </div>
             </div>
@@ -302,6 +361,20 @@ export default async function LessonEditorPage({
                       );
                     }
 
+                    if (view.kind === "drive") {
+                      return (
+                        <GoogleDriveBlockItem
+                          block={view.block}
+                          canMoveDown={canMoveDown}
+                          canMoveUp={canMoveUp}
+                          courseId={course.id}
+                          key={view.block.id}
+                          lessonId={lesson.id}
+                          moduleId={courseModule.id}
+                        />
+                      );
+                    }
+
                     return (
                       <li className="media-block-item" key={view.block.id}>
                         <span className="block-position">
@@ -323,8 +396,8 @@ export default async function LessonEditorPage({
                 </ol>
               ) : (
                 <p className="admin-empty-state">
-                  No lesson blocks yet. Create text or add private media using
-                  the controls provided.
+                  No lesson blocks yet. Create text, upload private media, or add
+                  a validated Google Drive file using the controls provided.
                 </p>
               )}
             </div>
