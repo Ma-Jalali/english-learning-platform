@@ -42,7 +42,11 @@ export default async function DashboardPage() {
         <div className="dashboard-intro">
           <p className="eyebrow">Your dashboard</p>
           <h1 id="dashboard-heading">Welcome to your learning space.</h1>
-          <p>This is the first protected placeholder. Course features will come later.</p>
+          <p>
+            {role === "student"
+              ? "Open your enrolled, published courses and continue through their lessons."
+              : "Your protected account overview and role-specific workspace entry point."}
+          </p>
         </div>
 
         <dl className="account-details">
@@ -67,6 +71,12 @@ export default async function DashboardPage() {
         {role === "admin" ? (
           <Link className="button-link admin-workspace-link" href="/admin">
             Open admin workspace
+          </Link>
+        ) : null}
+
+        {role === "student" ? (
+          <Link className="button-link admin-workspace-link" href="/learn">
+            Open my courses
           </Link>
         ) : null}
       </section>

@@ -44,11 +44,15 @@ The repository currently provides:
 - An administrator-only user directory and cohort membership workspace for
   enrolling existing students and assigning existing teachers, backed by
   server-controlled roles, hierarchy checks, database validation, and RLS.
+- A protected student learning interface for enrolled, published courses with
+  cohort-aware course, module, lesson, text-block, private-media, and
+  allowlisted Google Drive views. Core content remains read-only and every
+  nested route validates the complete hierarchy server-side.
 - Fixed teacher-slot foundations, including role validation, hierarchy
   protection, and teacher update boundaries. The teacher workspace does not
   exist yet.
 - Draft/published/archived course status in the database. Publishing workflow
-  and student course delivery do not exist yet.
+  controls do not exist yet; student delivery respects the current status.
 
 All committed migrations are treated as applied and immutable. Future database
 changes require a new migration.
@@ -82,6 +86,9 @@ changes require a new migration.
 - [x] Admin course cohort creation and ordered listing (`a763028`).
 - [x] Secure administrator user directory, student enrolment, and teacher
   assignment foundation (completed 3 October 2026).
+- [x] Secure student learning interface for enrolled published courses,
+  read-only core lessons, and supported text and media blocks (completed 3
+  October 2026).
 
 The directory migration was applied manually to the current Supabase project.
 The completed milestone was verified with real disposable student and teacher
@@ -89,33 +96,31 @@ accounts: administrator directory/filtering, enrolment, assignment, duplicate
 option removal, unauthenticated redirects, student redirects from all new admin
 routes, and desktop/mobile layouts all passed.
 
+The student interface was verified with the enrolled disposable student while
+the pilot course was temporarily published: course, module, lesson, ordered
+plain-text content, the allowlisted Drive PDF preview, hierarchy rejection,
+role redirects, and desktop/mobile layouts all passed. The pilot course was
+restored to draft after testing, and the learner view again hides it.
+
 ## Active milestone
 
-### Student learning interface
+### Progress tracking
 
 Status: **Next**
 
-Deliver the first secure learner-facing vertical slice that:
+Deliver the first secure learning-progress vertical slice that:
 
-- shows only published courses available through the authenticated student's
-  enrolments;
-- provides cohort-aware course, module, lesson, and supported block views;
-- keeps locked core content read-only and protects private media access;
-- includes accessible loading, empty, and unavailable states;
-- does not add progress tracking, teacher tools, assessment workflows,
-  publishing controls, or payments yet.
+- adds a new RLS-protected progress model scoped to the authenticated student
+  and enrolled course hierarchy;
+- records lesson completion and exposes course/module progress summaries;
+- defines administrator visibility while preventing students from writing
+  progress for another user or inaccessible lesson;
+- does not add teacher tools, assessment workflows, publishing controls, or
+  payments yet.
 
 ## Remaining MVP milestones
 
-### 1. Progress tracking
-
-- [ ] Add a new RLS-protected progress model scoped to the authenticated student
-  and enrolled course hierarchy.
-- [ ] Record lesson completion and expose course/module progress summaries.
-- [ ] Define administrator visibility and prevent students from writing progress
-  for another user or inaccessible lesson.
-
-### 2. Teacher workspace and fixed teacher slots
+### 1. Teacher workspace and fixed teacher slots
 
 - [ ] Build an assigned-cohort teacher workspace.
 - [ ] Let admins create and assign fixed announcement, homework, and
@@ -124,7 +129,7 @@ Deliver the first secure learner-facing vertical slice that:
 - [ ] Confirm teachers cannot create, delete, move, retype, reassign, unlock, or
   otherwise alter core content or slot structure.
 
-### 3. Assessments, submissions, and feedback
+### 2. Assessments, submissions, and feedback
 
 - [ ] Add administrator-owned assessment definitions and criteria.
 - [ ] Add student-owned submissions and evidence with strict cohort/course
@@ -132,14 +137,14 @@ Deliver the first secure learner-facing vertical slice that:
 - [ ] Add teacher feedback and simple rubric marking for assigned cohorts.
 - [ ] Provide students with secure feedback and result views.
 
-### 4. Course publishing
+### 3. Course publishing
 
 - [ ] Add admin-only publishing controls and readiness validation.
 - [ ] Define how draft, published, and archived states affect each role.
 - [ ] Prevent incomplete or inaccessible course structures from being published.
 - [ ] Verify enrolled-student and assigned-teacher read paths end to end.
 
-### 5. Production testing and deployment
+### 4. Production testing and deployment
 
 - [ ] Add automated coverage for authorization helpers, server actions, URL
   allowlists, hierarchy validation, and critical user journeys.
