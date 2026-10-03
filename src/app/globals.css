@@ -766,6 +766,8 @@ textarea:focus-visible {
 
 .admin-header-actions {
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .admin-header-actions .sign-out-control {
@@ -948,6 +950,7 @@ textarea:focus-visible {
 
 .organisation-list,
 .course-list,
+.cohort-list,
 .module-list,
 .lesson-list,
 .text-block-list {
@@ -999,6 +1002,7 @@ textarea:focus-visible {
 }
 
 .course-list > li,
+.cohort-list > li,
 .module-list li,
 .lesson-list > li {
   position: relative;
@@ -1015,6 +1019,7 @@ textarea:focus-visible {
 }
 
 .course-list > li::before,
+.cohort-list > li::before,
 .module-list li::before,
 .lesson-list > li::before {
   position: absolute;
@@ -1029,11 +1034,16 @@ textarea:focus-visible {
   background: var(--color-accent);
 }
 
+.cohort-list > li::before {
+  background: var(--color-cobalt);
+}
+
 .lesson-list > li::before {
   background: var(--color-peach);
 }
 
 .course-list > li:hover,
+.cohort-list > li:hover,
 .module-list li:hover,
 .lesson-list > li:hover {
   border-color: rgba(81, 70, 215, 0.18);
@@ -1050,6 +1060,7 @@ textarea:focus-visible {
 }
 
 .course-card-title,
+.cohort-list h4,
 .module-list h4,
 .lesson-list h4,
 .text-block-heading h4 {
@@ -1087,6 +1098,48 @@ textarea:focus-visible {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4) var(--space-5);
   margin: 0;
+}
+
+.course-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cohort-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.cohort-details > div {
+  min-width: 0;
+}
+
+.cohort-details dt {
+  margin-bottom: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cohort-details dd {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.cohort-details code {
+  border: 1px solid var(--color-line);
+  border-radius: 0.45rem;
+  padding: 0.15rem 0.42rem;
+  background: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
 }
 
 .course-details > div {
@@ -1137,6 +1190,7 @@ textarea:focus-visible {
 }
 
 .module-position,
+.cohort-position,
 .lesson-position,
 .block-position {
   color: var(--color-accent-strong);
@@ -1686,8 +1740,18 @@ textarea:focus-visible {
   .admin-block-grid,
   .admin-form-row,
   .course-details,
+  .cohort-details,
   .course-editor-summary {
     grid-template-columns: 1fr;
+  }
+
+  .course-card-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .course-card-actions .button-link {
+    width: 100%;
   }
 
   .admin-overview-grid {

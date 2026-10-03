@@ -2,22 +2,21 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { createCohort } from "@/app/admin/actions";
 import { SignOutButton } from "@/app/dashboard/sign-out-button";
 import { createClient } from "@/lib/supabase/server";
 
-import { ModuleForm } from "./module-form";
+import { CohortForm } from "./cohort-form";
 
 export const metadata: Metadata = {
-  title: "Course editor | English Learning Platform",
+  title: "Cohort management | English Learning Platform",
 };
 
-type CourseEditorPageProps = {
+type CohortsPageProps = {
   params: Promise<{ courseId: string }>;
 };
 
-export default async function CourseEditorPage({
-  params,
-}: CourseEditorPageProps) {
+export default async function CohortsPage({ params }: CohortsPageProps) {
   const { courseId } = await params;
   const supabase = await createClient();
   const { data: claimsData, error: claimsError } =
@@ -48,12 +47,13 @@ export default async function CourseEditorPage({
     notFound();
   }
 
-  const { data: modules, error: modulesError } = await supabase
-    .from("modules")
-    .select("id, title, slug, description, sort_order, created_at")
+  const { data: cohorts, error: cohortsError } = await supabase
+    .from("cohorts")
+    .select("id, name, slug, sort_order, created_at")
     .eq("course_id", course.id)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
+  const createCohortForCourse = createCohort.bind(null, course.id);
 
   return (
     <main className="admin-main">
@@ -65,12 +65,9 @@ export default async function CourseEditorPage({
           <div className="admin-header-actions">
             <Link
               className="button-link secondary-link"
-              href={`/admin/courses/${course.id}/cohorts`}
+              href={`/admin/courses/${course.id}`}
             >
-              Manage cohorts
-            </Link>
-            <Link className="button-link secondary-link" href="/admin">
-              Back to admin
+              Back to course
             </Link>
             <SignOutButton />
           </div>
@@ -78,13 +75,13 @@ export default async function CourseEditorPage({
 
         <section
           className="course-editor-intro"
-          aria-labelledby="course-editor-heading"
+          aria-labelledby="cohorts-page-heading"
         >
-          <p className="eyebrow">Course editor</p>
-          <h1 id="course-editor-heading">{course.title}</h1>
+          <p className="eyebrow">Course access structure</p>
+          <h1 id="cohorts-page-heading">Cohorts</h1>
           <p>
-            Build the course structure one module at a time. Lessons and content
-            will be added in a later phase.
+            Create the ordered cohort shells for <strong>{course.title}</strong>.
+            Student enrolment will be configured separately in a later phase.
           </p>
           <dl className="course-editor-summary">
             <div>
@@ -99,9 +96,7 @@ export default async function CourseEditorPage({
               <dt>Status</dt>
               <dd>
                 <span className="course-status-badge">
-                  <span className="course-status-value">
-                    {course.status}
-                  </span>
+                  <span className="course-status-value">{course.status}</span>
                 </span>
               </dd>
             </div>
@@ -109,55 +104,55 @@ export default async function CourseEditorPage({
         </section>
 
         <section
-          className="admin-module-section"
-          aria-labelledby="modules-heading"
+          className="admin-cohort-section"
+          aria-labelledby="cohorts-heading"
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Core structure</p>
-              <h2 id="modules-heading">Modules</h2>
+              <p className="eyebrow">Admin-controlled cohorts</p>
+              <h2 id="cohorts-heading">Course cohorts</h2>
             </div>
-            <p>New modules are placed after the existing modules automatically.</p>
+            <p>New cohorts are placed after existing cohorts automatically.</p>
           </div>
 
           <div className="admin-module-grid">
             <div className="admin-panel">
-              <h3>Create module</h3>
-              <ModuleForm courseId={course.id} />
+              <h3>Create cohort</h3>
+              <CohortForm action={createCohortForCourse} />
             </div>
 
             <div className="admin-panel" aria-live="polite">
-              <h3>Course modules</h3>
-              {modulesError ? (
+              <h3>Created cohorts</h3>
+              {cohortsError ? (
                 <p className="form-message form-message-error" role="alert">
-                  Modules could not be loaded. Please refresh and try again.
+                  Cohorts could not be loaded. Please refresh and try again.
                 </p>
-              ) : modules && modules.length > 0 ? (
-                <ol className="module-list">
-                  {modules.map((courseModule, index) => (
-                    <li key={courseModule.id}>
-                      <span className="module-position">Module {index + 1}</span>
-                      <h4>{courseModule.title}</h4>
-                      <span className="module-slug">
-                        <span>Slug:</span>
-                        <code>{courseModule.slug}</code>
+              ) : cohorts && cohorts.length > 0 ? (
+                <ol className="cohort-list">
+                  {cohorts.map((cohort, index) => (
+                    <li key={cohort.id}>
+                      <span className="cohort-position">
+                        Position {index + 1}
                       </span>
-                      <p>
-                        {courseModule.description || "No description provided."}
-                      </p>
-                      <Link
-                        aria-label={`Manage lessons for ${courseModule.title}`}
-                        className="button-link secondary-link module-manage-link"
-                        href={`/admin/courses/${course.id}/modules/${courseModule.id}`}
-                      >
-                        Manage lessons
-                      </Link>
+                      <h4>{cohort.name}</h4>
+                      <dl className="cohort-details">
+                        <div>
+                          <dt>Slug</dt>
+                          <dd>
+                            <code>{cohort.slug}</code>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Course</dt>
+                          <dd>{course.title}</dd>
+                        </div>
+                      </dl>
                     </li>
                   ))}
                 </ol>
               ) : (
                 <p className="admin-empty-state">
-                  No modules yet. Create the first module using the form.
+                  No cohorts yet. Create the first cohort using the form.
                 </p>
               )}
             </div>

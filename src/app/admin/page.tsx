@@ -50,10 +50,15 @@ export default async function AdminPage() {
     .from("modules")
     .select("id", { count: "exact", head: true });
 
+  const { count: cohortCount, error: cohortCountError } = await supabase
+    .from("cohorts")
+    .select("id", { count: "exact", head: true });
+
   const email =
     typeof claims.email === "string" ? claims.email : "Email unavailable";
   const organisationCount = organisations?.length ?? 0;
   const courseCount = courses?.length ?? 0;
+  const cohortTotal = cohortCount ?? 0;
   const organisationNames = new Map(
     organisations?.map((organisation) => [
       organisation.id,
@@ -78,7 +83,14 @@ export default async function AdminPage() {
           ? "No courses yet"
           : `${courseCount} ${courseCount === 1 ? "course" : "courses"}`,
     },
-    { title: "Cohorts", value: "No cohorts yet" },
+    {
+      title: "Cohorts",
+      value: cohortCountError
+        ? "Cohorts unavailable"
+        : cohortTotal === 0
+          ? "No cohorts yet"
+          : `${cohortTotal} ${cohortTotal === 1 ? "cohort" : "cohorts"}`,
+    },
     {
       title: "Content",
       value: moduleCountError
@@ -241,13 +253,22 @@ export default async function AdminPage() {
                           </dd>
                         </div>
                       </dl>
-                      <Link
-                        aria-label={`Manage course content for ${course.title}`}
-                        className="button-link secondary-link course-manage-link"
-                        href={`/admin/courses/${course.id}`}
-                      >
-                        Manage course content
-                      </Link>
+                      <div className="course-card-actions">
+                        <Link
+                          aria-label={`Manage course content for ${course.title}`}
+                          className="button-link secondary-link course-manage-link"
+                          href={`/admin/courses/${course.id}`}
+                        >
+                          Manage course content
+                        </Link>
+                        <Link
+                          aria-label={`Manage cohorts for ${course.title}`}
+                          className="button-link secondary-link course-manage-link"
+                          href={`/admin/courses/${course.id}/cohorts`}
+                        >
+                          Manage cohorts
+                        </Link>
+                      </div>
                     </li>
                   ))}
                 </ul>
