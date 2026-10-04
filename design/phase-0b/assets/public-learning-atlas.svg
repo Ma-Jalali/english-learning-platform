@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="620" viewBox="0 0 840 620" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">An atlas of language</title>
+  <desc id="description">An open, layered book forms the centre of a learning route. Sculpted headphones, a microphone and an annotated writing sheet connect reading, listening, speaking and writing. A coral ribbon guides the eye through the composition.</desc>
+  <defs>
+    <linearGradient id="field" x1="70" y1="40" x2="750" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFEFC"/><stop offset=".6" stop-color="#F6F3EF"/><stop offset="1" stop-color="#EEEFF3"/></linearGradient>
+    <linearGradient id="paper" x1="220" y1="265" x2="420" y2="465" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF"/><stop offset=".65" stop-color="#FFFCF5"/><stop offset="1" stop-color="#E9DED0"/></linearGradient>
+    <linearGradient id="rightPaper" x1="428" y1="286" x2="653" y2="402" gradientUnits="userSpaceOnUse"><stop stop-color="#E8DED2"/><stop offset=".14" stop-color="#FFFCF6"/><stop offset=".7" stop-color="#FFF"/><stop offset="1" stop-color="#F2EBE2"/></linearGradient>
+    <linearGradient id="glass" x1="496" y1="67" x2="720" y2="295" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF" stop-opacity=".96"/><stop offset=".53" stop-color="#FFF" stop-opacity=".45"/><stop offset="1" stop-color="#E5E8EF" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="ink" x1="538" y1="110" x2="672" y2="230" gradientUnits="userSpaceOnUse"><stop stop-color="#594356"/><stop offset=".55" stop-color="#312734"/><stop offset="1" stop-color="#211F26"/></linearGradient>
+    <linearGradient id="coral" x1="275" y1="333" x2="574" y2="511" gradientUnits="userSpaceOnUse"><stop stop-color="#FF946C"/><stop offset=".46" stop-color="#F15A2A"/><stop offset="1" stop-color="#C74616"/></linearGradient>
+    <linearGradient id="voice" x1="97" y1="147" x2="181" y2="254" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF"/><stop offset=".5" stop-color="#ECE8EE"/><stop offset="1" stop-color="#D4CBD8"/></linearGradient>
+    <filter id="lift" x="-35%" y="-35%" width="170%" height="190%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#4A362B" flood-opacity=".08"/><feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#4A362B" flood-opacity=".12"/></filter>
+    <filter id="contact" x="-30%" y="-30%" width="160%" height="180%" color-interpolation-filters="sRGB"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#3F3033" flood-opacity=".12"/></filter>
+    <pattern id="micMesh" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".7" fill="#786C7A" opacity=".55"/></pattern>
+  </defs>
+  <rect width="840" height="620" rx="30" fill="url(#field)"/>
+  <!-- Sparse atlas registration: subordinate to the learning objects. -->
+  <g stroke="#D9D2CA" stroke-width="1" opacity=".6">
+    <path d="M58 111H439M720 111H788M58 519H788M81 85V552M758 85V552"/>
+    <path d="M69 111H93M81 99V123M746 519H770M758 507V531" stroke="#BBAFA5"/>
+    <path d="M250 76V136M702 334H785M84 382H143" stroke-dasharray="2 7"/>
+  </g>
+  <!-- A continuous path connects the four modalities, without container cards. -->
+  <path d="M135 274C111 342 130 430 194 474C254 516 355 533 468 531C603 529 729 471 729 350C729 277 684 244 638 239" stroke="#E4DCD5" stroke-width="14" stroke-linecap="round"/>
+  <path d="M135 274C111 342 130 430 194 474C254 516 355 533 468 531C603 529 729 471 729 350C729 277 684 244 638 239" stroke="#FFFDF9" stroke-width="10" stroke-linecap="round"/>
+  <path d="M135 274C111 342 130 430 194 474C254 516 355 533 468 531" stroke="url(#coral)" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M490 530C610 520 729 462 729 350C729 277 684 244 638 239" stroke="#A59BAA" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 9"/>
+  <!-- Speaking: metal grille, cradle, restrained voice paths. -->
+  <g transform="rotate(-8 149 210)">
+    <rect x="94" y="122" width="110" height="168" rx="38" fill="#FFFEFC" filter="url(#lift)"/>
+    <rect x="94" y="122" width="110" height="168" rx="38" stroke="#FFF" stroke-width="2"/>
+    <rect x="126" y="143" width="47" height="86" rx="23.5" fill="url(#voice)" stroke="#65506A" stroke-width="2"/>
+    <rect x="131" y="149" width="37" height="60" rx="18" fill="url(#micMesh)"/>
+    <path d="M116 205V211C116 230 130 241 149 241C168 241 182 230 182 211V205M149 241V259M130 260H168" stroke="#59405E" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M137 221H162" stroke="#F15A2A" stroke-width="3" stroke-linecap="round"/>
+    <path d="M220 163C235 174 239 192 237 207M232 145C257 162 266 188 262 211" stroke="#B9AEBD" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M215 180C221 185 223 192 222 198" stroke="#F15A2A" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <!-- Listening: a glass resting plane and individually constructed ear cushions. -->
+  <path d="M524 78L694 92Q714 94 711 115L692 261Q689 282 668 279L499 262Q478 260 481 239L502 100Q505 77 524 78Z" fill="url(#glass)" filter="url(#lift)"/>
+  <path d="M524 78L694 92Q714 94 711 115L692 261Q689 282 668 279L499 262Q478 260 481 239L502 100Q505 77 524 78Z" stroke="#FFF" stroke-width="2"/>
+  <g transform="rotate(8 596 181)">
+    <path d="M536 205V173C536 130 560 107 596 107C632 107 657 130 657 173V205" stroke="url(#ink)" stroke-width="14" stroke-linecap="round"/>
+    <path d="M544 159C550 130 568 117 596 117C624 117 643 131 649 159" stroke="#F88962" stroke-width="5" stroke-linecap="round"/>
+    <path d="M533 179V211M660 179V211" stroke="#C7C2CB" stroke-width="18" stroke-linecap="round"/>
+    <rect x="532" y="172" width="31" height="65" rx="14" fill="url(#ink)" filter="url(#contact)"/>
+    <rect x="631" y="172" width="31" height="65" rx="14" fill="url(#ink)" filter="url(#contact)"/>
+    <rect x="539" y="176" width="19" height="56" rx="9" fill="#F9F6F2" stroke="#DDD5CF"/>
+    <rect x="636" y="176" width="19" height="56" rx="9" fill="#F9F6F2" stroke="#DDD5CF"/>
+    <path d="M545 183V223M643 183V223" stroke="#FFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <!-- Reading: the book is the compositional centre, with actual page structure. -->
+  <path d="M193 291L382 311L422 343L616 293L659 456L438 504L202 453Z" fill="#C8BFB6" opacity=".3" filter="url(#lift)"/>
+  <path d="M189 281C274 268 365 290 418 328C473 297 551 281 619 293L646 444C564 431 489 451 430 487C365 449 283 436 204 447Z" fill="#5B3C57"/>
+  <path d="M197 276C278 263 366 286 418 322C474 291 548 279 612 289L637 437C558 425 486 445 430 478C364 441 285 429 211 439Z" fill="#EEE6DC" stroke="#D6CABC"/>
+  <g stroke="#CEC0B2" stroke-width="1" opacity=".75"><path d="M211 432C286 422 368 434 430 471C490 438 558 419 636 430"/><path d="M210 426C289 416 368 428 429 465C491 432 558 412 635 424"/></g>
+  <path d="M192 259C281 245 363 266 416 307L429 457C365 418 283 405 207 418Z" fill="url(#paper)" stroke="#DED3C7"/>
+  <path d="M416 307C475 275 545 262 610 275L632 416C554 402 486 425 429 457Z" fill="url(#rightPaper)" stroke="#DED3C7"/>
+  <path d="M416 308L429 453" stroke="#C6B7A9" stroke-width="1.5"/>
+  <path d="M199 262C283 252 360 273 410 308M424 307C480 280 549 268 605 279" stroke="#FFF" stroke-width="2"/>
+  <!-- Typeset evidence, not arbitrary lines: title, paragraph and annotation. -->
+  <g stroke="#7B6A73" stroke-linecap="round">
+    <path d="M228 299C271 296 307 302 341 315" stroke-width="5"/>
+    <path d="M229 313C255 312 277 315 298 320" stroke-width="3" opacity=".6"/>
+    <path d="M232 337C285 335 334 348 374 367M234 350C286 348 336 361 376 380M236 363C273 362 309 369 341 381" stroke-width="2" opacity=".43"/>
+    <path d="M460 327C499 310 538 304 580 308M462 340C502 323 542 317 583 321M464 353C496 339 525 334 555 334" stroke-width="2" opacity=".43"/>
+  </g>
+  <path d="M226 336L229 365" stroke="#F15A2A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M476 373C505 360 534 355 565 355" stroke="#3158C7" stroke-width="2.5" opacity=".7" stroke-linecap="round"/>
+  <path d="M376 293C383 297 390 301 397 306L410 464L399 478L387 456Z" fill="url(#coral)"/>
+  <path d="M381 297L393 451" stroke="#FFB497" stroke-width="1.5" opacity=".8"/>
+  <!-- Writing: a separate annotation sheet and a carefully bevelled pencil. -->
+  <g transform="rotate(11 588 456)">
+    <path d="M534 403H662V511H534Z" fill="#FFFDF9" stroke="#DDD4CC" filter="url(#lift)"/>
+    <path d="M548 421H613M548 433H627M548 445H598" stroke="#B6ACB2" stroke-width="2" stroke-linecap="round"/>
+    <path d="M548 477C558 462 562 480 571 468C579 457 587 481 598 466" stroke="#5A345C" stroke-width="2" stroke-linecap="round"/>
+    <path d="M608 478L631 461" stroke="#F15A2A" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g transform="rotate(35 634 417)" filter="url(#contact)">
+    <path d="M625 343H643V456L634 480L625 456Z" fill="#F0D2B0"/>
+    <path d="M625 351H643V456H625Z" fill="url(#coral)"/>
+    <path d="M626 351H631V455H626Z" fill="#FFAD8B"/>
+    <path d="M639 351H643V456H639Z" fill="#C94B22"/>
+    <path d="M625 343Q625 335 633 335H635Q643 335 643 343V351H625Z" fill="#E3C2AE" stroke="#C5A28D"/>
+    <path d="M630 470L634 480L638 470Z" fill="#302935"/>
+    <path d="M625 354H643" stroke="#FFF2E2"/>
+  </g>
+  <!-- Four waypoints use one geometry, kept clear of all object edges. -->
+  <g fill="#FFFEFC" stroke="#DDD4CA" stroke-width="1.5"><circle cx="129" cy="307" r="7"/><circle cx="231" cy="494" r="7"/><circle cx="488" cy="530" r="7"/><circle cx="701" cy="279" r="7"/></g>
+  <g fill="#F15A2A"><circle cx="129" cy="307" r="3"/><circle cx="231" cy="494" r="3"/><circle cx="488" cy="530" r="3"/></g>
+  <circle cx="701" cy="279" r="3" fill="#3158C7"/>
+  <g fill="#766A70" font-family="-apple-system, BlinkMacSystemFont, Arial, sans-serif" font-size="10" letter-spacing="2">
+    <text x="89" y="326">SPEAK</text><text x="226" y="550">READ</text><text x="486" y="567">WRITE</text><text x="695" y="308">LISTEN</text>
+  </g>
+  <path d="M291 171C340 142 400 140 443 157" stroke="#D3C5BC" stroke-width="1.5" stroke-dasharray="3 6" stroke-linecap="round"/>
+  <path d="M429 147L444 157L427 163" stroke="#F15A2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

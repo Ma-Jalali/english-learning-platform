@@ -106,7 +106,7 @@ restored to draft after testing, and the learner view again hides it.
 
 ### Phase 0B — Chosen-direction surface prototypes
 
-Status: **Next — not started. Await a separate request to begin.**
+Status: **Complete — visually approved on 4 October 2026.**
 
 Phase 0A is complete (4 October 2026): **Porcelain Atlas V3 is the visually
 approved product direction**. V1 and V2 are preserved exploratory iterations.
@@ -114,21 +114,30 @@ Academic Instrument’s restraint remains the reference for serious assessment
 and administration; selected Living Language Studio ideas may be used sparingly
 for media-led and speaking/listening experiences.
 
-The [design laboratory](../design/phase-0a/README.md) is isolated from production.
-V3 is the approved foundation, not production-ready application code.
+The [Phase 0A laboratory](../design/phase-0a/README.md) and
+[Phase 0B laboratory](../design/phase-0b/README.md) are isolated from production.
+V3 and the approved surface prototypes are design foundations, not production-ready
+application code.
 
-When separately requested, build four non-production, responsive surface prototypes:
+Phase 0B created four non-production, responsive surface prototypes:
 
 - public landing;
 - student lesson;
 - admin content workbench;
 - assessment and detailed feedback experience.
 
-Use the realistic IELTS pilot fixture and acceptance criteria in the
-[approved design brief](visual-design-brief.md). Obtain separate visual approval
-before production CSS redesign, component migration, or implementation. Product
-decisions unrelated to visual selection remain unresolved; no Phase 0B work is
-included in the Phase 0A closeout.
+The prototypes use the realistic IELTS pilot fixture and acceptance criteria in
+the [approved design brief](visual-design-brief.md). The assessment surface also
+includes genuine range-based personal annotations, distinct Learning and Exam
+modes, anchored notes, detailed feedback states, and a separate lightweight
+Listening interaction specimen. Browser-viewable source, shared tokens, original
+vectors and change records are preserved under `design/phase-0b/`; raw audit
+captures remain ignored.
+
+Visual approval does not authorise production CSS redesign, component migration,
+mock-test work or implementation. Product decisions unrelated to visual selection
+remain unresolved. No production application, migration, Supabase configuration
+or authentication files changed during Phase 0B.
 
 ### Progress tracking — paused
 
@@ -210,10 +219,9 @@ the active roadmap.
 
 ## How to continue
 
-Codex should read `AGENTS.md` and this roadmap. The next milestone is Phase 0B,
-but it must not begin until the user requests it. Follow its non-production
-boundary and separate visual-approval gate; do not resume Progress Tracking or
-start production migration automatically. For an authorised milestone, run all required
+Codex should read `AGENTS.md` and this roadmap. Phase 0B is complete. Do not infer
+or begin a production implementation or mock-test extension; await a separately
+authorised next milestone. Do not resume Progress Tracking automatically. For an authorised milestone, run all required
 automated checks, perform relevant desktop/mobile and authorization checks, fix
 discovered problems, update this roadmap with the verified result and next
 active milestone, and commit the completed milestone locally with a clear

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" role="img" aria-labelledby="title desc">
+  <title id="title">Governed block composition</title><desc id="desc">A course hierarchy, lesson canvas and property inspector align around a locked core content block.</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f4eef3"/></linearGradient></defs>
+  <rect x="24" y="22" width="632" height="376" rx="32" fill="#fffdf9" stroke="#ded7d0"/>
+  <rect x="42" y="64" width="150" height="310" rx="18" fill="#f7f4ee"/><rect x="210" y="64" width="270" height="310" rx="18" fill="#fff" stroke="#ece5df"/><rect x="498" y="64" width="140" height="310" rx="18" fill="url(#g)"/>
+  <path d="M66 94h82M66 116h102M66 160h86M66 184h68M66 208h96M66 258h80M66 282h104" stroke="#bcb2ab" stroke-width="8" stroke-linecap="round"/>
+  <rect x="56" y="134" width="122" height="100" rx="14" fill="#f2eaf2" stroke="#fff"/><circle cx="74" cy="154" r="7" fill="#f15a2a"/><path d="M89 152h64M72 178h80M72 198h57" stroke="#5a345c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M246 104h196M246 132h148" stroke="#171714" stroke-width="10" stroke-linecap="round"/><path d="M246 174h184M246 191h166M246 208h174" stroke="#c8c0ba" stroke-width="7" stroke-linecap="round"/>
+  <rect x="236" y="237" width="218" height="106" rx="16" fill="#fff0e8" stroke="#f15a2a" stroke-width="2"/><path d="M258 264h93M258 284h168M258 302h149" stroke="#7e5b4c" stroke-width="7" stroke-linecap="round"/><path d="M415 251v16m-8-8h16" stroke="#bd4013" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#fff" stroke="#d8d1cb"><rect x="516" y="96" width="103" height="38" rx="10"/><rect x="516" y="150" width="103" height="60" rx="10"/><rect x="516" y="226" width="103" height="44" rx="10"/><rect x="516" y="286" width="103" height="62" rx="10"/></g>
+  <path d="M532 112h50M532 166h65M532 181h43M532 242h53M532 302h58M532 318h42" stroke="#6b6461" stroke-width="6" stroke-linecap="round"/>
+  <rect x="42" y="38" width="596" height="12" rx="6" fill="#ece5df"/><rect x="42" y="38" width="208" height="12" rx="6" fill="#f15a2a"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" role="img" aria-labelledby="title desc">
+  <title id="title">A language learning atlas</title>
+  <desc id="desc">Connected editorial planes show courses, lessons, evidence and progress converging on a warm orange learning path.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f2edf3"/></linearGradient>
+    <linearGradient id="paper2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf9"/><stop offset="1" stop-color="#eaf0ff"/></linearGradient>
+    <filter id="lift" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#3e2920" flood-opacity=".14"/></filter>
+  </defs>
+  <g fill="none" stroke="#ddd5ce" stroke-width="1"><path d="M42 90h676M42 190h676M42 290h676M42 390h676M42 490h676"/><path d="M100 36v548M220 36v548M340 36v548M460 36v548M580 36v548M700 36v548"/></g>
+  <path d="M70 510C164 500 170 405 257 403s100-118 197-118c77 0 93-78 225-111" fill="none" stroke="#f15a2a" stroke-width="8" stroke-linecap="round"/>
+  <path d="M70 510C164 500 170 405 257 403s100-118 197-118c77 0 93-78 225-111" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 14"/>
+  <g filter="url(#lift)">
+    <g transform="translate(58 352)"><rect width="205" height="144" rx="28" fill="url(#paper)" stroke="#fff"/><circle cx="34" cy="34" r="10" fill="#f15a2a"/><text x="58" y="39" fill="#412242" font-family="-apple-system,BlinkMacSystemFont,Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="1">COURSE</text><text x="28" y="80" fill="#171714" font-family="Georgia,serif" font-size="26">IELTS</text><text x="28" y="108" fill="#5e5759" font-family="-apple-system,BlinkMacSystemFont,Arial,sans-serif" font-size="13">Preparation · B2</text></g>
+    <g transform="translate(247 251)"><rect width="236" height="145" rx="30" fill="url(#paper2)" stroke="#fff"/><path d="M34 106V37h55l18 18v51z" fill="none" stroke="#3158c7" stroke-width="5" stroke-linejoin="round"/><path d="M89 37v19h18" fill="none" stroke="#3158c7" stroke-width="5"/><path d="M49 73h42M49 88h30" stroke="#5a345c" stroke-width="4" stroke-linecap="round"/><text x="128" y="56" fill="#412242" font-family="-apple-system,BlinkMacSystemFont,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1">LESSON</text><text x="128" y="82" fill="#171714" font-family="Georgia,serif" font-size="21">Evidence</text><text x="128" y="105" fill="#5e5759" font-family="-apple-system,BlinkMacSystemFont,Arial,sans-serif" font-size="12">Read · notice · practise</text></g>
+    <g transform="translate(449 111)"><rect width="245" height="161" rx="32" fill="url(#paper)" stroke="#fff"/><path d="M39 104c22-51 50-52 77-13s57 32 84-14" fill="none" stroke="#5a345c" stroke-width="5" stroke-linecap="round"/><circle cx="39" cy="104" r="9" fill="#3158c7"/><circle cx="116" cy="91" r="11" fill="#f15a2a"/><circle cx="200" cy="77" r="9" fill="#3158c7"/><text x="32" y="40" fill="#412242" font-family="-apple-system,BlinkMacSystemFont,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1">PROGRESS EVIDENCE</text><text x="32" y="137" fill="#171714" font-family="Georgia,serif" font-size="21">A route you can explain.</text></g>
+  </g>
+  <g fill="#fff" stroke="#f15a2a" stroke-width="4"><circle cx="70" cy="510" r="10"/><circle cx="257" cy="403" r="10"/><circle cx="454" cy="285" r="10"/><circle cx="679" cy="174" r="10"/></g>
+  <path d="M111 132c63-44 114-50 158-13" fill="none" stroke="#5a345c" stroke-width="3" stroke-linecap="round"/><path d="m259 110 17 12-20 6" fill="none" stroke="#5a345c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

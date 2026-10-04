@@ -1,10 +1,10 @@
 # Visual Product, Block System, and Assessment Engine Design Brief
 
-**Status:** Brief approved; Phase 0A complete — Porcelain Atlas V3 visually selected on 4 October 2026. Phase 0B is next and has not started.
+**Status:** Brief approved; Phase 0A and Phase 0B complete — Porcelain Atlas V3 was selected and its four surface prototypes were visually approved on 4 October 2026.
 
 **Audit date:** 3 October 2026
 
-**Scope boundary:** This document records the approved visual direction, not production-ready application code. Production implementation still requires Phase 0B surface prototypes and separate visual approval. No schema changes, migration changes, or remote database work are authorised.
+**Scope boundary:** This document records the approved visual direction and non-production surface prototypes, not production-ready application code. Production implementation and the mock-test extension require separate authorisation. No schema changes, migration changes, remote database work, Supabase changes or authentication work are authorised.
 
 ## 1. Executive design vision
 
@@ -959,7 +959,7 @@ Why it is the best long-term fit:
 - **Accessibility:** opaque reading surfaces, restrained motion, clear markers, and strong typography are inherent rather than corrective.
 - **Responsive design:** atlas rails become navigable sheets and the editorial spine becomes a strong mobile sequence.
 
-The selection does not approve production implementation. Phase 0B must validate four distinct product surfaces and receive separate approval before production CSS redesign or component migration. The unrelated product decisions in Section 28 remain unresolved.
+The selection did not approve production implementation. Phase 0B subsequently validated four distinct product surfaces and received visual approval on 4 October 2026. That approval closes the design-prototype gate only; production CSS redesign or component migration still requires separate authorisation. The unrelated product decisions in Section 28 remain unresolved.
 
 ## 26. Wire-level descriptions of essential screens and states
 
@@ -1037,16 +1037,16 @@ Selection followed explicit visual review, not merely this brief’s written rec
 
 ### Phase 0B — Chosen-direction prototypes
 
-**Status: Next — not started. Await a separate request to begin.** The Phase 0A visual-selection gate is satisfied. When authorised, create four non-production, high-fidelity responsive prototypes using Porcelain Atlas V3:
+**Status: Complete — visually approved on 4 October 2026.** The Phase 0A visual-selection gate was satisfied and four non-production, high-fidelity responsive prototypes were created using Porcelain Atlas V3:
 
 - public landing;
 - student lesson;
 - admin content workbench;
 - assessment and detailed feedback experience.
 
-These prototypes validate the chosen system across public identity, focused learning, operational authoring, and serious assessment. They must cover desktop and mobile compositions, meaningful state transitions, reduced-motion equivalents, course-theme restraint, reading measure, admin density, block hierarchy, and the boundary between assessment presentation and protected answers.
+These prototypes validate the chosen system across public identity, focused learning, operational authoring, and serious assessment. They cover desktop and mobile compositions, meaningful state transitions, reduced-motion equivalents, course-theme restraint, reading measure, admin density, block hierarchy, genuine personal text annotations, and the boundary between assessment presentation and protected answers. A separate lightweight Listening interaction specimen demonstrates reusable annotation behaviour without entering the Reading flow.
 
-**Production gate:** the first visual prototype set must be judged visually and explicitly accepted before any production CSS redesign, design-system implementation, or component migration begins. Prototype approval does not by itself approve database, Supabase, roadmap, or product-policy changes.
+**Production gate:** the first visual prototype set was judged visually and explicitly accepted on 4 October 2026. Prototype approval does not by itself approve production CSS redesign, design-system implementation, component migration, mock-test work, database, Supabase, authentication, roadmap, or product-policy changes.
 
 ### Required IELTS pilot prototype content
 
@@ -1173,4 +1173,4 @@ Acceptance evidence should record viewport results, keyboard paths, contrast che
 
 ## Approval gate
 
-Phase 0A is complete: the user visually selected Porcelain Atlas V3 on 4 October 2026. This approves the visual foundation only. Phase 0B has not started and requires a separate request; its four high-fidelity surface prototypes must be visually reviewed and explicitly accepted before any production CSS redesign or component migration begins. No application, schema, migration, Supabase, or unrelated product-policy changes are authorised by this selection. The roadmap records Phase 0B as next and Progress Tracking as paused.
+Phase 0A is complete: the user visually selected Porcelain Atlas V3 on 4 October 2026. Phase 0B is also complete: its four high-fidelity surface prototypes and final assessment refinements were visually approved on 4 October 2026. These approvals close the visual prototype gate only. No production application, schema, migration, Supabase, authentication, mock-test, or unrelated product-policy changes are authorised. Progress Tracking remains paused, and the next implementation milestone must be separately selected and approved.

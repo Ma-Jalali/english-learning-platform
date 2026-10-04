@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title desc">
+  <title id="title">Progress checkpoint</title><desc id="desc">A learning route passes through an orange checkpoint toward the next lesson.</desc>
+  <rect x="12" y="12" width="156" height="156" rx="44" fill="#fffdf9" stroke="#fff"/>
+  <path d="M33 119c30 0 29-57 60-57 24 0 27 37 54 37" fill="none" stroke="#5a345c" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="33" cy="119" r="8" fill="#3158c7"/><circle cx="93" cy="62" r="14" fill="#f15a2a" stroke="#fff" stroke-width="6"/><circle cx="147" cy="99" r="8" fill="#3158c7"/>
+  <path d="m132 87 15 12-16 10" fill="none" stroke="#3158c7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

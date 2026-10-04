@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="title">
+  <title id="title">Reading</title>
+  <g fill="none" stroke="#412242" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 9h30v43H18a7 7 0 0 1-7-7V17a8 8 0 0 1 7-8Z" fill="#fffdf9"/><path d="M11 45a7 7 0 0 1 7-7h30M19 45h29M19 10v27" /><path d="M31 39v17l5-3 5 3V39" fill="#f15a2a" stroke="none"/><path d="M27 20h12" stroke="#3158c7"/>
+  </g>
+</svg>

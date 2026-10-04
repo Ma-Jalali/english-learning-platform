@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <title>Porcelain Atlas precision timer dial</title>
+  <desc>Original static decorative clock: fine minute indices, twelve longer hour indices, sculpted ink hands and an orange needle. The adjacent digital display communicates remaining time.</desc>
+  <defs>
+    <linearGradient id="rim" x1="12" y1="3" x2="51" y2="61" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7f6f3"/><stop offset=".48" stop-color="#d6d3cc"/><stop offset="1" stop-color="#b7b3aa"/>
+    </linearGradient>
+    <linearGradient id="face" x1="20" y1="6" x2="44" y2="59" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/><stop offset="1" stop-color="#f5f3ee"/>
+    </linearGradient>
+    <linearGradient id="hand" x1="21" y1="20" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#494641"/><stop offset="1" stop-color="#171714"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="33" r="30" fill="#3b3427" opacity=".06"/>
+  <circle cx="32" cy="32" r="30.5" fill="url(#rim)" stroke="#c7c3bb" stroke-width=".6"/>
+  <circle cx="32" cy="32" r="29.2" fill="url(#face)" stroke="#fff" stroke-width="1"/>
+  <circle cx="32" cy="32" r="28.1" stroke="#dedbd5" stroke-width=".45"/>
+  <g stroke-linecap="round">
+      <path d="M 32.000 9.000 L 32.000 5.000" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 34.613 7.137 L 34.822 5.148" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 37.198 7.546 L 37.614 5.590" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 39.725 8.224 L 40.343 6.321" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 42.168 9.161 L 42.982 7.334" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 43.500 12.081 L 45.500 8.617" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 46.695 11.775 L 47.870 10.157" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 48.728 13.421 L 50.067 11.935" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 50.579 15.272 L 52.065 13.933" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 52.225 17.305 L 53.843 16.130" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 51.919 20.500 L 55.383 18.500" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 54.839 21.832 L 56.666 21.018" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 55.776 24.275 L 57.679 23.657" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 56.454 26.802 L 58.410 26.386" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 56.863 29.387 L 58.852 29.178" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 55.000 32.000 L 59.000 32.000" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 56.863 34.613 L 58.852 34.822" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 56.454 37.198 L 58.410 37.614" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 55.776 39.725 L 57.679 40.343" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 54.839 42.168 L 56.666 42.982" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 51.919 43.500 L 55.383 45.500" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 52.225 46.695 L 53.843 47.870" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 50.579 48.728 L 52.065 50.067" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 48.728 50.579 L 50.067 52.065" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 46.695 52.225 L 47.870 53.843" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 43.500 51.919 L 45.500 55.383" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 42.168 54.839 L 42.982 56.666" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 39.725 55.776 L 40.343 57.679" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 37.198 56.454 L 37.614 58.410" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 34.613 56.863 L 34.822 58.852" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 32.000 55.000 L 32.000 59.000" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 29.387 56.863 L 29.178 58.852" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 26.802 56.454 L 26.386 58.410" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 24.275 55.776 L 23.657 57.679" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 21.832 54.839 L 21.018 56.666" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 20.500 51.919 L 18.500 55.383" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 17.305 52.225 L 16.130 53.843" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 15.272 50.579 L 13.933 52.065" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 13.421 48.728 L 11.935 50.067" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 11.775 46.695 L 10.157 47.870" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 12.081 43.500 L 8.617 45.500" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 9.161 42.168 L 7.334 42.982" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 8.224 39.725 L 6.321 40.343" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 7.546 37.198 L 5.590 37.614" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 7.137 34.613 L 5.148 34.822" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 9.000 32.000 L 5.000 32.000" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 7.137 29.387 L 5.148 29.178" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 7.546 26.802 L 5.590 26.386" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 8.224 24.275 L 6.321 23.657" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 9.161 21.832 L 7.334 21.018" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 12.081 20.500 L 8.617 18.500" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 11.775 17.305 L 10.157 16.130" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 13.421 15.272 L 11.935 13.933" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 15.272 13.421 L 13.933 11.935" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 17.305 11.775 L 16.130 10.157" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 20.500 12.081 L 18.500 8.617" stroke="#494744" stroke-width="1.35"/>
+      <path d="M 21.832 9.161 L 21.018 7.334" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 24.275 8.224 L 23.657 6.321" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 26.802 7.546 L 26.386 5.590" stroke="#99968f" stroke-width=".65"/>
+      <path d="M 29.387 7.137 L 29.178 5.148" stroke="#99968f" stroke-width=".65"/>
+  </g>
+  <circle cx="32" cy="32" r="20" stroke="#e8e4dc" stroke-width=".45"/>
+  <g transform="translate(0 .7)" fill="#25211b" opacity=".10">
+    <path d="M 33.2 33.7 L 20.1 25.5 Q 18.8 24.7 19.7 23.5 Q 20.4 22.5 21.6 23.3 L 34 31.1 Z"/>
+    <path d="M 30.9 30.9 L 44.8 19.6 Q 45.7 18.9 46.4 19.8 Q 47 20.5 46.1 21.2 L 33 33.4 Z"/>
+  </g>
+  <path d="M 33.2 33.7 L 20.1 25.5 Q 18.8 24.7 19.7 23.5 Q 20.4 22.5 21.6 23.3 L 34 31.1 Z" fill="url(#hand)"/>
+  <path d="M 30.9 30.9 L 44.8 19.6 Q 45.7 18.9 46.4 19.8 Q 47 20.5 46.1 21.2 L 33 33.4 Z" fill="url(#hand)"/>
+  <path d="M 32 10.5 V 38" stroke="#ed541f" stroke-width="1.15" stroke-linecap="round"/>
+  <circle cx="32" cy="39" r="1.6" fill="#ed541f"/>
+  <circle cx="32" cy="32" r="2.7" fill="#fffdfa" stroke="#ddd6ca" stroke-width=".6"/>
+  <circle cx="32" cy="32" r="1.65" fill="#cf4212"/>
+  <circle cx="31.6" cy="31.45" r=".55" fill="#ffb594"/>
+</svg>

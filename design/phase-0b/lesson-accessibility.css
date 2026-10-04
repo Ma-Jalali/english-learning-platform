@@ -1,0 +1,4 @@
+/* Narrow-width correction only; the approved V3 foundation stays unchanged. */
+@media (max-width: 350px) {
+  .v3-inline-control:not(.is-short) select { width: 9.2rem; }
+}

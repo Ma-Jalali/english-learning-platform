@@ -1,0 +1,8 @@
+/* Review correction: one neutral spine and an identical badge column. */
+.v3-route-list::before { background: #d9d2cd; left: 17px; }
+.v3-route-list .is-current a {
+  width: calc(100% + 10px);
+  margin-left: -10px;
+  padding-left: 9px;
+  /* 9px padding + 1px border exactly offsets the 10px background extension. */
+}
