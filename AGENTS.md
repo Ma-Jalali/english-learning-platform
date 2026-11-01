@@ -54,6 +54,15 @@ These instructions apply to the entire repository. Read this file and
 - Keep security-definer helpers in `app_private`, pin an empty `search_path`, use
   schema-qualified objects, and grant only the narrow execution rights required
   by RLS.
+- Keep protected assessment data, such as answer rules and scoring policies, in
+  the dedicated `assessment_private` schema. No client role receives direct
+  access to it, including client-facing administrators. Server functions must
+  independently verify authentication, the server-controlled role, and
+  authorisation, and expose only the minimum data required.
+- Test every new migration and RLS policy in an isolated local Supabase
+  environment before any remote migration operation. Earlier migrations were
+  applied manually, so the live migration state must be verified separately,
+  with explicit approval, before any future remote migration operation.
 
 ### Known Supabase/PostgreSQL pitfall
 

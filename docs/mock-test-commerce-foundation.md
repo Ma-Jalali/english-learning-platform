@@ -2,8 +2,10 @@
 
 **Status:** Architecture approved in principle, with seven product defaults
 selected and policy baselines P1–P5 approved, as recorded on 1 November 2026 in [the decision register](decisions.md#phase-0c-mock-tests--architecture-and-product-policy). This is not implemented, and no implementation stage is authorised;
-each needs separate explicit approval. The open items in section 9 remain
-unresolved. The Phase 0C visual laboratory, built in the approved Porcelain
+each needs separate explicit approval. The Stage 1 planning decisions B1–B6
+were recorded on 1 November 2026 in [the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6)
+as approved for planning only; they refine sections 3, 5, 6, 7 and 10 below.
+The open items in section 9 remain unresolved. The Phase 0C visual laboratory, built in the approved Porcelain
 Atlas V3 direction, was visually approved on 10 October 2026. No production
 code, migration, Supabase configuration, payment connection, or live catalogue
 is included in Phase 0C.
@@ -43,7 +45,10 @@ design lab illustrates information hierarchy only.
 ## 3. Proposed data model
 
 This is a precise implementation plan, not a migration. Names may be refined in
-the database milestone, but the boundaries should remain.
+the Stage 1A and Stage 1B database designs (B2), but the boundaries should
+remain. Stage 1A holds the content, profile, version, capability and protected
+answer tables; Stage 1B holds the student-linked ownership, allowance and
+accommodation tables; later tables belong to the stages listed in section 10.
 
 ```text
 exam_families ──< examination_profiles ──< examination_profile_sources
@@ -87,13 +92,22 @@ students ──< mock_test_entitlements <─┘
 | `examination_profile_sources` | Exact official source title, provider, canonical URL, accessed date, applicable date, uncertainty note, and source checksum/record timestamp. |
 | `mock_test_series` | Business-owned series and catalogue grouping, independent of a course. |
 | `mock_tests` | Durable test identity, family, series, public number/title, availability status, accessibility/technical summary. No questions or scores. The IELTS Academic pilot has exactly ten public identities, numbered 1–10. |
-| `mock_test_versions` | Test identity, profile, version number, content status, publication and retirement timestamps, predecessor/correction link, manifest checksum. Unique test + version. Publication freezes the manifest. |
+| `mock_test_versions` | Test identity, profile, version number, content status, publication and retirement timestamps, predecessor/correction link, manifest checksum. Unique test + version. Publication freezes the manifest. Supersession and retirement are atomic, and historical versions are preserved (B4). |
 | `test_sections` / `test_parts` | Ordered structure, timings, navigation rules, break rules, and manual-review capability. |
 | `stimuli` / `stimulus_assets` | Version-owned Reading, Listening, image, diagram, map, audio, video, and contextual material. Media references private asset records rather than public URLs. |
 | `question_groups` / `questions` | Ordered capability type plus accessible prompt/layout metadata. The renderer uses capabilities, not provider-specific component names. |
-| `app_private.answer_rules` | Accepted responses, normalisation, cardinality, word limits, mappings, and protected answer data. No browser grants. |
-| `app_private.scoring_policies` | Versioned automatic rules and manual criteria references. No browser grants. |
-| `app_private.feedback_content` | Explanations and rationales gated by release policy. Read only through an authorised server path after release. |
+| `assessment_private.answer_rules` | Accepted responses, normalisation, cardinality, word limits, mappings, and protected answer data. Frozen with their published version (B4). No direct client-role access, including client-facing administrators (B3). |
+| `assessment_private.scoring_policies` | Versioned automatic rules and manual criteria references. Frozen with their published version (B4). No direct client-role access (B3). |
+| `feedback_content` | Explanations and rationales gated by release policy. Read only through an authorised server path after release. Its location and design belong to Stage 4 and depend on U1. |
+
+Access to `assessment_private` is only through server functions that
+independently verify authentication, the server-controlled role and
+authorisation, and expose only the minimum data required (B3).
+
+*Superseded:* these three tables were originally placed in `app_private`. B3
+moved answer rules and scoring policies to a dedicated `assessment_private`
+schema, because existing migrations grant `authenticated` USAGE on
+`app_private` so that RLS can call its helpers.
 
 Question capability keys include single choice, multiple response, T/F/NG,
 Y/N/NG, four matching families, sentence/summary/note/table/flow-chart
@@ -101,6 +115,15 @@ completion, map/diagram labelling, short answer, variable-option cloze, typed or
 banked gap, dropdown/drag matching, reordering, Writing, recorded Speaking, and
 provider-profile extensions. A profile composes these capabilities; it does not
 fork the engine.
+
+This list is the long-term target. Under B6, an extensible, versioned
+capability registry initially supports single choice, multiple response,
+True/False/Not Given, typed completion and selection-based completion, for the
+D7 Reading validation slice. Stage 1A provides the capability identifiers,
+schema versions and database integrity constraints; Stage 2 provides
+interactive rendering, response validation and delivery behaviour. Detailed
+response contracts (response schemas, normalisation, word limits and related
+constraints) remain unresolved until the Stage 1A design review.
 
 ### Offers, future orders, and ownership
 
@@ -237,7 +260,9 @@ the IELTS Academic pilot:
 Timing, pause, timeout, release and marking defaults are not automatically
 shared by other examination profiles; each must confirm or replace them before
 publication. The approved accommodation records (P1) are not yet in the data
-model in section 3 and must be designed in the database milestone.
+model in section 3. Under B2 they belong to Stage 1B, the student ownership and
+privacy database foundation, which also requires B7. *(Superseded: this
+originally said they must be designed in "the database milestone".)*
 
 Further proposed attempt rules, part of the architecture approved in principle
 but not separately decided:
@@ -256,10 +281,10 @@ but not separately decided:
 |---|---|---|---|---|
 | Read published catalogue metadata | Allowed | Allowed | Allowed | Public subset only |
 | Grant/revoke entitlement | Own: no | No | Yes, audited | No |
-| Read entitlement | Own only | No | Organisation/support scope only | No |
+| Read entitlement | Own only | No | Platform-wide administrators (B5); institution scope to be designed separately | No |
 | Start/resume attempt | Own eligible entitlement only | No | Preview uses isolated non-scored context | No |
 | Read/write response | Own active attempt only | Assigned review is read-only after submission | Audited support scope | No |
-| Read protected answer/scoring rules | Never directly | Only released/manual criteria required for assignment | Authorised admin server path | No |
+| Read protected answer/scoring rules | Never directly | Only released/manual criteria required for assignment | Never directly; only through a server function that verifies authorisation (B3) | No |
 | Score automatically | No | No | Server process only | No |
 | Review Writing/Speaking | No | Assigned responses only | Assign/reassign/audit | No |
 | Release results | No | Only if a future explicit permission permits | Yes | No |
@@ -276,6 +301,22 @@ roles and full hierarchy/assignment checks. Security-definer helpers belong in
 `app_private`, pin an empty `search_path`, schema-qualify objects, and receive
 only narrow execution grants. No service-role key enters browser code.
 
+Under B3, protected answer rules and scoring policies live in
+`assessment_private`, which no client role can access directly, including
+client-facing administrators. Note that the comment in the first migration
+saying application roles "receive no access" to `app_private` is out of date:
+later migrations grant `authenticated` USAGE on `app_private` for the RLS
+helpers. Committed migrations are immutable, so this is recorded here rather
+than corrected in place.
+
+Under B5, existing authorised platform administrators keep platform-wide
+catalogue administration through named, server-controlled security helpers, so
+that a later institution scope changes the helpers rather than every policy.
+Future institution administrators must not automatically inherit
+platform-wide privileges. *(Superseded: the permissions matrix originally gave
+administrators "Organisation/support scope only" for reading entitlements; that
+scope is deferred to a separate future design, not dropped.)*
+
 ## 7. Administration foundation
 
 The future workspace should let administrators create series and tests, attach
@@ -290,6 +331,17 @@ transcripts/captions, response constraints, answer rules, scoring coverage,
 manual criteria, media access, or release policy are incomplete. Teachers cannot
 edit business-owned test content unless a later administrator-controlled author
 permission is explicitly designed and approved.
+
+This workspace is delivered across stages. Stage 1C (administrator authoring
+and publication workspace) covers drafting for the B6 capabilities, protected
+answer-rule entry through server functions, validation, and publication,
+retirement and supersession with a recorded reason. Development content stays in
+test-only fixtures, never in migrations or on the live project. The other
+administration functions listed above (offers, access grants and entitlement
+history, review assignment, result release) are not part of Stage 1C; they
+follow the stages that introduce their data, each separately approved. U2 and
+U5 must be resolved before any real examination profile is published,
+including through Stage 1C.
 
 ## 8. Official examination-profile source register
 
@@ -375,6 +427,15 @@ Status as of 1 November 2026; see [the decision register](decisions.md#phase-0c-
 13. Explanation and answer-review policy after release. **Unresolved (U1).**
 14. Approval of the official examination-profile source register in section 8.
     **Unresolved (U2).**
+15. Stage 1 planning. **Approved for planning (B1–B6), not implemented:**
+    isolated local database testing; the Stage 1A/1B split; the
+    `assessment_private` schema; immutable published content, protected answers
+    and profiles; platform-wide administrators through named helpers; and the
+    initial capability registry. *Open:* B6's detailed response schemas,
+    normalisation, word limits and related constraints (until the Stage 1A
+    design); local tooling installation and configuration (not authorised).
+16. Privacy subject model for student-linked records. **Unresolved (B7);
+    required before Stage 1B.**
 
 ## 10. Implementation sequence after separate approval
 
@@ -383,23 +444,50 @@ Status as of 1 November 2026; see [the decision register](decisions.md#phase-0c-
    official profile register (U2) remains open. The Phase 0C visual direction
    was approved separately on 10 October 2026.
 
-Every following stage needs its own explicit authorisation.
+   *Stage 1 planning decisions B1–B6 recorded 1 November 2026* (approved for
+   planning, not implemented).
 
-2. **Database foundation** — new migration for identities, immutable versions,
-   offers, entitlements, audit ledgers, RLS, and transaction boundaries.
-3. **Test engine** — profile/capability registry, protected content delivery,
-   server time, autosave, annotations, responses, and submission lifecycle,
-   validated first with the selected IELTS Academic Reading slice (D7: mixed
-   selection and completion questions). The slice validates the engine; it is
-   not a full mock test or a launch.
-4. **Catalogue and access** — free offer acquisition, automatic server allocation,
-   duplicate-safe atomic entitlement fulfilment, and My Mock Tests.
-5. **Scoring and release** — protected automatic scoring, reproducible score runs,
-   release policy, and student review.
-6. **Manual marking** — assignment-scoped Writing/Speaking review, moderation,
-   audit, and release.
-7. **Future payments (blocked)** — only after business, legal, banking, currency,
-   tax, provider, refund, and security decisions are approved.
+Every following stage needs its own explicit authorisation. The stage labels
+match [the roadmap](roadmap.md).
+
+- **Stage 1A — Content and publication database foundation** — identities,
+  examination profiles and sources, immutable versions, content structure, the
+  B6 capability registry's identifiers, schema versions and database integrity
+  constraints, protected answers in `assessment_private`
+  (B3), freeze triggers, atomic supersession and retirement (B4), named
+  administrator helpers (B5), RLS, and lifecycle audit.
+- **Stage 1B — Student ownership and privacy database foundation** — student
+  subjects, entitlements, allowance ledgers, accommodation records and their
+  audit records. Requires B7.
+- **Stage 1C — Administrator authoring and publication workspace** — see
+  section 7. Publishing a real examination profile requires U2 and U5.
+- **Stage 2 — Shared engine and secure attempts** — capability rendering and
+  response validation, protected content delivery, server time, autosave,
+  annotations, responses, and submission lifecycle, validated first with the
+  selected IELTS Academic Reading slice (D7: mixed selection and completion
+  questions). The slice validates the engine; it is not a full mock test or a
+  launch.
+- **Stage 3 — Free catalogue access, offers, automatic bundle allocation and My
+  Mock Tests** — free offer acquisition, automatic server allocation (D1), and
+  duplicate-safe atomic fulfilment into the Stage 1B entitlement ledger.
+- **Stage 4 — Scoring, results and release** — protected automatic scoring,
+  reproducible score runs, release policy, and student review.
+- **Stage 5 — Manual marking** — assignment-scoped Writing/Speaking review,
+  moderation, audit, and release.
+- **Stage 6 — Future payments (deferred and blocked)** — only after business,
+  legal, banking, currency, tax, provider, refund, and security decisions are
+  approved.
+
+Before any remote migration operation, the live migration state must be
+verified separately with explicit approval, because the existing migrations
+were applied manually.
+
+*Superseded:* this section previously numbered the steps 1–7, with "2. Database
+foundation" covering identities, versions, offers, entitlements and audit
+ledgers, and "3. Test engine" including the profile/capability registry. B2
+split the database foundation into Stages 1A and 1B and moved offers to Stage 3;
+the capability registry records moved to Stage 1A, while rendering and response
+validation remain in Stage 2; Stage 1C was added for authoring.
 
 Progress Tracking remains paused and is not erased or implicitly resumed by this
 proposal.

@@ -110,6 +110,8 @@ restored to draft after testing, and the learner view again hides it.
 approved. Its architecture is approved in principle, seven product defaults are
 selected, and policy baselines P1–P5 are approved; all were recorded on
 1 November 2026 in [the decision register](decisions.md#phase-0c-mock-tests--architecture-and-product-policy).
+The Stage 1 planning decisions B1–B6 were also recorded on 1 November 2026 in
+[the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6).
 These are documentation approvals only: no Phase 0C implementation stage is
 authorised until the user explicitly selects and authorises one. **The next
 activity is Phase 0C planning and review** (see [How to continue](#how-to-continue)),
@@ -120,7 +122,8 @@ complete and Progress Tracking is paused. Neither is active.
 ### Phase 0C — Mock-test catalogue and future-commerce foundation
 
 Status: **Active — architecture approved in principle; product defaults
-selected; policy baselines P1–P5 approved (recorded 1 November 2026). Not implemented; no
+selected; policy baselines P1–P5 approved; Stage 1 planning decisions B1–B6
+approved for planning (all recorded 1 November 2026). Not implemented; no
 implementation stage authorised.** The visual laboratory is complete and passed
 the final integration audit on 10 October 2026.
 
@@ -139,20 +142,62 @@ free: no price, checkout, bank/tax workflow, payment SDK, currency conversion,
 or transaction processing is active. Phase 0C does not modify production
 application behaviour, Supabase, authentication, or migrations.
 
-The proposed implementation sequence is below. Each stage needs its own
-explicit authorisation; the policy approvals above do not authorise any of them.
+The proposed implementation sequence is below, as reconciled with planning
+decision B2. Each stage needs its own explicit authorisation; the policy and
+planning approvals above do not authorise any of them.
 
-1. mock-test database foundation, immutable versioning, RLS, and audit;
-2. shared profile-driven test engine and secure attempt delivery, validated first
-   with the selected IELTS Academic Reading slice (mixed selection and
-   completion questions). The slice tests the engine; it does not widen this
-   stage into a full mock test or a launch;
-3. free access, server-assigned bundles, entitlements, and My Mock Tests;
-4. protected scoring, result release, and review;
-5. assignment-scoped Writing/Speaking manual marking;
-6. future payment activation, **blocked** until business, legal, banking,
-   international-currency (USD versus AUD), toman, tax, provider, refund, and
-   webhook-security decisions are approved.
+- **Stage 1A — Content and publication database foundation.** Test identities,
+  examination profiles and their sources, immutable versions, content
+  structure, the B6 capability registry's identifiers, schema versions and
+  database integrity constraints (not rendering, response validation or
+  delivery behaviour, which belong to Stage 2), protected answer rules and
+  scoring policies in `assessment_private` (B3), freeze triggers, atomic
+  supersession and retirement, lifecycle audit (B4), and named administrator
+  security helpers (B5). Database only; no student data.
+- **Stage 1B — Student ownership and privacy database foundation.** Student
+  subjects, entitlements, allowance ledgers (D2), accommodation records (P1)
+  and their audit records. Database only. Requires B7 (the privacy subject
+  model).
+- **Stage 1C — Administrator authoring and publication workspace.**
+  Administrator-only server actions and interface for the B6 capabilities:
+  drafting, protected answer-rule entry through server functions, validation,
+  and publication, retirement and supersession with a recorded reason. No
+  teacher authoring. Development content stays in test-only fixtures, never in
+  migrations or on the live project. Publishing any real examination profile,
+  here or elsewhere, requires U2 and U5 to be resolved first.
+- **Stage 2 — Shared engine and secure attempts.** Shared profile-driven test
+  engine, interactive capability rendering, response validation and delivery
+  behaviour (B6), and secure attempt delivery, validated first with the selected IELTS
+  Academic Reading slice (D7: mixed selection and completion questions). The
+  slice tests the engine; it does not widen this stage into a full mock test or
+  a launch. Requires Stages 1A, 1B and 1C, and a published profile (so U2 and
+  U5 resolved).
+- **Stage 3 — Free catalogue access, offers, automatic bundle allocation and My
+  Mock Tests.** Uses the Stage 1B entitlement ledger and the D1 allocation
+  policy.
+- **Stage 4 — Scoring, results and release** (D5; explanation policy U1).
+- **Stage 5 — Manual marking** of assignment-scoped Writing and Speaking (D6,
+  P4; sequencing U8).
+- **Stage 6 — Future payments: deferred and blocked** until business, legal,
+  banking, international-currency (USD versus AUD), toman, tax, provider,
+  refund, and webhook-security decisions are approved.
+
+Stages 1B and 1C each depend only on Stage 1A and may be authorised in either
+order.
+
+*Superseded planning text:* before B2, this sequence read "1. mock-test database
+foundation, immutable versioning, RLS, and audit" and "3. free access,
+server-assigned bundles, entitlements, and My Mock Tests", with no authoring
+stage. B2 split the database foundation into Stages 1A and 1B, moved
+entitlements to Stage 1B, and Stage 1C was added for authoring and publication.
+
+**Before any remote migration operation.** The existing migrations were applied
+to the Supabase project manually, so the live migration state (including its
+migration history) must be verified separately, with explicit approval, before
+any future remote migration operation. A fresh backup and approval of the exact
+operation are also required. Until then, new migrations are tested only in the
+isolated local environment (B1), whose installation and configuration are not
+yet authorised.
 
 No implementation stage begins from this document alone.
 
@@ -198,8 +243,9 @@ timeout, release and review defaults for the IELTS Academic pilot, but their
 operational details and the unresolved items U1–U8 in
 [the decision register](decisions.md#still-unresolved) remain open. U1–U5 and U8
 (including explanation policy and the examination-profile source register) are
-active and stage-dependent; U6 and U7 are deferred with payments. Payments remain
-deferred.
+active and stage-dependent; U6 and U7 are deferred with payments. B7, the
+privacy subject model, is unresolved and required before Stage 1B. Retention
+periods remain unapproved. Payments remain deferred.
 
 ### Phase 0B — Chosen-direction surface prototypes
 
@@ -324,16 +370,32 @@ visual laboratory is complete, its architecture is approved in principle, and it
 product defaults and policy baselines are recorded in
 [the decision register](decisions.md).
 
-**Next activity: Phase 0C planning and review.** This covers:
+**Next activity: Phase 0C planning and review continues.** The Stage 1
+technical design proposal was reviewed in Chat 01, and planning decisions B1–B6
+were recorded on 1 November 2026 in
+[the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6).
+The remaining planning work is:
 
-- reviewing the outstanding decisions: the active, stage-dependent items U1–U5
-  and U8, and the open operational details of D1–D7 and P1–P5, identifying
-  which implementation stage needs each one;
-- preparing a scoped design proposal for Stage 1 (mock-test database
-  foundation, immutable versioning, RLS and audit) for the user's review.
+- the detailed Stage 1A design for the user's review, including B6's response
+  schemas, normalisation, word limits and related constraints, which remain
+  unresolved until that design;
+- resolving B7 (the privacy subject model) before Stage 1B;
+- resolving U2 and U5 before any real examination profile is published;
+- continuing to identify which stage needs each remaining item (U1, U3, U4, U8
+  and the open details of D1–D7 and P1–P5).
+
+Each of the following needs its own separate, explicit approval, in this order:
+setting up the isolated local test environment (B1: Docker, Supabase CLI
+configuration and any repository files it adds); implementing Stage 1A; and,
+later, Stage 1B and Stage 1C. Live-state verification and any remote migration
+operation need separate approval as described in the Phase 0C section.
+
+*Superseded:* the previous next activity was "reviewing the outstanding
+decisions … and preparing a scoped design proposal for Stage 1". That proposal
+was prepared, reviewed in Chat 01 and refined into B1–B6.
 
 Planning and review produce documents for the user's decision only. A planning
-document, a Stage 1 proposal, or the user's approval of either does not
+document, a stage design, or the user's approval of either does not
 authorise implementation. Do not infer or begin Phase 0C database, engine,
 catalogue, scoring, marking, or payment implementation, and do not create or
 apply migrations or change Supabase, until the user separately and explicitly

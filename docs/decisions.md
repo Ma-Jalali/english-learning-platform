@@ -1,7 +1,7 @@
 # Product decisions
 
 This file is the product decision register, from early decisions through the
-Phase 0C policy review. `AGENTS.md` and
+Phase 0C policy review and Stage 1 planning decisions. `AGENTS.md` and
 [`roadmap.md`](roadmap.md) are authoritative for current direction; where an
 entry below was later superseded, the superseded wording is kept for history and
 the current position is stated beside it.
@@ -139,6 +139,10 @@ which stage needs each one.
 - **U5** Profile governance: a named owner and re-verification cadence.
 - **U8** How mock-test manual marking is sequenced against the roadmap's
   cohort-based assessment and feedback milestone.
+- **B7** Privacy subject model: how student-linked mock-test records identify a
+  student so that privacy and audit integrity are both protected on account
+  deletion, without assuming retention periods or unrestricted cascading
+  deletion. Added with the Stage 1 planning decisions; required before Stage 1B.
 
 **Deferred.** Not needed until payments are reassessed under the roadmap's
 deferred Payments stage.
@@ -146,3 +150,35 @@ deferred Payments stage.
 - **U6** Future owned-test pricing credit or proration.
 - **U7** All payment decisions (currency choice, toman convention, providers,
   banking, tax, refunds); payments remain deferred.
+
+## Phase 0C Stage 1 planning decisions (B1–B6)
+
+Recorded on 1 November 2026 from the user's Chat 01 review of the Stage 1
+technical design proposal. They refine, and do not reopen, the architecture,
+D1–D7 and P1–P5 above.
+
+**Approval boundary.** B1–B6 are approved for planning only. Nothing here is
+implemented, and nothing here authorises installing Docker or other tools,
+initialising or linking Supabase, creating or applying a migration, or starting
+any implementation stage. Each stage in the roadmap needs its own explicit
+authorisation, and each commit and push needs separate approval.
+
+| # | Approved for planning | Boundaries and open details |
+|---|---|---|
+| B1 | **Isolated database testing.** Migrations and RLS are tested on a local Supabase stack running in Docker, never against the existing Supabase project. | Installing Docker or the CLI tooling, `supabase init`, and any repository configuration it adds remain unauthorised until separately approved. |
+| B2 | **Stage 1 split.** Stage 1A covers test content, examination profiles, immutable versions, protected answers and publication foundations. Stage 1B covers student subjects, entitlements, allowance ledgers, accommodations and their audit records. | Each needs separate implementation approval. Stage 1B also needs B7. |
+| B3 | **Protected assessment data.** Answer rules and scoring policies live in a dedicated `assessment_private` schema. No client role has direct access to it, including client-facing administrators. | Server functions must independently verify authentication, the server-controlled role and authorisation, and expose only the minimum data required. |
+| B4 | **Immutability.** Published test content, its protected answers and published examination profiles are immutable. A correction creates a new version; supersession and retirement are atomic; historical versions are preserved. | Applies to administrators as well as other roles. |
+| B5 | **Administrator scope.** Existing authorised platform administrators keep platform-wide catalogue administration through named, server-controlled security helpers. | Institution-level administration is designed separately later. Future institution administrators must not automatically inherit platform-wide privileges. |
+| B6 | **Capability registry.** An extensible, versioned capability registry, initially supporting single choice, multiple response, True/False/Not Given, typed completion and selection-based completion, for the approved D7 Reading validation slice. | Stage 1A holds the capability identifiers, schema versions and database integrity constraints; Stage 2 holds interactive rendering, response validation and delivery behaviour. This does not expand Stage 1A into engine implementation. Detailed response contracts (response schemas, normalisation, word limits and related constraints) are unresolved until the Stage 1A design review; none is invented or approved here. This records the initial capability set for D7's open "exact question capabilities" detail; D7's other open details are unchanged. |
+
+**Publication safeguard.** U2 (the examination-profile source register) and U5
+(profile governance) must be resolved before any real examination profile is
+published, including publication through the Stage 1C authoring workspace.
+
+**Live-state safeguard.** The existing migrations were applied to the Supabase
+project manually. Before any future remote migration operation, the live
+migration state must be verified separately, with explicit approval.
+
+B7 (the privacy subject model) is recorded as unresolved under
+[Still unresolved](#still-unresolved) and is required before Stage 1B.
