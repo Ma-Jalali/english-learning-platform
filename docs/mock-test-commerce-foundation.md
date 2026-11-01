@@ -466,7 +466,11 @@ Status as of 1 November 2026; see [the decision register](decisions.md#phase-0c-
     and profiles; platform-wide administrators through named helpers; and the
     initial capability registry. *Open:* B6's detailed response schemas,
     normalisation, word limits and related constraints (until the Stage 1A
-    design); local tooling installation and configuration (not authorised).
+    design). *Local tooling:* when B1 was recorded, local tooling installation
+    and configuration were not authorised; the isolated local Supabase
+    environment was subsequently approved, configured, committed and pushed in
+    `c559d26` (`c559d260f8eb5cbf2e230e0153970657b54e298a`). This does not
+    authorise Stage 1A implementation or new migrations.
 16. Privacy subject model for student-linked records. **Unresolved (B7);
     required before Stage 1B.**
 17. Stage 1A design (Checkpoint C1). **Approved at stated levels, not
