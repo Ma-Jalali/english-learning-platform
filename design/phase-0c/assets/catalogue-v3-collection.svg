@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="500" viewBox="0 0 720 500" fill="none">
+  <title>Ten tests, four skills</title>
+  <desc>An original porcelain book collection: a detailed first test with four skill symbols and nine numbered companion tests.</desc>
+  <defs>
+    <linearGradient id="cover" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".7" stop-color="#fffefd"/><stop offset="1" stop-color="#f0e9f0"/></linearGradient>
+    <linearGradient id="small" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f5f0f5"/></linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff8b60"/><stop offset="1" stop-color="#ed5122"/></linearGradient>
+    <linearGradient id="spine"><stop stop-color="#e8dde7"/><stop offset=".45" stop-color="#faf7fa"/><stop offset="1" stop-color="#ded2dd"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#e7dbe6" stop-opacity=".5"/><stop offset="1" stop-color="#f5f5f7" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-30%" y="-20%" width="170%" height="170%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#392c38" flood-opacity=".07"/><feDropShadow dx="2" dy="14" stdDeviation="12" flood-color="#392c38" flood-opacity=".1"/></filter>
+    <filter id="soft" x="-30%" y="-25%" width="180%" height="180%"><feDropShadow dx="0" dy="2" stdDeviation="1" flood-color="#392c38" flood-opacity=".05"/><feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#392c38" flood-opacity=".08"/></filter>
+    <g id="book"><rect x="2" y="4" width="81" height="105" rx="10" fill="#ece6ec"/><rect x="1" y="1" width="81" height="105" rx="10" fill="url(#small)" stroke="#d9cfd9" stroke-width=".8"/><path d="M10 2v101" stroke="#eee7ee"/><path d="M15 102h56" stroke="#cfc3cd" stroke-width=".6"/><rect x="57" y="1" width="11" height="21" rx="1" fill="url(#orange)"/><path d="M23 69h40m-40 7h30m-30 7h35" stroke="#c8b9c8" stroke-width="1.4" stroke-linecap="round"/><path d="M23 92h12" stroke="#e7653a" stroke-width="2" stroke-linecap="round"/></g>
+  </defs>
+  <ellipse cx="375" cy="270" rx="336" ry="228" fill="url(#glow)"/>
+  <!-- Ten separate covers. The first is enlarged to reveal the four-skill system. -->
+  <g transform="translate(346 66) rotate(3 145 180)" font-family="Georgia,serif" font-size="27" fill="#5a345c">
+    <g transform="translate(0 0)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">02</text></g>
+    <g transform="translate(101 0)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">03</text></g>
+    <g transform="translate(202 0)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">04</text></g>
+    <g transform="translate(0 129)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">05</text></g>
+    <g transform="translate(101 129)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">06</text></g>
+    <g transform="translate(202 129)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">07</text></g>
+    <g transform="translate(0 258)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">08</text></g>
+    <g transform="translate(101 258)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">09</text></g>
+    <g transform="translate(202 258)"><use href="#book" filter="url(#soft)"/><text x="22" y="49">10</text></g>
+  </g>
+  <g transform="translate(60 93) rotate(-5 126 162)">
+    <rect x="4" y="8" width="242" height="327" rx="19" fill="#e4dae4" filter="url(#shadow)"/>
+    <rect x="1" y="1" width="242" height="327" rx="19" fill="url(#cover)" stroke="#d5cad4" stroke-width="1"/>
+    <rect x="4" y="3" width="235" height="320" rx="17" stroke="#fff" stroke-width="1.5"/>
+    <path d="M19 3v321" stroke="url(#spine)" stroke-width="5"/>
+    <path d="M187 1h23v54l-11.5-8L187 55Z" fill="url(#orange)"/>
+    <text x="42" y="84" font-family="Georgia,serif" font-size="64" fill="#402442">01</text>
+    <path d="M43 106h42" stroke="#f15a2a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M43 125h158" stroke="#e2d9e1"/>
+    <!-- Reading, listening, writing, speaking: consistent fine line geometry. -->
+    <g stroke="#5a345c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <g transform="translate(48 146)"><path d="M0 4c9-3 14 0 19 3 5-3 10-6 19-3v28c-9-3-14 0-19 3-5-3-10-6-19-3Z"/><path d="M19 7v28" stroke="#f15a2a"/><path d="m6 13 7 1m12 0 7-1" opacity=".5"/></g>
+      <g transform="translate(144 145)"><path d="M1 20v-3a17 17 0 0 1 34 0v3"/><path d="M8 5a13 13 0 0 1 20 0" stroke="#f15a2a" stroke-width="2.6"/><rect x="0" y="18" width="8" height="16" rx="4"/><rect x="28" y="18" width="8" height="16" rx="4"/></g>
+      <g transform="translate(49 215)"><path d="M22 1H0v35h28V24M6 10h11M6 16h8m-8 14h9"/><path d="m19 24 14-22 6 4-14 22-8 4Z" fill="#fff0e8"/><path d="m24 21 10-16" stroke="#f15a2a" stroke-width="2.6"/></g>
+      <g transform="translate(148 212)"><rect x="5" y="0" width="17" height="28" rx="8.5"/><path d="M0 20v2a13.5 13.5 0 0 0 27 0v-2M13.5 36v5m-8 0h16M5 10h4m9 0h4M5 16h4m9 0h4"/><path d="M11 5h5" stroke="#f15a2a" stroke-width="2.6"/></g>
+    </g>
+    <path d="M43 284h158" stroke="#e2d9e1"/>
+    <g fill="#b9a7b8"><circle cx="46" cy="302" r="2"/><circle cx="58" cy="302" r="2"/><circle cx="70" cy="302" r="2"/><circle cx="82" cy="302" r="2"/><circle cx="94" cy="302" r="2"/><circle cx="106" cy="302" r="2"/><circle cx="118" cy="302" r="2"/><circle cx="130" cy="302" r="2"/><circle cx="142" cy="302" r="2"/><circle cx="154" cy="302" r="2"/></g>
+    <circle cx="46" cy="302" r="3" fill="#f15a2a"/>
+  </g>
+</svg>
