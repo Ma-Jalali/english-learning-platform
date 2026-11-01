@@ -5,6 +5,11 @@ selected and policy baselines P1–P5 approved, as recorded on 1 November 2026 i
 each needs separate explicit approval. The Stage 1 planning decisions B1–B6
 were recorded on 1 November 2026 in [the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6)
 as approved for planning only; they refine sections 3, 5, 6, 7 and 10 below.
+The Stage 1A design decisions B6-1 to B6-8 and clarifications C1-A to C1-C
+(Checkpoint C1) were recorded on 1 November 2026 in
+[the decision register](decisions.md#phase-0c-stage-1a-design-decisions-checkpoint-c1)
+at their stated approval levels; they refine sections 3, 7, 9 and 10. They do
+not approve exact schemas, algorithms or any implementation.
 The open items in section 9 remain unresolved. The Phase 0C visual laboratory, built in the approved Porcelain
 Atlas V3 direction, was visually approved on 10 October 2026. No production
 code, migration, Supabase configuration, payment connection, or live catalogue
@@ -59,6 +64,7 @@ exam_families ──< examination_profiles ──< examination_profile_sources
                                                 │        │
                                                 │        └──< question_groups
                                                 │                  └──< questions
+                                                │                         └──< question_options
                                                 ├──< stimuli ──< stimulus_assets
                                                 └──< version_media_assets
 
@@ -91,13 +97,14 @@ students ──< mock_test_entitlements <─┘
 | `examination_profiles` | Family, provider profile name, effective dates, version, lifecycle state, timed/navigation/feedback capability document. Unique family + version. Published rows immutable. |
 | `examination_profile_sources` | Exact official source title, provider, canonical URL, accessed date, applicable date, uncertainty note, and source checksum/record timestamp. |
 | `mock_test_series` | Business-owned series and catalogue grouping, independent of a course. |
-| `mock_tests` | Durable test identity, family, series, public number/title, availability status, accessibility/technical summary. No questions or scores. The IELTS Academic pilot has exactly ten public identities, numbered 1–10. |
+| `mock_tests` | Durable test identity, family, series, public number/title, availability status, accessibility/technical summary. No questions or scores. The IELTS Academic pilot has exactly ten public identities, numbered 1–10. Catalogue availability is a separate state from version publication; it changes only through explicit, authorised, audited actions, and publication never makes a test available or grants access (B6-8, C1-B). |
 | `mock_test_versions` | Test identity, profile, version number, content status, publication and retirement timestamps, predecessor/correction link, manifest checksum. Unique test + version. Publication freezes the manifest. Supersession and retirement are atomic, and historical versions are preserved (B4). |
 | `test_sections` / `test_parts` | Ordered structure, timings, navigation rules, break rules, and manual-review capability. |
-| `stimuli` / `stimulus_assets` | Version-owned Reading, Listening, image, diagram, map, audio, video, and contextual material. Media references private asset records rather than public URLs. |
-| `question_groups` / `questions` | Ordered capability type plus accessible prompt/layout metadata. The renderer uses capabilities, not provider-specific component names. |
-| `assessment_private.answer_rules` | Accepted responses, normalisation, cardinality, word limits, mappings, and protected answer data. Frozen with their published version (B4). No direct client-role access, including client-facing administrators (B3). |
-| `assessment_private.scoring_policies` | Versioned automatic rules and manual criteria references. Frozen with their published version (B4). No direct client-role access (B3). |
+| `stimuli` / `stimulus_assets` | Version-owned Reading, Listening, image, diagram, map, audio, video, and contextual material. Media references private asset records rather than public URLs. Stage 1A records versioned media metadata only: identities and content relationships, access classifications, accessibility metadata and protected transcript references, provenance and usage rights, and immutable asset references (B6-6). This does not imply implemented storage, uploads, signed URLs, streaming or delivery. |
+| `question_groups` / `questions` | Ordered capability type plus accessible prompt/layout metadata. The renderer uses capabilities, not provider-specific component names. Capability identifier and schema version are stored separately (B6-1). Each completion question record holds one independently answerable, numbered gap; several gaps may share a group, passage, instructions or stimulus, through explicit gap mappings (B6-2). |
+| `question_options` | Selectable answers identified by stable option UUIDs. Display order is stored separately from identity; published option identity is immutable; option membership is validated on the server; historical references are preserved (B6-3). Correct-answer mappings are kept privately in `assessment_private`. Name and shape to be settled in the Stage 1A design. |
+| `assessment_private.answer_rules` | Accepted responses, explicit accepted alternatives, cardinality, gap and option mappings, and protected answer data. Typed responses reference separately versioned, deterministic normalisation and word-counting policies that are immutable once published (B6-4); exact algorithms are not approved. Frozen with their published version (B4). No direct client-role access, including client-facing administrators (B3). *(Superseded: this row originally listed "normalisation" and "word limits" as part of the rule itself.)* |
+| `assessment_private.scoring_policies` | Versioned automatic rules and manual criteria references, including the initial multiple-response policy `exact_set@1` (B6-5). Defined in Stage 1A and executed only in Stage 4. Frozen with their published version (B4). No direct client-role access (B3). |
 | `feedback_content` | Explanations and rationales gated by release policy. Read only through an authorised server path after release. Its location and design belong to Stage 4 and depend on U1. |
 
 Access to `assessment_private` is only through server functions that
@@ -124,6 +131,24 @@ schema versions and database integrity constraints; Stage 2 provides
 interactive rendering, response validation and delivery behaviour. Detailed
 response contracts (response schemas, normalisation, word limits and related
 constraints) remain unresolved until the Stage 1A design review.
+
+Under Checkpoint C1, the five capabilities are `single_choice@1`,
+`multiple_response@1`, `true_false_not_given@1`, `typed_completion@1` and
+`selection_completion@1` (B6-1, approved in principle). Stage 1A validates the
+structure of authored content and publication packages; Stage 2 validates
+actual student responses during delivery (C1-A). The principles in B6-1 to
+B6-5 are approved at their stated levels, but exact SQL and JSON schemas and
+the B6-4 algorithms remain unapproved.
+
+**Publication, availability and drafts.** Internal publication of an immutable
+version is separate from catalogue availability and student access (B6-8,
+C1-B). Unpublished drafts, and dependencies owned only by those drafts, may be
+removed only through a controlled process; referenced, shared, published and
+historical content is protected, consequential lifecycle operations need an
+auditable reason, and lifecycle history is append-only (B6-7). No actual
+deletion is authorised. Synthetic internal validation fixtures remain
+restricted and distinct from real examination-profile publication and student
+catalogue access.
 
 ### Offers, future orders, and ownership
 
@@ -322,7 +347,8 @@ scope is deferred to a separate future design, not dropped.)*
 The future workspace should let administrators create series and tests, attach
 dated profiles, compose sections/parts/stimuli/question groups, upload private
 media, preview in an isolated student view, run validation, publish immutable
-versions, retire availability, configure free/single/automatically allocated offers, set
+versions, retire versions, change catalogue availability separately from
+publication, configure free/single/automatically allocated offers, set
 eligibility and attempt allowances, grant/revoke access with a reason, inspect
 entitlement history, assign manual reviews, release results, and audit changes.
 
@@ -342,6 +368,13 @@ history, review assignment, result release) are not part of Stage 1C; they
 follow the stages that introduce their data, each separately approved. U2 and
 U5 must be resolved before any real examination profile is published,
 including through Stage 1C.
+
+Administrative media uploads are provisionally assigned to Stage 1C or a later
+separately approved milestone (C1-C); this is not an implementation approval.
+Catalogue availability changes are separate administrator actions from
+publication and retirement, and are explicit, authorised and audited (B6-8).
+*(Superseded: the list above originally said "retire availability", which
+combined version retirement with catalogue availability.)*
 
 ## 8. Official examination-profile source register
 
@@ -436,6 +469,14 @@ Status as of 1 November 2026; see [the decision register](decisions.md#phase-0c-
     design); local tooling installation and configuration (not authorised).
 16. Privacy subject model for student-linked records. **Unresolved (B7);
     required before Stage 1B.**
+17. Stage 1A design (Checkpoint C1). **Approved at stated levels, not
+    implemented:** B6-1 (in principle), B6-2, B6-3, B6-4 (framework), B6-5,
+    B6-6, B6-7 and B6-8, with clarifications C1-A, C1-B and C1-C. *Open:* exact
+    SQL and JSON schemas, the B6-4 normalisation and word-counting algorithms
+    and provider-specific conventions, the Stage 1A security design, and
+    confirmation of the provisional C1-C stage assignments. Real typed-completion
+    content must not be published under unapproved B6-4 policies, and U2 and U5
+    remain publication gates. This partly answers item 15's open B6 details.
 
 ## 10. Implementation sequence after separate approval
 
@@ -455,22 +496,34 @@ match [the roadmap](roadmap.md).
   B6 capability registry's identifiers, schema versions and database integrity
   constraints, protected answers in `assessment_private`
   (B3), freeze triggers, atomic supersession and retirement (B4), named
-  administrator helpers (B5), RLS, and lifecycle audit.
+  administrator helpers (B5), RLS, and lifecycle audit. Under Checkpoint C1 it
+  also covers validation of authored content and publication packages (C1-A),
+  gap and option identities (B6-2, B6-3), versioned normalisation,
+  word-counting and scoring-policy definitions without executing scoring
+  (B6-4, B6-5), versioned media metadata only (B6-6), controlled draft-deletion
+  rules with no deletion authorised (B6-7), and the separate availability
+  foundation (B6-8, C1-B).
 - **Stage 1B — Student ownership and privacy database foundation** — student
   subjects, entitlements, allowance ledgers, accommodation records and their
   audit records. Requires B7.
 - **Stage 1C — Administrator authoring and publication workspace** — see
   section 7. Publishing a real examination profile requires U2 and U5.
+  Administrative media uploads are provisionally assigned here or later
+  (C1-C).
 - **Stage 2 — Shared engine and secure attempts** — capability rendering and
-  response validation, protected content delivery, server time, autosave,
+  validation of actual student responses (C1-A), secure assessment-media
+  delivery (provisional, C1-C), protected content delivery, server time, autosave,
   annotations, responses, and submission lifecycle, validated first with the
   selected IELTS Academic Reading slice (D7: mixed selection and completion
   questions). The slice validates the engine; it is not a full mock test or a
   launch.
 - **Stage 3 — Free catalogue access, offers, automatic bundle allocation and My
   Mock Tests** — free offer acquisition, automatic server allocation (D1), and
-  duplicate-safe atomic fulfilment into the Stage 1B entitlement ledger.
-- **Stage 4 — Scoring, results and release** — protected automatic scoring,
+  duplicate-safe atomic fulfilment into the Stage 1B entitlement ledger, and
+  student-facing catalogue availability and access on the Stage 1A
+  availability foundation (C1-B).
+- **Stage 4 — Scoring, results and release** — protected automatic scoring
+  using the versioned scoring policies defined in Stage 1A (B6-5),
   reproducible score runs, release policy, and student review.
 - **Stage 5 — Manual marking** — assignment-scoped Writing/Speaking review,
   moderation, audit, and release.

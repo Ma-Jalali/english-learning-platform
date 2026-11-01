@@ -1,7 +1,8 @@
 # Product decisions
 
 This file is the product decision register, from early decisions through the
-Phase 0C policy review and Stage 1 planning decisions. `AGENTS.md` and
+Phase 0C policy review, Stage 1 planning decisions and Stage 1A design
+decisions. `AGENTS.md` and
 [`roadmap.md`](roadmap.md) are authoritative for current direction; where an
 entry below was later superseded, the superseded wording is kept for history and
 the current position is stated beside it.
@@ -170,7 +171,7 @@ authorisation, and each commit and push needs separate approval.
 | B3 | **Protected assessment data.** Answer rules and scoring policies live in a dedicated `assessment_private` schema. No client role has direct access to it, including client-facing administrators. | Server functions must independently verify authentication, the server-controlled role and authorisation, and expose only the minimum data required. |
 | B4 | **Immutability.** Published test content, its protected answers and published examination profiles are immutable. A correction creates a new version; supersession and retirement are atomic; historical versions are preserved. | Applies to administrators as well as other roles. |
 | B5 | **Administrator scope.** Existing authorised platform administrators keep platform-wide catalogue administration through named, server-controlled security helpers. | Institution-level administration is designed separately later. Future institution administrators must not automatically inherit platform-wide privileges. |
-| B6 | **Capability registry.** An extensible, versioned capability registry, initially supporting single choice, multiple response, True/False/Not Given, typed completion and selection-based completion, for the approved D7 Reading validation slice. | Stage 1A holds the capability identifiers, schema versions and database integrity constraints; Stage 2 holds interactive rendering, response validation and delivery behaviour. This does not expand Stage 1A into engine implementation. Detailed response contracts (response schemas, normalisation, word limits and related constraints) are unresolved until the Stage 1A design review; none is invented or approved here. This records the initial capability set for D7's open "exact question capabilities" detail; D7's other open details are unchanged. |
+| B6 | **Capability registry.** An extensible, versioned capability registry, initially supporting single choice, multiple response, True/False/Not Given, typed completion and selection-based completion, for the approved D7 Reading validation slice. | Stage 1A holds the capability identifiers, schema versions and database integrity constraints; Stage 2 holds interactive rendering, response validation and delivery behaviour. This does not expand Stage 1A into engine implementation. Detailed response contracts (response schemas, normalisation, word limits and related constraints) are unresolved until the Stage 1A design review; none is invented or approved here. This records the initial capability set for D7's open "exact question capabilities" detail; D7's other open details are unchanged. *Partly refined by B6-1 to B6-8 and C1-A to C1-C (see [Stage 1A design decisions](#phase-0c-stage-1a-design-decisions-checkpoint-c1)): their principles are now approved at the stated levels, while exact SQL and JSON schemas and the B6-4 algorithms remain unapproved. Under C1-A, "response validation" in Stage 2 means validating student responses; Stage 1A validates authored content.* |
 
 **Publication safeguard.** U2 (the examination-profile source register) and U5
 (profile governance) must be resolved before any real examination profile is
@@ -182,3 +183,119 @@ migration state must be verified separately, with explicit approval.
 
 B7 (the privacy subject model) is recorded as unresolved under
 [Still unresolved](#still-unresolved) and is required before Stage 1B.
+
+## Phase 0C Stage 1A design decisions (Checkpoint C1)
+
+Recorded on 1 November 2026 from the user's Chat 01 review at Checkpoint C1.
+They refine B6 and do not reopen B1–B5, D1–D7 or P1–P5.
+
+**Approval boundary.** Each decision below is approved only at the level
+stated, as design direction. Nothing here is implemented. Nothing here approves
+exact SQL or JSON schemas; exact text-normalisation or word-counting
+algorithms; student attempts, timers, autosave or delivery; scoring execution;
+storage buckets, uploads or streaming; student entitlements or payments; any
+actual draft deletion or destructive database operation; publication of real
+examination-profile content; or Stage 1A implementation. Each implementation
+stage, commit and push needs separate explicit approval.
+
+### Capabilities and responses (B6-1 to B6-5)
+
+**B6-1 — Approved in principle.** Five versioned capabilities:
+`single_choice@1`, `multiple_response@1`, `true_false_not_given@1`,
+`typed_completion@1` and `selection_completion@1`. The proposed canonical
+response models, provider-neutral reuse, shared question groups, protected
+answers and server-side validation of authored content are approved in
+principle, under five conditions:
+
+- capability identifiers and schema versions are stored separately;
+- question groups and shared stimuli are reusable;
+- correct answers remain protected in `assessment_private` (B3);
+- publication requires server-side structural validation;
+- future schema versions and examination-specific rules remain possible.
+
+*Not approved:* exact SQL and JSON schemas.
+
+**B6-2 — Approved.** Each question record holds one independently answerable,
+numbered completion gap. Several gaps may share a question group, passage,
+instructions or other stimulus. Gap mappings must be explicit, groups are
+validated, and published references are immutable. This does not prohibit
+future capabilities with different response structures.
+
+**B6-3 — Approved.** Stable option UUIDs are the canonical identifiers for
+selectable answers:
+
+- published option identity is immutable;
+- display order is separate from identity;
+- option membership is validated on the server;
+- historical references are preserved;
+- correct-answer mappings are private;
+- exact implementation details are deferred.
+
+**B6-4 — Framework approved.** The original typed answer is preserved.
+Comparison-normalisation and word-counting policies must be deterministic,
+separately versioned and immutable after publication. Comparison is
+conservative, and accepted alternatives are explicit. *Not approved:* exact
+algorithms, provider-specific conventions, and final counting or scoring
+behaviour. Real typed-completion content must not be published using
+unapproved policies.
+
+**B6-5 — Approved.** The initial multiple-response scoring-policy identifier is
+`exact_set@1`:
+
+- selected option UUIDs are compared as unordered sets;
+- an exact match receives the configured full score; anything else receives
+  zero;
+- correct-answer sets and scoring definitions are protected;
+- the policy must be compatible with the examination profile;
+- future scoring policies are permitted only through separate approval.
+
+Stage 1A defines scoring policies; it does not execute scoring.
+
+### Media, lifecycle and availability (B6-6 to B6-8)
+
+**B6-6 — Approved.** Stage 1A includes versioned media metadata: media
+identities and content relationships; access classifications; accessibility
+metadata and protected transcript references; provenance and usage rights; and
+publication integrity with immutable asset references. Storage infrastructure,
+uploads, signed URLs, streaming and student delivery remain deferred.
+
+**B6-7 — Approved.** Unpublished drafts, and dependencies owned exclusively by
+those drafts, may be deleted only through a controlled process. Referenced,
+shared, published and historical content is protected. Consequential lifecycle
+operations need an auditable reason, lifecycle history is protected and
+append-only, and state transitions are atomic. *No actual deletion or
+destructive database operation is authorised.*
+
+**B6-8 — Approved.** Internal immutable publication is separate from catalogue
+availability and student access:
+
+- publication never exposes a test in the catalogue automatically;
+- publication never grants student access or promotes a test automatically;
+- availability changes are explicit, authorised and audited;
+- protected answers remain private;
+- synthetic internal validation fixtures remain restricted;
+- U2 and U5 remain publication gates for real examination profiles.
+
+### Checkpoint C1 clarifications (C1-A to C1-C)
+
+**C1-A — Approved.** Stage 1A validates authored-content structures and
+publication packages. Stage 2 validates actual student responses during
+assessment delivery.
+
+**C1-B — Approved.** Stage 1A defines the separate availability state and its
+security and auditing foundations. Stage 3 implements student-facing catalogue
+availability and access. Publication never automatically grants access.
+
+**C1-C — Approved.** Stage 1A defines media metadata. Administrative media
+uploads are provisionally assigned to Stage 1C or a later separately approved
+milestone, and secure assessment-media delivery is provisionally assigned to
+Stage 2. These provisional assignments are not implementation approvals.
+
+### Publication gates (unchanged and added)
+
+- U2 (official-source verification) and U5 (examination-profile governance)
+  remain unresolved gates for publishing any real examination profile.
+- Real typed-completion content must not be published under unapproved B6-4
+  policies.
+- Controlled synthetic internal fixtures remain distinct from real
+  examination-profile publication and from student catalogue access.

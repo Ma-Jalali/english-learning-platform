@@ -111,7 +111,10 @@ approved. Its architecture is approved in principle, seven product defaults are
 selected, and policy baselines P1–P5 are approved; all were recorded on
 1 November 2026 in [the decision register](decisions.md#phase-0c-mock-tests--architecture-and-product-policy).
 The Stage 1 planning decisions B1–B6 were also recorded on 1 November 2026 in
-[the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6).
+[the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6),
+and the Stage 1A design decisions B6-1 to B6-8 and clarifications C1-A to C1-C
+(Checkpoint C1) in
+[the decision register](decisions.md#phase-0c-stage-1a-design-decisions-checkpoint-c1).
 These are documentation approvals only: no Phase 0C implementation stage is
 authorised until the user explicitly selects and authorises one. **The next
 activity is Phase 0C planning and review** (see [How to continue](#how-to-continue)),
@@ -123,7 +126,8 @@ complete and Progress Tracking is paused. Neither is active.
 
 Status: **Active — architecture approved in principle; product defaults
 selected; policy baselines P1–P5 approved; Stage 1 planning decisions B1–B6
-approved for planning (all recorded 1 November 2026). Not implemented; no
+approved for planning; Stage 1A design decisions B6-1 to B6-8 and C1-A to C1-C
+approved at their stated levels (all recorded 1 November 2026). Not implemented; no
 implementation stage authorised.** The visual laboratory is complete and passed
 the final integration audit on 10 October 2026.
 
@@ -153,7 +157,17 @@ planning approvals above do not authorise any of them.
   delivery behaviour, which belong to Stage 2), protected answer rules and
   scoring policies in `assessment_private` (B3), freeze triggers, atomic
   supersession and retirement, lifecycle audit (B4), and named administrator
-  security helpers (B5). Database only; no student data.
+  security helpers (B5). Database only; no student data. Under Checkpoint C1
+  it also covers: the five versioned capabilities, gap-per-question records
+  and stable option identities (B6-1 to B6-3); server-side validation of
+  authored content and publication packages, not student responses (C1-A);
+  versioned normalisation and word-counting policy records, without approved
+  algorithms (B6-4); scoring-policy definitions such as `exact_set@1`, without
+  executing scoring (B6-5); versioned media metadata only, with no storage,
+  uploads or delivery (B6-6, C1-C); controlled draft-deletion rules and
+  append-only lifecycle auditing, with no actual deletion authorised (B6-7);
+  and a separate catalogue-availability state with its security and audit
+  foundations, never granted by publication (B6-8, C1-B).
 - **Stage 1B — Student ownership and privacy database foundation.** Student
   subjects, entitlements, allowance ledgers (D2), accommodation records (P1)
   and their audit records. Database only. Requires B7 (the privacy subject
@@ -164,18 +178,27 @@ planning approvals above do not authorise any of them.
   and publication, retirement and supersession with a recorded reason. No
   teacher authoring. Development content stays in test-only fixtures, never in
   migrations or on the live project. Publishing any real examination profile,
-  here or elsewhere, requires U2 and U5 to be resolved first.
+  here or elsewhere, requires U2 and U5 to be resolved first. Administrative
+  media uploads are provisionally assigned here or to a later separately
+  approved milestone (C1-C); this is not an implementation approval.
 - **Stage 2 — Shared engine and secure attempts.** Shared profile-driven test
   engine, interactive capability rendering, response validation and delivery
   behaviour (B6), and secure attempt delivery, validated first with the selected IELTS
   Academic Reading slice (D7: mixed selection and completion questions). The
   slice tests the engine; it does not widen this stage into a full mock test or
   a launch. Requires Stages 1A, 1B and 1C, and a published profile (so U2 and
-  U5 resolved).
+  U5 resolved). Here "response validation" means validating actual student
+  responses during delivery (C1-A). Secure assessment-media delivery is
+  provisionally assigned to this stage (C1-C); this is not an implementation
+  approval.
 - **Stage 3 — Free catalogue access, offers, automatic bundle allocation and My
   Mock Tests.** Uses the Stage 1B entitlement ledger and the D1 allocation
-  policy.
+  policy. Implements student-facing catalogue availability and access on the
+  Stage 1A availability foundation; availability changes are explicit and
+  audited, and publication never grants access (B6-8, C1-B).
 - **Stage 4 — Scoring, results and release** (D5; explanation policy U1).
+  Scoring runs only through the versioned scoring policies defined earlier,
+  such as `exact_set@1` (B6-5).
 - **Stage 5 — Manual marking** of assignment-scoped Writing and Speaking (D6,
   P4; sequencing U8).
 - **Stage 6 — Future payments: deferred and blocked** until business, legal,
@@ -196,8 +219,19 @@ to the Supabase project manually, so the live migration state (including its
 migration history) must be verified separately, with explicit approval, before
 any future remote migration operation. A fresh backup and approval of the exact
 operation are also required. Until then, new migrations are tested only in the
-isolated local environment (B1), whose installation and configuration are not
-yet authorised.
+isolated local environment (B1).
+
+**Local development environment (B1) — set up.** Docker Desktop is installed,
+and the local Supabase CLI configuration and development environment were set
+up and committed in `c559d26` (pushed to GitHub). The local Supabase services
+were previously reported as starting successfully, with the four existing
+migrations applied to the local database. Not verified in this checkpoint: a
+fresh replay of all four migrations in a clean local environment, and whether
+the configured PostgreSQL 17 matches the remote Supabase project. This setup
+does not authorise Stage 1A implementation, new migrations, changes to the
+remote Supabase project, or any production database operation. *(Superseded:
+this paragraph previously said the local environment's "installation and
+configuration are not yet authorised".)*
 
 No implementation stage begins from this document alone.
 
@@ -374,25 +408,36 @@ product defaults and policy baselines are recorded in
 technical design proposal was reviewed in Chat 01, and planning decisions B1–B6
 were recorded on 1 November 2026 in
 [the decision register](decisions.md#phase-0c-stage-1-planning-decisions-b1b6).
+The Stage 1A design decisions B6-1 to B6-8 and C1-A to C1-C (Checkpoint C1)
+were then recorded in
+[the decision register](decisions.md#phase-0c-stage-1a-design-decisions-checkpoint-c1).
 The remaining planning work is:
 
-- the detailed Stage 1A design for the user's review, including B6's response
-  schemas, normalisation, word limits and related constraints, which remain
-  unresolved until that design;
+- the detailed Stage 1A design for the user's separate review and approval:
+  exact SQL and JSON schemas, the security design, the B6-4 normalisation and
+  word-counting algorithms, and the remaining dependencies. Checkpoint C1
+  approved principles only;
 - resolving B7 (the privacy subject model) before Stage 1B;
 - resolving U2 and U5 before any real examination profile is published;
 - continuing to identify which stage needs each remaining item (U1, U3, U4, U8
   and the open details of D1–D7 and P1–P5).
 
-Each of the following needs its own separate, explicit approval, in this order:
-setting up the isolated local test environment (B1: Docker, Supabase CLI
-configuration and any repository files it adds); implementing Stage 1A; and,
-later, Stage 1B and Stage 1C. Live-state verification and any remote migration
-operation need separate approval as described in the Phase 0C section.
+The isolated local test environment (B1) is now set up and committed (see the
+Phase 0C section). Each of the following still needs its own separate, explicit
+approval, in this order: implementing Stage 1A (including any new migration);
+and, later, Stage 1B and Stage 1C. Live-state verification and any remote
+migration operation need separate approval as described in the Phase 0C
+section. *(Superseded: this list previously began with "setting up the isolated
+local test environment (B1: Docker, Supabase CLI configuration and any
+repository files it adds)".)*
 
 *Superseded:* the previous next activity was "reviewing the outstanding
 decisions … and preparing a scoped design proposal for Stage 1". That proposal
-was prepared, reviewed in Chat 01 and refined into B1–B6.
+was prepared, reviewed in Chat 01 and refined into B1–B6. The first planning
+item later read "the detailed Stage 1A design for the user's review, including
+B6's response schemas, normalisation, word limits and related constraints,
+which remain unresolved until that design"; Checkpoint C1 has since approved
+their principles, while their exact details remain unapproved.
 
 Planning and review produce documents for the user's decision only. A planning
 document, a stage design, or the user's approval of either does not
