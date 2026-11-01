@@ -1,9 +1,11 @@
 # Product Roadmap
 
 This is the live implementation roadmap for the English Learning Platform.
-`README.md`, `docs/backlog.md`, and `docs/decisions.md` preserve useful early
-planning context, but this file and git history are authoritative for current
-delivery status.
+This file and git history are authoritative for current delivery status.
+`README.md` is a current project summary that defers to this roadmap and to
+`AGENTS.md`. `docs/decisions.md` records product decisions, marking superseded
+entries alongside their current position, and `docs/backlog.md` preserves early
+planning context.
 
 ## Product direction
 
@@ -103,6 +105,101 @@ role redirects, and desktop/mobile layouts all passed. The pilot course was
 restored to draft after testing, and the learner view again hides it.
 
 ## Active milestone
+
+**Phase 0C is the active milestone.** Its visual laboratory is complete and
+approved. Its architecture is approved in principle, seven product defaults are
+selected, and policy baselines P1–P5 are approved; all were recorded on
+1 November 2026 in [the decision register](decisions.md#phase-0c-mock-tests--architecture-and-product-policy).
+These are documentation approvals only: no Phase 0C implementation stage is
+authorised until the user explicitly selects and authorises one. **The next
+activity is Phase 0C planning and review** (see [How to continue](#how-to-continue)),
+not implementation. The Phase 0B and
+Progress Tracking entries below are kept here for reference only: Phase 0B is
+complete and Progress Tracking is paused. Neither is active.
+
+### Phase 0C — Mock-test catalogue and future-commerce foundation
+
+Status: **Active — architecture approved in principle; product defaults
+selected; policy baselines P1–P5 approved (recorded 1 November 2026). Not implemented; no
+implementation stage authorised.** The visual laboratory is complete and passed
+the final integration audit on 10 October 2026.
+
+Phase 0C is an isolated design-and-architecture milestone for a standalone
+mock-test catalogue, student ownership/library, automatically allocated bundles,
+secure attempts, scoring/release boundaries, manual review, and a future-ready
+commerce boundary. IELTS is the first pilot; TOEFL iBT, PTE Academic, CELPIP,
+and Cambridge English are represented through dated examination profiles rather
+than separate incompatible engines.
+
+The proposal and source register are recorded in
+[the mock-test commerce foundation](mock-test-commerce-foundation.md). Responsive
+non-production surfaces are preserved in the
+[Phase 0C laboratory](../design/phase-0c/README.md). The launch model remains
+free: no price, checkout, bank/tax workflow, payment SDK, currency conversion,
+or transaction processing is active. Phase 0C does not modify production
+application behaviour, Supabase, authentication, or migrations.
+
+The proposed implementation sequence is below. Each stage needs its own
+explicit authorisation; the policy approvals above do not authorise any of them.
+
+1. mock-test database foundation, immutable versioning, RLS, and audit;
+2. shared profile-driven test engine and secure attempt delivery, validated first
+   with the selected IELTS Academic Reading slice (mixed selection and
+   completion questions). The slice tests the engine; it does not widen this
+   stage into a full mock test or a launch;
+3. free access, server-assigned bundles, entitlements, and My Mock Tests;
+4. protected scoring, result release, and review;
+5. assignment-scoped Writing/Speaking manual marking;
+6. future payment activation, **blocked** until business, legal, banking,
+   international-currency (USD versus AUD), toman, tax, provider, refund, and
+   webhook-security decisions are approved.
+
+No implementation stage begins from this document alone.
+
+#### Visual laboratory — complete (10 October 2026)
+
+Porcelain Atlas V3 remains the approved master visual direction. The following
+non-production prototypes in [the Phase 0C laboratory](../design/phase-0c/README.md)
+are visually approved: Catalogue V3, Test Bundles, My Mock Tests, Test Details,
+Before You Begin, Assessment, Waiting for feedback and Results. They passed a
+final integration audit with no blocking defects. Decisions and verification are
+recorded in the laboratory's five `*-v3-review.md` design records.
+
+- **Fixtures:** the canonical student owns IELTS Academic Mock Tests 1 and 2 of 10
+  (Test 1 ready to start, Test 2 in progress). A separately labelled internal
+  review fixture (`my-mock-tests.html?state=review`, `bundle-builder.html?owned=4`)
+  owns four tests to demonstrate the waiting-for-feedback and released-results
+  states. Neither represents an account, entitlement or real student data.
+- **Specimens:** Mock Test 1 starts at Listening, Part 1, Question 1 only. Mock
+  Test 2 demonstrates answering, review and an illustrative submission dialog
+  leading to the waiting view; released results open only through a labelled
+  review-only route.
+- **Transfer:** the approved laboratory was copied from the Claude design worktree
+  into this worktree on 10 October 2026 and verified file by file with SHA-256
+  hashes. Both Phase 0C validators, JavaScript syntax checks, CSS parsing,
+  HTML/link/SVG checks, `npm run lint` and `git diff --check` pass.
+
+Known limitations:
+
+- No real screen-reader or physical-device testing has been performed.
+- High contrast was tested through browser emulation only.
+- Shared 11 px eyebrow and mobile-navigation text remains a known accessibility
+  issue.
+- Mock tests, timers, scoring, saving and results are illustrative. There is no
+  attempt creation, autosave, server timer, scoring, result release or payment.
+- One non-blocking ESLint warning remains in
+  `design/phase-0c/assessment-preview.js`
+  (`@next/next/no-location-assign-relative-destination`); the rule targets Next.js
+  routes and does not apply to the static laboratory pages.
+
+Visual completion does not authorise production implementation. The policy
+decisions recorded on 1 November 2026 settle allocation, attempt allowance, pause,
+timeout, release and review defaults for the IELTS Academic pilot, but their
+operational details and the unresolved items U1–U8 in
+[the decision register](decisions.md#still-unresolved) remain open. U1–U5 and U8
+(including explanation policy and the examination-profile source register) are
+active and stage-dependent; U6 and U7 are deferred with payments. Payments remain
+deferred.
 
 ### Phase 0B — Chosen-direction surface prototypes
 
@@ -219,10 +316,36 @@ the active roadmap.
 
 ## How to continue
 
-Codex should read `AGENTS.md` and this roadmap. Phase 0B is complete. Do not infer
-or begin a production implementation or mock-test extension; await a separately
-authorised next milestone. Do not resume Progress Tracking automatically. For an authorised milestone, run all required
-automated checks, perform relevant desktop/mobile and authorization checks, fix
-discovered problems, update this roadmap with the verified result and next
-active milestone, and commit the completed milestone locally with a clear
-conventional commit. It must not push without explicit user approval.
+Claude Code is the primary developer; ChatGPT manages planning and coordination,
+and Codex is optional for independent verification or troubleshooting (see the AI
+development workflow in `AGENTS.md`). The developer should read `AGENTS.md` and
+this roadmap before every milestone. Phase 0B is complete. The Phase 0C
+visual laboratory is complete, its architecture is approved in principle, and its
+product defaults and policy baselines are recorded in
+[the decision register](decisions.md).
+
+**Next activity: Phase 0C planning and review.** This covers:
+
+- reviewing the outstanding decisions: the active, stage-dependent items U1–U5
+  and U8, and the open operational details of D1–D7 and P1–P5, identifying
+  which implementation stage needs each one;
+- preparing a scoped design proposal for Stage 1 (mock-test database
+  foundation, immutable versioning, RLS and audit) for the user's review.
+
+Planning and review produce documents for the user's decision only. A planning
+document, a Stage 1 proposal, or the user's approval of either does not
+authorise implementation. Do not infer or begin Phase 0C database, engine,
+catalogue, scoring, marking, or payment implementation, and do not create or
+apply migrations or change Supabase, until the user separately and explicitly
+authorises a specific implementation stage. Do not resume Progress Tracking
+automatically.
+
+For an authorised milestone, run all required automated checks, perform
+relevant desktop/mobile and authorization checks, fix discovered problems, and
+update this roadmap with the verified result and next active milestone.
+
+**Git approval.** Every commit operation and every push operation needs the
+user's separate, explicit approval of that operation (see `AGENTS.md`).
+Approval of a task, milestone, backup, planning document or implementation does
+not authorise a commit or a push. When approved, use a clear conventional commit
+message.

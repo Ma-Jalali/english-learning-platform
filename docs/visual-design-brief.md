@@ -1,6 +1,6 @@
 # Visual Product, Block System, and Assessment Engine Design Brief
 
-**Status:** Brief approved; Phase 0A and Phase 0B complete — Porcelain Atlas V3 was selected and its four surface prototypes were visually approved on 4 October 2026.
+**Status:** Brief approved; Phase 0A and Phase 0B complete — Porcelain Atlas V3 was selected and its four surface prototypes were visually approved on 4 October 2026. The Phase 0C mock-test visual laboratory was completed and visually approved on 10 October 2026; its architecture is approved in principle (recorded 1 November 2026) and is not implemented.
 
 **Audit date:** 3 October 2026
 
@@ -1161,9 +1161,9 @@ Acceptance evidence should record viewport results, keyboard paths, contrast che
 
 1. Should the public master brand use an editorial serif, or reserve serif only for course moments?
 2. How much organisation-level co-branding is allowed without weakening the platform identity?
-3. Which first IELTS task group is the best assessment vertical slice: reading completion, listening completion, or mixed reading selection?
-4. Which feedback defaults distinguish low-stakes lesson practice from formal mock exams?
-5. What student data retention, recording consent, moderation, and deletion policies apply by market/institution?
+3. Which first IELTS task group is the best assessment vertical slice: reading completion, listening completion, or mixed reading selection? **Answered (recorded 1 November 2026):** the initial engine-validation slice is IELTS Academic Reading with mixed selection and completion questions (decision D7 in [`decisions.md`](decisions.md)). It validates the shared engine and does not authorise implementation.
+4. Which feedback defaults distinguish low-stakes lesson practice from formal mock exams? **Partly answered:** for mock tests, complete results are released only after all required marking (D5). Lesson-practice defaults and the mock-test explanation policy remain open.
+5. What student data retention, recording consent, moderation, and deletion policies apply by market/institution? **Partly answered:** the privacy baseline P5 (notices, recording acknowledgement, restricted access, deletion or de-identification) and the second-review baseline P4 are approved. Retention periods, residency and market/institution rules remain open; the proposed 90-day and 24-month periods are not approved.
 6. What Persian/RTL launch horizon should influence the first font and layout choices?
 7. Which media must support offline/print access, and what rights permit it?
 8. Should teacher slot changes always require admin publication in the MVP?
@@ -1173,4 +1173,20 @@ Acceptance evidence should record viewport results, keyboard paths, contrast che
 
 ## Approval gate
 
-Phase 0A is complete: the user visually selected Porcelain Atlas V3 on 4 October 2026. Phase 0B is also complete: its four high-fidelity surface prototypes and final assessment refinements were visually approved on 4 October 2026. These approvals close the visual prototype gate only. No production application, schema, migration, Supabase, authentication, mock-test, or unrelated product-policy changes are authorised. Progress Tracking remains paused, and the next implementation milestone must be separately selected and approved.
+Phase 0A is complete: the user visually selected Porcelain Atlas V3 on 4 October
+2026. Phase 0B is also complete: its four high-fidelity surface prototypes and
+final assessment refinements were visually approved on 4 October 2026.
+
+Phase 0C now applies that approved language to a standalone mock-test catalogue,
+ownership library, automatically allocated bundle, readiness, attempt/results and restrained
+administration laboratory. Its profile-driven architecture is documented in
+[`mock-test-commerce-foundation.md`](mock-test-commerce-foundation.md). The Phase 0C
+visual laboratory was completed and visually approved on 10 October 2026, with
+Porcelain Atlas V3 as the master direction. Its architecture is approved in
+principle, and its product defaults and policy baselines were recorded in
+[`decisions.md`](decisions.md) on 1 November 2026; none of it is implemented.
+
+These approvals and proposals do not authorise production application, schema,
+migration, Supabase, authentication, payment, scoring, manual-marking or other
+product-policy changes. Progress Tracking remains paused, and every implementation
+milestone must be separately selected and approved.

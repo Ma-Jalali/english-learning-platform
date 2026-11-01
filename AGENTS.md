@@ -75,6 +75,25 @@ then read the row in a separate statement or refreshed server render.
 - Price columns currently present in the schema are placeholders only; they do
   not authorize payment work.
 
+## AI development workflow
+
+- **Claude Code is the primary developer.** It implements explicitly authorised
+  milestones in this repository and follows every rule in this file, including
+  the checks, handoff report, and Git approval rules below.
+- **ChatGPT manages planning, requirements, architecture discussions, and
+  coordination.** Planning outcomes reach the repository only through the user's
+  explicit instructions to the developer or through changes recorded in this
+  file and `docs/roadmap.md`; a discussion alone is not an approved decision.
+- **Codex is optional**, used mainly for independent verification or
+  troubleshooting when the user asks for it. It does not take over a milestone
+  or change the working tree unless the user explicitly assigns that work.
+- **Chat 01 retains project coordination and milestone sequencing.** Preserve the
+  existing six-chat structure; do not merge, rename, or reassign chats from
+  repository work.
+- Every agent follows the same security, scope, and approval rules. Approval of
+  a design prototype does not authorise production implementation, schema,
+  migration, Supabase, payment, or product-policy changes.
+
 ## Development workflow
 
 1. Read this file and `docs/roadmap.md` before every milestone.
@@ -98,14 +117,18 @@ then read the row in a separate statement or refreshed server render.
    route behavior. Fix discovered problems before completion.
 9. Do not claim manual checks that were not performed. If important manual
    testing remains, report it and do not commit.
-10. When the user explicitly requests a roadmap milestone, commit it locally
-    only after all checks and required manual testing pass. Use a clear
-    conventional commit message.
-11. For work that is not an explicitly requested roadmap milestone, do not infer
-    permission to commit; follow the user's instruction.
-12. Never push unless the user explicitly requests it.
+10. **Git approval rule.** Every commit operation and every push operation
+    requires the user's separate, explicit approval of that operation.
+    Approval of a task, milestone, backup, documentation change, or
+    implementation does not authorise a commit or a push, and approval of one
+    commit or push does not authorise the next.
+11. When a completed milestone is ready, report it and ask for commit approval.
+    Commit locally only after the user approves that commit and all checks and
+    required manual testing pass. Use a clear conventional commit message.
+12. Never push unless the user separately and explicitly approves that push.
 13. Do not commit when tests fail, build errors remain, security behavior is
-    uncertain, or important manual testing is still required.
+    uncertain, or important manual testing is still required, even if a commit
+    was approved; report the blocker instead.
 14. At handoff, report:
     - changed files;
     - automated tests and their results;
@@ -117,8 +140,9 @@ then read the row in a separate statement or refreshed server render.
 
 - Implement only the next incomplete milestone unless the user explicitly names
   another one.
-- Update `docs/roadmap.md` in the same milestone commit to record material
-  completed work, verification, and the next active milestone.
+- Update `docs/roadmap.md` with the milestone's changes to record material
+  completed work, verification, and the next active milestone, so that it is
+  included in the milestone commit once that commit is approved.
 - Do not mark a milestone complete until its security checks, automated checks,
   and required manual checks pass.
 
